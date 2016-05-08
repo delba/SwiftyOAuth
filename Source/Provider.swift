@@ -21,12 +21,12 @@ public class Provider: Providers {
     
     public var completion: (Result -> Void)?
     
-    public init(clientID: String, clientSecret: String, authorizeURL: NSURL, tokenURL: NSURL, redirectURL: NSURL) {
+    public init(clientID: String, clientSecret: String, authorizeURL: String, tokenURL: String, redirectURL: String) {
         self.clientID = clientID
         self.clientSecret = clientSecret
-        self.authorizeURL = authorizeURL
-        self.tokenURL = tokenURL
-        self.redirectURL = redirectURL
+        self.authorizeURL = NSURL(string: authorizeURL)!
+        self.tokenURL = NSURL(string: tokenURL)!
+        self.redirectURL = NSURL(string: redirectURL)!
     }
     
     public func authorize(completion: Result -> Void) {

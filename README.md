@@ -1,7 +1,7 @@
 # SwiftyOAuth
 
 ```swift
-let github: Provider = .GitHub(id: "client-id", secret: "client-secret")
+let github: Provider = .GitHub(id: "xxx", secret: "xxx", redirectURL: "myapp://callback")
 
 github.authorize { result in
     if let credentials = result.credentials {

@@ -11,22 +11,22 @@ public class Providers {
 }
 
 extension Providers {
-    public static func GitHub(clientID clientID: String, clientSecret: String, redirectURL: NSURL) -> Provider {
+    public static func GitHub(clientID clientID: String, clientSecret: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,
             clientSecret: clientSecret,
-            authorizeURL: NSURL(string: "https://github.com/login/oauth/authorize")!,
-            tokenURL: NSURL(string: "https://github.com/login/oauth/access_token")!,
+            authorizeURL: "https://github.com/login/oauth/authorize",
+            tokenURL: "https://github.com/login/oauth/access_token",
             redirectURL: redirectURL
         )
     }
     
-    public static func Dribbble(clientID clientID: String, clientSecret: String, redirectURL: NSURL) -> Provider {
+    public static func Dribbble(clientID clientID: String, clientSecret: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,
             clientSecret: clientSecret,
-            authorizeURL: NSURL(string: "https://dribbble.com/oauth/authorize")!,
-            tokenURL: NSURL(string: "https://dribbble.com/oauth/token")!,
+            authorizeURL: "https://dribbble.com/oauth/authorize",
+            tokenURL: "https://dribbble.com/oauth/token",
             redirectURL: redirectURL
         )
     }
