@@ -11,4 +11,19 @@ github.authorize { response in
         print(error)
     }
 }
+
+github.authorize { result in
+    switch result {
+    case .Success(let credentials):
+        print(credentials.token)
+    case .Failure(let error):
+        print(error)
+    }
+}
+
+github.authorize { result in
+    if let credentials = result.credentials {
+        print(credentials.token)
+    }
+}
 ```
