@@ -6,8 +6,6 @@
 //  Copyright © 2016 delba. All rights reserved.
 //
 
-import Foundation
-
 struct HTTP {
     static func POST(URL: NSURL, parameters: [String: String]? = nil, completion: NSHTTPURLResponse -> Void) {
         

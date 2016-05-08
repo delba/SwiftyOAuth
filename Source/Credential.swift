@@ -6,8 +6,6 @@
 //  Copyright © 2016 delba. All rights reserved.
 //
 
-import Foundation
-
 // TODO: Store credential in the keychain
 // Keychain(key: "swifty-oauth.http://twitter.com/")
 // key => Provider.baseURL.absoluteString

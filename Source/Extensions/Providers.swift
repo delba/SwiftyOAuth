@@ -9,25 +9,23 @@
 import Foundation
 
 extension Providers {
-    public static func GitHub(id id: String, secret: String) -> Provider {
+    public static func GitHub(clientID clientID: String, clientSecret: String, redirectURL: NSURL) -> Provider {
         return Provider(
-            id: id,
-            secret: secret,
+            clientID: clientID,
+            clientSecret: clientSecret,
             authorizeURL: NSURL(string: "https://github.com/login/oauth/authorize")!,
             tokenURL: NSURL(string: "https://github.com/login/oauth/access_token")!,
-            scope: nil,
-            state: nil
+            redirectURL: redirectURL
         )
     }
     
-    public static func Dribbble(id id: String, secret: String) -> Provider {
+    public static func Dribbble(clientID clientID: String, clientSecret: String, redirectURL: NSURL) -> Provider {
         return Provider(
-            id: id,
-            secret: secret,
+            clientID: clientID,
+            clientSecret: clientSecret,
             authorizeURL: NSURL(string: "https://dribbble.com/oauth/authorize")!,
             tokenURL: NSURL(string: "https://dribbble.com/oauth/token")!,
-            scope: nil,
-            state: nil
+            redirectURL: redirectURL
         )
     }
 }

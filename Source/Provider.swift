@@ -11,11 +11,12 @@ public class Providers {
 }
 
 public class Provider: Providers {
-    public let id: String
-    public let secret: String
+    public let clientID: String
+    public let clientSecret: String
     
-    var authorizeURL: NSURL
-    var tokenURL: NSURL
+    let authorizeURL: NSURL
+    let tokenURL: NSURL
+    let redirectURL: NSURL
     
     var scope: String?
     var state: String?
@@ -24,25 +25,20 @@ public class Provider: Providers {
     
     var completion: (Result -> Void)?
     
-    // var tokenURL: NSURL {
-    //     return baseURL.URLByAppendingPathComponent("oauth/token")
-    // }
-    
-    public init(id: String, secret: String, authorizeURL: NSURL, tokenURL: NSURL, scope: String?, state: String?) {
-        self.id = id
-        self.secret = secret
+    public init(clientID: String, clientSecret: String, authorizeURL: NSURL, tokenURL: NSURL, redirectURL: NSURL) {
+        self.clientID = clientID
+        self.clientSecret = clientSecret
         self.authorizeURL = authorizeURL
         self.tokenURL = tokenURL
-        self.scope = scope
-        self.state = state
+        self.redirectURL = redirectURL
     }
     
     public func authorize(completion: Result -> Void) {
         self.completion = completion
         
         UIApplication.sharedApplication().openURL(authorizeURL.query([
-            "client_id": id,
-            "redirect_uri": SwiftyOAuth.redirectURI,
+            "client_id": clientID,
+            "redirect_uri": redirectURL.absoluteString,
             "scope": scope,
             "state": state
         ]))
@@ -51,6 +47,7 @@ public class Provider: Providers {
     
     public func handleOpenURL(URL: NSURL) {
         guard URL.host == "oauth" && URL.path == "/callback" else { return }
+        // TODO: check against redirectURL
         // TODO: check against safari.webservice or something like that
         
         guard let code = URL.query("code") else {
@@ -72,7 +69,7 @@ public class Provider: Providers {
     private func exchangeCodeForToken(code: String, completion: Result -> Void) {
         let parameters = [
             "code": code,
-            "redirect_uri": SwiftyOAuth.redirectURI
+            "redirect_uri": redirectURL.absoluteString
         ]
         
         HTTP.POST(tokenURL, parameters: parameters) { response in
