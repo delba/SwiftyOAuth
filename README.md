@@ -8,8 +8,11 @@ let github: Provider = .GitHub(
 )
 
 github.authorize { result in
-    if let credentials = result.credentials {
+    switch result {
+    case .Success(let credentials):
         print(credentials.token)
+    case .Failure(let error):
+        print(error)
     }
 }
 ```
