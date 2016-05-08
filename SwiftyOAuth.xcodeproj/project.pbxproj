@@ -200,10 +200,10 @@
 		<dict>
 			<key>children</key>
 			<array>
-				<string>6DF7DF941CD543480099C320</string>
 				<string>6DF7DF8D1CD53DEC0099C320</string>
 				<string>6DF7DF901CD53F6E0099C320</string>
 				<string>6DF7DF871CD539780099C320</string>
+				<string>6DF7DF921CD541A50099C320</string>
 				<string>6DF7DF8E1CD53F300099C320</string>
 			</array>
 			<key>isa</key>
@@ -786,6 +786,8 @@
 			<string>PBXFileReference</string>
 			<key>lastKnownFileType</key>
 			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>Providers.swift</string>
 			<key>path</key>
 			<string>Providers.swift</string>
 			<key>sourceTree</key>
@@ -797,19 +799,6 @@
 			<string>6DF7DF921CD541A50099C320</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
-		</dict>
-		<key>6DF7DF941CD543480099C320</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>6DF7DF921CD541A50099C320</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>Extensions</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
 		</dict>
 		<key>6DF7DF951CD547C30099C320</key>
 		<dict>

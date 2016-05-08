@@ -6,7 +6,9 @@
 //  Copyright © 2016 delba. All rights reserved.
 //
 
-import Foundation
+public class Providers {
+    internal init() {}
+}
 
 extension Providers {
     public static func GitHub(clientID clientID: String, clientSecret: String, redirectURL: NSURL) -> Provider {

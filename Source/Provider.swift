@@ -6,24 +6,20 @@
 //  Copyright © 2016 delba. All rights reserved.
 //
 
-public class Providers {
-    private init() {}
-}
-
 public class Provider: Providers {
     public let clientID: String
     public let clientSecret: String
     
-    let authorizeURL: NSURL
-    let tokenURL: NSURL
-    let redirectURL: NSURL
+    public let authorizeURL: NSURL
+    public let tokenURL: NSURL
+    public let redirectURL: NSURL
     
-    var scope: String?
-    var state: String?
+    public var scope: String?
+    public var state: String?
     
     public private(set) var credential: Credential?
     
-    var completion: (Result -> Void)?
+    public var completion: (Result -> Void)?
     
     public init(clientID: String, clientSecret: String, authorizeURL: NSURL, tokenURL: NSURL, redirectURL: NSURL) {
         self.clientID = clientID
@@ -74,6 +70,7 @@ public class Provider: Providers {
         
         HTTP.POST(tokenURL, parameters: parameters) { response in
             // Create a Result enum (either Success or Failure)
+            // if success: set self.credentials
             // call completion with result
         }
     }

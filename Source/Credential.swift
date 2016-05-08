@@ -11,12 +11,21 @@
 // key => Provider.baseURL.absoluteString
 
 public struct Credential {
-    let accessToken:  String
-    let refreshToken: String
+    public let accessToken:  String
+    public let refreshToken: String
     
-    let createdAt: NSTimeInterval
-    let expiresIn: NSTimeInterval
+    public let createdAt: NSTimeInterval
+    public let expiresIn: NSTimeInterval
     
-    let scope: String
-    let tokenType: String
+    public let scope: String
+    public let tokenType: String
+    
+    public var isValid: Bool {
+        return !isExpired
+    }
+    
+    public var isExpired: Bool {
+        // TODO: check if not expired
+        return false
+    }
 }
