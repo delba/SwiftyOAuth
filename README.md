@@ -9,8 +9,8 @@ let github: Provider = .GitHub(
 
 github.authorize { result in
     switch result {
-    case .Success(let credentials):
-        print(credentials.token)
+    case .Success(let credential):
+        print(credential.token)
     case .Failure(let error):
         print(error)
     }
