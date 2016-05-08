@@ -2,8 +2,8 @@
 
 ```swift
 let github: Provider = .GitHub(
-    clientID: "client123",
-    clientSecret: "secret123",
+    clientID: "**********",
+    clientSecret: "**********",
     redirectURL: "myapp://callback"
 )
 
