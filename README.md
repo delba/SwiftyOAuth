@@ -1,7 +1,7 @@
 # SwiftyOAuth
 
 ```swift
-let github: Provider = .GitHub(id: "qwerty123", secret: "secret123")
+let github: Provider = .GitHub(id: "my-client-id", secret: "my-client-secret")
 
 github.authorize { response in
     switch response.result {
