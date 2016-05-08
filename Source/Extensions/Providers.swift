@@ -13,8 +13,7 @@ extension Providers {
         return Provider(
             id: id,
             secret: secret,
-            baseURL: NSURL(string: "")!,
-            strategy: .OAuth2
+            baseURL: NSURL(string: "")!
         )
     }
 }

@@ -103,7 +103,6 @@
 				<string>6DF7DF911CD53F6E0099C320</string>
 				<string>6DF7DF981CD663990099C320</string>
 				<string>6DF7DF8F1CD53F300099C320</string>
-				<string>6DF7DF8C1CD53DC40099C320</string>
 			</array>
 			<key>isa</key>
 			<string>PBXSourcesBuildPhase</string>
@@ -208,7 +207,6 @@
 				<string>6DF7DF971CD663990099C320</string>
 				<string>6DF7DF871CD539780099C320</string>
 				<string>6DF7DF8E1CD53F300099C320</string>
-				<string>6DF7DF8B1CD53DC40099C320</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
@@ -724,26 +722,6 @@
 		<dict>
 			<key>fileRef</key>
 			<string>6DF7DF871CD539780099C320</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>6DF7DF8B1CD53DC40099C320</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>Strategy.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>6DF7DF8C1CD53DC40099C320</key>
-		<dict>
-			<key>fileRef</key>
-			<string>6DF7DF8B1CD53DC40099C320</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>

@@ -28,7 +28,6 @@ public class Provider: Providers {
     public let id: String
     public let secret: String
     public let baseURL: NSURL
-    public let strategy: Strategy
     
     public private(set) var credential: Credential?
     
@@ -46,11 +45,10 @@ public class Provider: Providers {
         return baseURL.URLByAppendingPathComponent("oauth/token")
     }
     
-    public init(id: String, secret: String, baseURL: NSURL, strategy: Strategy) {
+    public init(id: String, secret: String, baseURL: NSURL) {
         self.id = id
         self.secret = secret
         self.baseURL = baseURL
-        self.strategy = strategy
     }
     
     public func authorize(completion: Result -> Void) {
