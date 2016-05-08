@@ -10,6 +10,26 @@
 	<string>46</string>
 	<key>objects</key>
 	<dict>
+		<key>6D2CCAF21CDFC589009133DA</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>SwiftyOAuth.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>6D2CCAF31CDFC589009133DA</key>
+		<dict>
+			<key>fileRef</key>
+			<string>6D2CCAF21CDFC589009133DA</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
 		<key>6DF7DF631CD5393E0099C320</key>
 		<dict>
 			<key>children</key>
@@ -98,10 +118,10 @@
 			<key>files</key>
 			<array>
 				<string>6DF7DF881CD539780099C320</string>
+				<string>6D2CCAF31CDFC589009133DA</string>
 				<string>6DF7DF961CD547C30099C320</string>
 				<string>6DF7DF931CD541A50099C320</string>
 				<string>6DF7DF911CD53F6E0099C320</string>
-				<string>6DF7DF981CD663990099C320</string>
 				<string>6DF7DF8F1CD53F300099C320</string>
 			</array>
 			<key>isa</key>
@@ -204,9 +224,9 @@
 				<string>6DF7DF941CD543480099C320</string>
 				<string>6DF7DF8D1CD53DEC0099C320</string>
 				<string>6DF7DF901CD53F6E0099C320</string>
-				<string>6DF7DF971CD663990099C320</string>
 				<string>6DF7DF871CD539780099C320</string>
 				<string>6DF7DF8E1CD53F300099C320</string>
+				<string>6D2CCAF21CDFC589009133DA</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
@@ -830,26 +850,6 @@
 		<dict>
 			<key>fileRef</key>
 			<string>6DF7DF951CD547C30099C320</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>6DF7DF971CD663990099C320</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>HTTP.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>6DF7DF981CD663990099C320</key>
-		<dict>
-			<key>fileRef</key>
-			<string>6DF7DF971CD663990099C320</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>

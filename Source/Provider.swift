@@ -6,20 +6,6 @@
 //  Copyright © 2016 delba. All rights reserved.
 //
 
-import Foundation
-
-// TODO: see if we can get the app name at runtime
-// oui, on peut. Cf. Permission pour preAlert
-// CFBundleURLSchemes
-
-public struct SwiftyOAuth {
-    public static var redirectURI = "" // "myapp://oauth/callback"
-    
-    public func handleOpenURL(URL: NSURL) {
-        
-    }
-}
-
 public class Providers {
     private init() {}
 }
@@ -27,34 +13,39 @@ public class Providers {
 public class Provider: Providers {
     public let id: String
     public let secret: String
-    public let baseURL: NSURL
+    
+    var authorizeURL: NSURL
+    var tokenURL: NSURL
+    
+    var scope: String?
+    var state: String?
     
     public private(set) var credential: Credential?
     
     var completion: (Result -> Void)?
     
-    var authorizeURL: NSURL {
-        return baseURL.URLByAppendingPathComponent("oauth/authorize").query([
-            "response_type": "code",
-            "client_id": id,
-            "redirect_uri": SwiftyOAuth.redirectURI
-        ])!
-    }
+    // var tokenURL: NSURL {
+    //     return baseURL.URLByAppendingPathComponent("oauth/token")
+    // }
     
-    var tokenURL: NSURL {
-        return baseURL.URLByAppendingPathComponent("oauth/token")
-    }
-    
-    public init(id: String, secret: String, baseURL: NSURL) {
+    public init(id: String, secret: String, authorizeURL: NSURL, tokenURL: NSURL, scope: String?, state: String?) {
         self.id = id
         self.secret = secret
-        self.baseURL = baseURL
+        self.authorizeURL = authorizeURL
+        self.tokenURL = tokenURL
+        self.scope = scope
+        self.state = state
     }
     
     public func authorize(completion: Result -> Void) {
         self.completion = completion
         
-        UIApplication.sharedApplication().openURL(authorizeURL)
+        UIApplication.sharedApplication().openURL(authorizeURL.query([
+            "client_id": id,
+            "redirect_uri": SwiftyOAuth.redirectURI,
+            "scope": scope,
+            "state": state
+        ]))
         // TODO: Present SFSafariViewController
     }
     
@@ -91,18 +82,5 @@ public class Provider: Providers {
     }
     
     func refreshToken(completion: Result -> Void) {
-    }
-}
-
-func test() {
-    let twitter: Provider = .Twitter(id: "hello", secret: "secret123")
-    
-    twitter.authorize { result in
-        switch result {
-        case .Success(let credential):
-            print(credential)
-        case .Failure(let error):
-            print(error)
-        }
     }
 }

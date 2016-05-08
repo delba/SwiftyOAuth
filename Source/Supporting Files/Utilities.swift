@@ -8,19 +8,27 @@
 
 import Foundation
 
+struct HTTP {
+    static func POST(URL: NSURL, parameters: [String: String]? = nil, completion: NSHTTPURLResponse -> Void) {
+        
+    }
+}
+
 extension NSURL {
     var queryItems: [NSURLQueryItem] {
         return NSURLComponents(URL: self, resolvingAgainstBaseURL: false)?.queryItems ?? []
     }
     
-    func query(items: [String: String]) -> NSURL? {
+    func query(items: [String: String?]) -> NSURL {
         let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: false)
         
-        components?.queryItems = items.map { name, value in
+        components?.queryItems = items.flatMap { name, value in
+            guard let value = value else { return nil }
+            
             return NSURLQueryItem(name: name, value: value)
         }
         
-        return components?.URL
+        return components?.URL ?? self
     }
     
     @nonobjc func query(name: String) -> String? {

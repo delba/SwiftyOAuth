@@ -6,8 +6,6 @@
 //  Copyright © 2016 delba. All rights reserved.
 //
 
-import Foundation
-
 public enum Result {
     case Success(Credential)
     case Failure(ErrorType)
