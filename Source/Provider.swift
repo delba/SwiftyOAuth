@@ -46,6 +46,9 @@ public class Provider: Providers {
         }
     }
     
+    public func refreshToken(completion: Result -> Void) {
+    }
+    
     public func handleOpenURL(URL: NSURL) {
         guard URL.host == "oauth" && URL.path == "/callback" else { return }
         // TODO: check against redirectURL
@@ -73,8 +76,5 @@ public class Provider: Providers {
             // if success: set self.credentials
             // call completion with result
         }
-    }
-    
-    func refreshToken(completion: Result -> Void) {
     }
 }
