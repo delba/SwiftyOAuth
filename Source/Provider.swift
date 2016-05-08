@@ -32,7 +32,7 @@ public class Provider: Providers {
     
     public private(set) var credential: Credential?
     
-    var completion: (Response -> Void)?
+    var completion: (Result -> Void)?
     
     var authorizeURL: NSURL {
         return baseURL.URLByAppendingPathComponent("oauth/authorize").query([
@@ -53,7 +53,7 @@ public class Provider: Providers {
         self.strategy = strategy
     }
     
-    public func authorize(completion: Response -> Void) {
+    public func authorize(completion: Result -> Void) {
         self.completion = completion
         
         UIApplication.sharedApplication().openURL(authorizeURL)
@@ -68,8 +68,8 @@ public class Provider: Providers {
             return // TODO: Call completion with error
         }
         
-        exchangeCodeForToken(code) { response in
-            switch response.result {
+        exchangeCodeForToken(code) { result in
+            switch result {
             case .Success(let credential):
                 print(credential)
                 break
@@ -80,24 +80,27 @@ public class Provider: Providers {
         }
     }
     
-    private func exchangeCodeForToken(code: String, completion: Response -> Void) {
+    private func exchangeCodeForToken(code: String, completion: Result -> Void) {
         let parameters = [
             "code": code,
             "redirect_uri": SwiftyOAuth.redirectURI
         ]
         
-        HTTP.POST(tokenURL, parameters: parameters, completion: completion)
+        HTTP.POST(tokenURL, parameters: parameters) { response in
+            // Create a Result enum (either Success or Failure)
+            // call completion with result
+        }
     }
     
-    func refreshToken(completion: Response -> Void) {
+    func refreshToken(completion: Result -> Void) {
     }
 }
 
 func test() {
     let twitter: Provider = .Twitter(id: "hello", secret: "secret123")
     
-    twitter.authorize { response in
-        switch response.result {
+    twitter.authorize { result in
+        switch result {
         case .Success(let credential):
             print(credential)
         case .Failure(let error):

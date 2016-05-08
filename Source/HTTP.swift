@@ -9,7 +9,7 @@
 import Foundation
 
 struct HTTP {
-    static func POST(URL: NSURL, parameters: [String: String]? = nil, completion: Response -> Void) {
+    static func POST(URL: NSURL, parameters: [String: String]? = nil, completion: NSHTTPURLResponse -> Void) {
         
     }
 }
