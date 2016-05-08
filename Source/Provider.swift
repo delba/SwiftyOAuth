@@ -36,13 +36,18 @@ public class Provider: Providers {
     public func authorize(completion: Result -> Void) {
         self.completion = completion
         
-        UIApplication.sharedApplication().openURL(authorizeURL.query([
+        let URL = authorizeURL.query([
             "client_id": clientID,
             "redirect_uri": redirectURL.absoluteString,
             "scope": scope,
             "state": state
-        ]))
-        // TODO: Present SFSafariViewController
+        ])
+        
+        if #available(iOS 9.0, *) {
+            // TODO: Present SFSafariViewController
+        } else {
+            UIApplication.sharedApplication().openURL(URL)
+        }
     }
     
     public func handleOpenURL(URL: NSURL) {
@@ -54,16 +59,11 @@ public class Provider: Providers {
             return // TODO: Call completion with error
         }
         
-        exchangeCodeForToken(code) { result in
-            switch result {
-            case .Success(let credential):
-                print(credential)
-                break
-            case .Failure(let error):
-                print(error)
-                break
-            }
+        guard let completion = completion else {
+            return // TODO: do better than that
         }
+        
+        exchangeCodeForToken(code, completion: completion)
     }
     
     private func exchangeCodeForToken(code: String, completion: Result -> Void) {
