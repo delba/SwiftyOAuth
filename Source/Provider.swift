@@ -101,6 +101,7 @@ public class Provider: NSObject {
         } else {
             // TODO: add observer ? hmmm maybe not if we explicitly call handleOpenURL()
             Application.openURL(URL)
+            // yes but what about the cancel? -> if the user comes back to our app from safari
         }
     }
     
