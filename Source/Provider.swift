@@ -21,6 +21,7 @@ public class Provider: NSObject {
     
     private var safariVC: UIViewController?
     
+    // TODO: when call completion, dismiss safariVC
     public var completion: (Result -> Void)?
     
     public init(clientID: String, clientSecret: String, authorizeURL: String, tokenURL: String, redirectURL: String) {
@@ -44,35 +45,30 @@ public class Provider: NSObject {
         visit(URL)
     }
     
+    // TODO: be very explicit
     public func handleOpenURL(URL: NSURL, options: [String: AnyObject]) {
         guard shouldHandleOpenURL(URL, options: options) else { return }
         
-        print(URL)
-        
-        // TODO: guard let error = URL.query("error")
-        
         guard let code = URL.query("code") else {
-            print("no code")
+            // TODO: extract error if any
+            // failure(.Error(fromQueryString: URL.query))
             return // TODO: Call completion with error
         }
         
-        print("code", code)
-        
-        guard let completion = completion else {
-            return // TODO: do better than that
+        requestToken(code: code) { result in
+            switch result {
+            case .Success(let credential):
+                self.completion?(.Success(credential))
+            case .Failure(let error):
+                self.completion?(.Failure(error))
+            }
         }
-        
-        if #available(iOS 9.0, *) {
-            dismissSafariVC()
-        }
-        
-        exchangeCodeForToken(code, completion: completion)
     }
     
     public func refreshToken(completion: Result -> Void) {
     }
     
-    private func exchangeCodeForToken(code: String, completion: Result -> Void) {
+    private func requestToken(code code: String, completion: Result -> Void) {
         let parameters = [
             "code": code,
             "redirect_uri": redirectURL.absoluteString
@@ -99,6 +95,7 @@ public class Provider: NSObject {
 extension Provider: SFSafariViewControllerDelegate {
     public func safariViewControllerDidFinish(controller: SFSafariViewController) {
         print("safari view controller did finish")
+        // THIS IS CANCEL
         dismissSafariVC()
         // Do you really have to dimiss it?
         // call completion
