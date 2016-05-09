@@ -28,9 +28,4 @@ public struct Credential {
         // TODO: check if not expired
         return false
     }
-    
-    init(dictionary: [String: AnyObject]) {
-        accessToken = dictionary["access_token"] as? String // do checker ici
-        refreshToken = dictionary["refreshToken"] as? String // do checker ici
-    }
 }

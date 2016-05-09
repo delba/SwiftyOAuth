@@ -6,6 +6,8 @@
 //  Copyright © 2016 delba. All rights reserved.
 //
 
+import SafariServices
+
 public class Provider: NSObject {
     public let clientID: String
     public let clientSecret: String
@@ -19,16 +21,9 @@ public class Provider: NSObject {
     
     public private(set) var credential: Credential?
     
-    public var completion: (Result -> Void)?
+    private var safariVC: UIViewController?
     
-    lazy var authorizeURLWithParams: NSURL = {
-        return self.authorizeURL.query([
-            "client_id": self.clientID,
-            "redirect_uri": self.redirectURL.absoluteString,
-            "scope": self.scope,
-            "state": self.state
-        ])
-    }()
+    public var completion: (Result -> Void)?
     
     public init(clientID: String, clientSecret: String, authorizeURL: String, tokenURL: String, redirectURL: String) {
         self.clientID = clientID
@@ -41,30 +36,47 @@ public class Provider: NSObject {
     public func authorize(completion: Result -> Void) {
         self.completion = completion
         
+        let URL = authorizeURL.query([
+            "client_id": clientID,
+            "redirect_uri": redirectURL.absoluteString,
+            "scope": scope,
+            "state": state
+        ])
+        
         if #available(iOS 9.0, *) {
-            // TODO: Present SFSafariViewController
+            safariVC = SFSafariViewController(URL: URL, delegate: self)
+            Application.presentViewController(safariVC!)
         } else {
-            UIApplication.sharedApplication().openURL(authorizeURLWithParams)
+            Application.openURL(URL)
         }
     }
     
-    public func refreshToken(completion: Result -> Void) {
-    }
-    
-    public func handleOpenURL(URL: NSURL) {
-        guard URL.host == "oauth" && URL.path == "/callback" else { return }
-        // TODO: check against redirectURL
-        // TODO: check against safari.webservice or something like that
+    public func handleOpenURL(URL: NSURL, options: [String: AnyObject]) {
+        guard shouldHandleOpenURL(URL, options: options) else { return }
+        
+        print(URL)
+        
+        // TODO: guard let error = URL.query("error")
         
         guard let code = URL.query("code") else {
+            print("no code")
             return // TODO: Call completion with error
         }
+        
+        print("code", code)
         
         guard let completion = completion else {
             return // TODO: do better than that
         }
         
+        if #available(iOS 9.0, *) {
+            dismissSafariVC()
+        }
+        
         exchangeCodeForToken(code, completion: completion)
+    }
+    
+    public func refreshToken(completion: Result -> Void) {
     }
     
     private func exchangeCodeForToken(code: String, completion: Result -> Void) {
@@ -79,4 +91,47 @@ public class Provider: NSObject {
             // call completion with result
         }
     }
+}
+
+@available(iOS 9.0, *)
+extension Provider: SFSafariViewControllerDelegate {
+    public func safariViewControllerDidFinish(controller: SFSafariViewController) {
+        print("safari view controller did finish")
+        dismissSafariVC()
+        // Do you really have to dimiss it?
+        // call completion
+        // controller.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    private func dismissSafariVC() {
+        safariVC?.dismissViewControllerAnimated(true, completion: nil)
+    }
+}
+
+// MARK: - ShouldHandleOpenURL
+
+extension Provider {
+    private func shouldHandleOpenURL(URL: NSURL, options: [String: AnyObject]) -> Bool {
+        guard sourceApplication(options) == "com.apple.SafariViewService" else {
+            return false
+        }
+        
+        guard matchingURLs(URL, redirectURL) else {
+            return false
+        }
+        
+        return true
+    }
+    
+    private func sourceApplication(options: [String: AnyObject]) -> String? {
+        return options["UIApplicationOpenURLOptionsSourceApplicationKey"] as? String
+    }
+    
+    private func matchingURLs(a: NSURL, _ b: NSURL) -> Bool {
+        return (a.scheme, a.host, a.path) == (b.scheme, b.host, b.path)
+    }
+}
+
+func == <T: Equatable>(tuple1: (T?, T?, T?), tuple2: (T?, T?, T?)) -> Bool {
+    return (tuple1.0 == tuple2.0) && (tuple1.1 == tuple2.1) && (tuple1.2 == tuple2.2)
 }

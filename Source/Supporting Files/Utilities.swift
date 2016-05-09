@@ -6,6 +6,21 @@
 //  Copyright © 2016 delba. All rights reserved.
 //
 
+import SafariServices
+
+internal let Application = UIApplication.sharedApplication()
+
+extension UIApplication {
+    var rootViewController: UIViewController? {
+        let root = delegate?.window??.rootViewController
+        return root?.presentedViewController ?? root // Handle presenting an alert over a modal screen
+    }
+    
+    func presentViewController(viewController: UIViewController) {
+        rootViewController?.presentViewController(viewController, animated: true, completion: nil)
+    }
+}
+
 struct HTTP {
     static func POST(URL: NSURL, parameters: [String: String]? = nil, completion: NSHTTPURLResponse -> Void) {
         
@@ -38,8 +53,10 @@ extension NSURL {
     }
 }
 
-extension UIApplication {
-    func visit(URL: NSURL) {
-        
+@available(iOS 9.0, *)
+extension SFSafariViewController {
+    convenience init(URL: NSURL, delegate: SFSafariViewControllerDelegate) {
+        self.init(URL: URL)
+        self.delegate = delegate
     }
 }
