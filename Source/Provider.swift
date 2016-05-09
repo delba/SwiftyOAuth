@@ -17,6 +17,8 @@ public class Provider: NSObject {
     public var scope: String?
     public var state: String?
     
+    // Only useful if we store the credential in UserDefaults/Keychain
+    // Rename Credential to Token ?
     public private(set) var credential: Credential?
     
     private var safariVC: UIViewController?
