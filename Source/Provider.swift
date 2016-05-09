@@ -41,12 +41,7 @@ public class Provider: NSObject {
             "state": state
         ])
         
-        if #available(iOS 9.0, *) {
-            safariVC = SFSafariViewController(URL: URL, delegate: self)
-            Application.presentViewController(safariVC!)
-        } else {
-            Application.openURL(URL)
-        }
+        visit(URL)
     }
     
     public func handleOpenURL(URL: NSURL, options: [String: AnyObject]) {
@@ -87,6 +82,15 @@ public class Provider: NSObject {
             // Create a Result enum (either Success or Failure)
             // if success: set self.credentials
             // call completion with result
+        }
+    }
+    
+    private func visit(URL: NSURL) {
+        if #available(iOS 9.0, *) {
+            safariVC = SFSafariViewController(URL: URL, delegate: self)
+            Application.presentViewController(safariVC!)
+        } else {
+            Application.openURL(URL)
         }
     }
 }
