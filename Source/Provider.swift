@@ -35,21 +35,26 @@ public class Provider: NSObject {
     public func authorize(completion: Result -> Void) {
         self.completion = completion
         
-        let URL = authorizeURL.query([
+        visit(URL: authorizeURL.query([
             "client_id": clientID,
             "redirect_uri": redirectURL.absoluteString,
             "scope": scope,
             "state": state
-        ])
-        
-        visit(URL)
+        ]))
     }
     
-    // TODO: be very explicit
-    public func handleOpenURL(URL: NSURL, options: [String: AnyObject]) {
-        guard shouldHandleOpenURL(URL, options: options) else { return }
+    public func handleURL(URL: NSURL, options: [String: AnyObject]) {
+        guard shouldHandleURL(URL, options: options) else { return }
         
+        // Interesting but should also be called for cancel...
+        defer {
+            safariVC?.dismissViewControllerAnimated(true, completion: nil)
+        }
+        
+        // Extract code
+        // guard let code = extract(code: URL)
         guard let code = URL.query("code") else {
+            // let error = extract(error: URL)
             // TODO: extract error if any
             // failure(.Error(fromQueryString: URL.query))
             return // TODO: Call completion with error
@@ -81,11 +86,12 @@ public class Provider: NSObject {
         }
     }
     
-    private func visit(URL: NSURL) {
+    private func visit(URL URL: NSURL) {
         if #available(iOS 9.0, *) {
             safariVC = SFSafariViewController(URL: URL, delegate: self)
             Application.presentViewController(safariVC!)
         } else {
+            // TODO: add observer ? hmmm maybe not if we explicitly call handleOpenURL()
             Application.openURL(URL)
         }
     }
@@ -110,7 +116,7 @@ extension Provider: SFSafariViewControllerDelegate {
 // MARK: - ShouldHandleOpenURL
 
 extension Provider {
-    private func shouldHandleOpenURL(URL: NSURL, options: [String: AnyObject]) -> Bool {
+    private func shouldHandleURL(URL: NSURL, options: [String: AnyObject]) -> Bool {
         guard sourceApplication(options) == "com.apple.SafariViewService" else {
             return false
         }
