@@ -6,8 +6,6 @@
 //  Copyright © 2016 delba. All rights reserved.
 //
 
-import SafariServices
-
 public class Provider: NSObject {
     public let clientID: String
     public let clientSecret: String

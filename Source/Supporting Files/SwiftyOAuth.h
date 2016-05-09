@@ -6,7 +6,8 @@
 //  Copyright © 2016 delba. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
+@import SafariServices;
 
 FOUNDATION_EXPORT double SwiftyOAuthVersionNumber;
 FOUNDATION_EXPORT const unsigned char SwiftyOAuthVersionString[];

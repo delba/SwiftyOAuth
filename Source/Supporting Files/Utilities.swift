@@ -6,8 +6,6 @@
 //  Copyright © 2016 delba. All rights reserved.
 //
 
-import SafariServices
-
 internal let Application = UIApplication.sharedApplication()
 
 extension UIApplication {
