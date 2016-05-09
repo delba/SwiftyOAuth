@@ -132,11 +132,7 @@ extension Provider {
             return false
         }
         
-        guard matchingURLs(URL, redirectURL) else {
-            return false
-        }
-        
-        return true
+        return matchingURLs(URL, redirectURL) ? true : false
     }
     
     private func sourceApplication(options: [String: AnyObject]) -> String? {
