@@ -6,7 +6,7 @@
 //  Copyright © 2016 delba. All rights reserved.
 //
 
-public class Provider: Providers {
+public class Provider: NSObject {
     public let clientID: String
     public let clientSecret: String
     
@@ -21,6 +21,15 @@ public class Provider: Providers {
     
     public var completion: (Result -> Void)?
     
+    lazy var authorizeURLWithParams: NSURL = {
+        return self.authorizeURL.query([
+            "client_id": self.clientID,
+            "redirect_uri": self.redirectURL.absoluteString,
+            "scope": self.scope,
+            "state": self.state
+        ])
+    }()
+    
     public init(clientID: String, clientSecret: String, authorizeURL: String, tokenURL: String, redirectURL: String) {
         self.clientID = clientID
         self.clientSecret = clientSecret
@@ -32,17 +41,10 @@ public class Provider: Providers {
     public func authorize(completion: Result -> Void) {
         self.completion = completion
         
-        let URL = authorizeURL.query([
-            "client_id": clientID,
-            "redirect_uri": redirectURL.absoluteString,
-            "scope": scope,
-            "state": state
-        ])
-        
         if #available(iOS 9.0, *) {
             // TODO: Present SFSafariViewController
         } else {
-            UIApplication.sharedApplication().openURL(URL)
+            UIApplication.sharedApplication().openURL(authorizeURLWithParams)
         }
     }
     

@@ -6,11 +6,7 @@
 //  Copyright © 2016 delba. All rights reserved.
 //
 
-public class Providers {
-    internal init() {}
-}
-
-extension Providers {
+extension Provider {
     public static func GitHub(clientID clientID: String, clientSecret: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,

@@ -37,3 +37,9 @@ extension NSURL {
         return nil
     }
 }
+
+extension UIApplication {
+    func visit(URL: NSURL) {
+        
+    }
+}
