@@ -19,6 +19,8 @@ public class Provider: NSObject {
     
     // Only useful if we store the credential in UserDefaults/Keychain
     // Rename Credential to Token ?
+    // Yes, we'll store. Otherwise, calling refreshToken won't work.
+    // Make it a computed variable
     public private(set) var credential: Credential?
     
     private var safariVC: UIViewController?
@@ -49,6 +51,7 @@ public class Provider: NSObject {
         guard shouldHandleURL(URL, options: options) else { return }
         
         // Interesting but should also be called for cancel...
+        // Should be called whenever we call `completion(_:)`
         defer {
             safariVC?.dismissViewControllerAnimated(true, completion: nil)
         }
@@ -62,6 +65,7 @@ public class Provider: NSObject {
             return // TODO: Call completion with error
         }
         
+        // It should be requestCredential unless we rename it to token
         requestToken(code: code) { result in
             switch result {
             case .Success(let credential):
@@ -76,12 +80,14 @@ public class Provider: NSObject {
     }
     
     private func requestToken(code code: String, completion: Result -> Void) {
-        let parameters = [
+        // Do something like visit(URL:) ?
+        
+        let params = [
             "code": code,
             "redirect_uri": redirectURL.absoluteString
         ]
         
-        HTTP.POST(tokenURL, parameters: parameters) { response in
+        POST(tokenURL, parameters: params) { response in
             // Create a Result enum (either Success or Failure)
             // if success: set self.credentials
             // call completion with result
@@ -96,6 +102,9 @@ public class Provider: NSObject {
             // TODO: add observer ? hmmm maybe not if we explicitly call handleOpenURL()
             Application.openURL(URL)
         }
+    }
+    
+    private func POST(URL: NSURL, parameters: [String: String], completion: Result -> Void) {
     }
 }
 
