@@ -12,28 +12,18 @@
 
 public struct Credential {
     public let accessToken:  String
-    // public let refreshToken: String
-    // 
-    // public let createdAt: NSTimeInterval
-    // public let expiresIn: NSTimeInterval
-    // 
-    // public let scope: String
-    // public let tokenType: String
-    
-    public var isValid: Bool {
-        return !isExpired
-    }
-    
-    public var isExpired: Bool {
-        // TODO: check if not expired
-        return false
-    }
+    public let tokenType: String
+    public let scope: String
     
     init?(json: [String: AnyObject]) {
-        guard let token = json["access_token"] as? String else {
-            return nil
-        }
+        guard let
+            accessToken = json["access_token"] as? String,
+            tokenType = json["token_type"] as? String,
+            scope = json["scope"] as? String
+        else { return nil }
         
-        self.accessToken = token
+        self.accessToken = accessToken
+        self.tokenType = tokenType
+        self.scope = scope
     }
 }

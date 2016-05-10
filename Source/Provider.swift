@@ -96,15 +96,12 @@ public class Provider: NSObject {
             switch result {
             case .Success(let json):
                 if let credential = Credential(json: json) {
-                    print("success", credential)
                     completion(.Success(credential))
                 } else {
-                    print("error", json)
-                    let error = NSError(domain: "can't parse json", code: 42, userInfo: json)
+                    let error = NSError(domain: "Cannot create Credential from JSON \(json)", code: 42, userInfo: json)
                     completion(.Failure(error))
                 }
             case .Failure(let error):
-                print("Error", error)
                 completion(.Failure(error))
             }
         }
@@ -120,15 +117,13 @@ public class Provider: NSObject {
             // yes but what about the cancel? -> if the user comes back to our app from safari
         }
     }
-    
-    // Extract this in Utilities
 }
 
 @available(iOS 9.0, *)
 extension Provider: SFSafariViewControllerDelegate {
     public func safariViewControllerDidFinish(controller: SFSafariViewController) {
         print("safari view controller did finish")
-        let error = NSError(domain: "Cancel authentication (close browser", code: 42, userInfo: nil)
+        let error = NSError(domain: "Cancel authentication (close browser)", code: 42, userInfo: nil)
         failure(error)
     }
 }
