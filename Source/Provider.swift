@@ -84,7 +84,9 @@ public class Provider: NSObject {
         
         let params = [
             "code": code,
-            "redirect_uri": redirectURL.absoluteString
+            "redirect_uri": redirectURL.absoluteString,
+            "client_id": clientID,
+            "client_secret": clientSecret
         ]
         
         POST(tokenURL, parameters: params) { result in
@@ -118,6 +120,7 @@ public class Provider: NSObject {
         let request = NSMutableURLRequest(URL: URL)
         
         request.HTTPMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
         
         request.HTTPBody = parameters.map { "\($0)=\($1)" }
             .joinWithSeparator("&")
@@ -139,7 +142,7 @@ public class Provider: NSObject {
             }
             
             do {
-                let object = try NSJSONSerialization.JSONObjectWithData(data, options: [])
+                let object = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
                 if let credential = Credential(object: object) {
                     completion(.Success(credential))
                 } else {
