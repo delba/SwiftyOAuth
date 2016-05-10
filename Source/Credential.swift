@@ -11,9 +11,10 @@
 // key => Provider.baseURL.absoluteString
 
 public struct Credential {
-    public let accessToken:  String
+    public let accessToken: String
     public let tokenType: String
     public let scope: String
+    public let dictionary: [String: AnyObject]
     
     init?(json: [String: AnyObject]) {
         guard let
@@ -25,5 +26,6 @@ public struct Credential {
         self.accessToken = accessToken
         self.tokenType = tokenType
         self.scope = scope
+        self.dictionary = json
     }
 }
