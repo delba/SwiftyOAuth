@@ -87,7 +87,15 @@ public class Provider: NSObject {
             "redirect_uri": redirectURL.absoluteString
         ]
         
-        POST(tokenURL, parameters: params) { response in
+        POST(tokenURL, parameters: params) { result in
+            switch result {
+            case .Success(let credential):
+                print("Credential")
+                print(credential)
+            case .Failure(let error):
+                print("Error")
+                print(error)
+            }
             // Create a Result enum (either Success or Failure)
             // if success: set self.credentials
             // call completion with result

@@ -12,13 +12,13 @@
 
 public struct Credential {
     public let accessToken:  String
-    public let refreshToken: String
-    
-    public let createdAt: NSTimeInterval
-    public let expiresIn: NSTimeInterval
-    
-    public let scope: String
-    public let tokenType: String
+    // public let refreshToken: String
+    // 
+    // public let createdAt: NSTimeInterval
+    // public let expiresIn: NSTimeInterval
+    // 
+    // public let scope: String
+    // public let tokenType: String
     
     public var isValid: Bool {
         return !isExpired
@@ -30,6 +30,14 @@ public struct Credential {
     }
     
     init?(object: AnyObject) {
-        return nil
+        guard let dictionary = object as? [String: AnyObject] else {
+            return nil
+        }
+        
+        guard let token = dictionary["access_token"] as? String else {
+            return nil
+        }
+        
+        self.accessToken = token
     }
 }
