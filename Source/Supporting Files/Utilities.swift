@@ -24,14 +24,10 @@ extension NSURL {
         return NSURLComponents(URL: self, resolvingAgainstBaseURL: false)?.queryItems ?? []
     }
     
-    func query(items: [String: String?]) -> NSURL {
+    func query(items: [String: String]) -> NSURL {
         let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: false)
         
-        components?.queryItems = items.flatMap { name, value in
-            guard let value = value else { return nil }
-            
-            return NSURLQueryItem(name: name, value: value)
-        }
+        components?.queryItems = items.map { NSURLQueryItem(name: $0, value: $1) }
         
         return components?.URL ?? self
     }

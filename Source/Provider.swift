@@ -17,6 +17,9 @@ public class Provider: NSObject {
     public var scope: String?
     public var state: String?
     
+    public var additionalParamsForAuthorization:  [String: String] = [:]
+    public var additionalParamsForTokenRequest: [String: String] = [:]
+    
     // Only useful if we store the credential in UserDefaults/Keychain
     // Rename Credential to Token ?
     // Yes, we'll store. Otherwise, calling refreshToken won't work.
@@ -38,12 +41,12 @@ public class Provider: NSObject {
     public func authorize(completion: Result<Credential, NSError> -> Void) {
         self.completion = completion
         
-        let params = [
-            "client_id": clientID,
-            "redirect_uri": redirectURL.absoluteString,
-            "scope": scope,
-            "state": state
-        ]
+        var params = additionalParamsForAuthorization
+        
+        params["client_id"] = clientID
+        params["redirect_uri"] = redirectURL.absoluteString
+        params["scope"] = scope
+        params["state"] = state
         
         visit(URL: authorizeURL.query(params))
     }
@@ -82,12 +85,13 @@ public class Provider: NSObject {
     }
     
     private func requestToken(code code: String, completion: Result<Credential, NSError> -> Void) {
-        let params = [
-            "code": code,
-            "redirect_uri": redirectURL.absoluteString,
-            "client_id": clientID,
-            "client_secret": clientSecret
-        ]
+        var params = additionalParamsForTokenRequest
+        
+        params["code"] = code
+        params["client_id"] = clientID
+        params["client_secret"] = clientSecret
+        params["redirect_uri"] = redirectURL.absoluteString
+        params["state"] = state
         
         HTTP.POST(tokenURL, parameters: params) { result in
             switch result {
