@@ -81,9 +81,6 @@ public class Provider: NSObject {
         safariVC?.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    public func refreshToken(completion: Result<Credential, NSError> -> Void) {
-    }
-    
     private func requestToken(code code: String, completion: Result<Credential, NSError> -> Void) {
         let params = [
             "code": code,
