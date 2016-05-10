@@ -29,12 +29,8 @@ public struct Credential {
         return false
     }
     
-    init?(object: AnyObject) {
-        guard let dictionary = object as? [String: AnyObject] else {
-            return nil
-        }
-        
-        guard let token = dictionary["access_token"] as? String else {
+    init?(json: [String: AnyObject]) {
+        guard let token = json["access_token"] as? String else {
             return nil
         }
         

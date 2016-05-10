@@ -26,7 +26,7 @@ public class Provider: NSObject {
     private var safariVC: UIViewController?
     
     // TODO: when call completion, dismiss safariVC
-    public var completion: (Result -> Void)?
+    public var completion: (Result<Credential, NSError> -> Void)?
     
     public init(clientID: String, clientSecret: String, authorizeURL: String, tokenURL: String, redirectURL: String) {
         self.clientID = clientID
@@ -36,7 +36,7 @@ public class Provider: NSObject {
         self.redirectURL = NSURL(string: redirectURL)!
     }
     
-    public func authorize(completion: Result -> Void) {
+    public func authorize(completion: Result<Credential, NSError> -> Void) {
         self.completion = completion
         
         visit(URL: authorizeURL.query([
@@ -76,10 +76,10 @@ public class Provider: NSObject {
         }
     }
     
-    public func refreshToken(completion: Result -> Void) {
+    public func refreshToken(completion: Result<Credential, NSError> -> Void) {
     }
     
-    private func requestToken(code code: String, completion: Result -> Void) {
+    private func requestToken(code code: String, completion: Result<Credential, NSError> -> Void) {
         // Do something like visit(URL:) ?
         
         let params = [
@@ -89,14 +89,20 @@ public class Provider: NSObject {
             "client_secret": clientSecret
         ]
         
-        POST(tokenURL, parameters: params) { result in
+        HTTP.POST(tokenURL, parameters: params) { result in
             switch result {
-            case .Success(let credential):
-                print("Credential")
-                print(credential)
+            case .Success(let json):
+                if let credential = Credential(json: json) {
+                    print("success", credential)
+                    completion(.Success(credential))
+                } else {
+                    print("error", json)
+                    let error = NSError(domain: "can't parse json", code: 42, userInfo: json)
+                    completion(.Failure(error))
+                }
             case .Failure(let error):
-                print("Error")
-                print(error)
+                print("Error", error)
+                completion(.Failure(error))
             }
             // Create a Result enum (either Success or Failure)
             // if success: set self.credentials
@@ -116,46 +122,6 @@ public class Provider: NSObject {
     }
     
     // Extract this in Utilities
-    private func POST(URL: NSURL, parameters: [String: String], completion: Result -> Void) {
-        let request = NSMutableURLRequest(URL: URL)
-        
-        request.HTTPMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-        
-        request.HTTPBody = parameters.map { "\($0)=\($1)" }
-            .joinWithSeparator("&")
-            .dataUsingEncoding(NSUTF8StringEncoding)
-        
-        let session = NSURLSession.sharedSession()
-        
-        let task = session.dataTaskWithRequest(request) { data, response, error in
-            if let error = error {
-                completion(.Failure(error))
-                return
-            }
-            
-            guard let data = data else {
-                // TODO better error than that...
-                let error = NSError(domain: "No data received", code: 42, userInfo: nil)
-                completion(.Failure(error))
-                return
-            }
-            
-            do {
-                let object = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
-                if let credential = Credential(object: object) {
-                    completion(.Success(credential))
-                } else {
-                    let error = NSError(domain: "Cannot initialize credential", code: 42, userInfo: nil)
-                    completion(.Failure(error))
-                }
-            } catch {
-                completion(.Failure(error))
-            }
-        }
-        
-        task.resume()
-    }
 }
 
 @available(iOS 9.0, *)

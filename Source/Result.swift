@@ -6,20 +6,20 @@
 //  Copyright © 2016 delba. All rights reserved.
 //
 
-public enum Result {
-    case Success(Credential)
-    case Failure(ErrorType)
+public enum Result<Value, Error: ErrorType> {
+    case Success(Value)
+    case Failure(Error)
     
-    public var credential: Credential? {
+    public var value: Value? {
         switch self {
-        case .Success(let credential):
-            return credential
+        case .Success(let value):
+            return value
         case .Failure:
             return nil
         }
     }
     
-    public var error: ErrorType? {
+    public var error: Error? {
         switch self {
         case .Success:
             return nil
