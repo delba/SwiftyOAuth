@@ -25,7 +25,6 @@ public class Provider: NSObject {
     
     private var safariVC: UIViewController?
     
-    // TODO: when call completion, dismiss safariVC
     public var completion: (Result<Credential, NSError> -> Void)?
     
     public init(clientID: String, clientSecret: String, authorizeURL: String, tokenURL: String, redirectURL: String) {
@@ -39,25 +38,19 @@ public class Provider: NSObject {
     public func authorize(completion: Result<Credential, NSError> -> Void) {
         self.completion = completion
         
-        visit(URL: authorizeURL.query([
+        let params = [
             "client_id": clientID,
             "redirect_uri": redirectURL.absoluteString,
             "scope": scope,
             "state": state
-        ]))
+        ]
+        
+        visit(URL: authorizeURL.query(params))
     }
     
     public func handleURL(URL: NSURL, options: [String: AnyObject]) {
         guard shouldHandleURL(URL, options: options) else { return }
         
-        // Interesting but should also be called for cancel...
-        // Should be called whenever we call `completion(_:)`
-        defer {
-            safariVC?.dismissViewControllerAnimated(true, completion: nil)
-        }
-        
-        // Extract code
-        // guard let code = extract(code: URL)
         guard let code = URL.query("code") else {
             // let error = extract(error: URL)
             // TODO: extract error if any
@@ -69,19 +62,29 @@ public class Provider: NSObject {
         requestToken(code: code) { result in
             switch result {
             case .Success(let credential):
-                self.completion?(.Success(credential))
+                self.success(credential)
             case .Failure(let error):
-                self.completion?(.Failure(error))
+                self.failure(error)
             }
         }
+    }
+    
+    private func success(credential: Credential) {
+        completion?(.Success(credential))
+        
+        safariVC?.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    private func failure(error: NSError) {
+        completion?(.Failure(error))
+        
+        safariVC?.dismissViewControllerAnimated(true, completion: nil)
     }
     
     public func refreshToken(completion: Result<Credential, NSError> -> Void) {
     }
     
     private func requestToken(code code: String, completion: Result<Credential, NSError> -> Void) {
-        // Do something like visit(URL:) ?
-        
         let params = [
             "code": code,
             "redirect_uri": redirectURL.absoluteString,
@@ -104,9 +107,6 @@ public class Provider: NSObject {
                 print("Error", error)
                 completion(.Failure(error))
             }
-            // Create a Result enum (either Success or Failure)
-            // if success: set self.credentials
-            // call completion with result
         }
     }
     
@@ -128,15 +128,8 @@ public class Provider: NSObject {
 extension Provider: SFSafariViewControllerDelegate {
     public func safariViewControllerDidFinish(controller: SFSafariViewController) {
         print("safari view controller did finish")
-        // THIS IS CANCEL
-        dismissSafariVC()
-        // Do you really have to dimiss it?
-        // call completion
-        // controller.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    private func dismissSafariVC() {
-        safariVC?.dismissViewControllerAnimated(true, completion: nil)
+        let error = NSError(domain: "Cancel authentication (close browser", code: 42, userInfo: nil)
+        failure(error)
     }
 }
 
