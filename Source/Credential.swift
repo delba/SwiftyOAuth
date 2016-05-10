@@ -28,4 +28,8 @@ public struct Credential {
         // TODO: check if not expired
         return false
     }
+    
+    init?(object: AnyObject) {
+        return nil
+    }
 }

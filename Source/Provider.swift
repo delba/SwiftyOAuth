@@ -105,7 +105,45 @@ public class Provider: NSObject {
         }
     }
     
+    // Extract this in Utilities
     private func POST(URL: NSURL, parameters: [String: String], completion: Result -> Void) {
+        let request = NSMutableURLRequest(URL: URL)
+        
+        request.HTTPMethod = "POST"
+        
+        request.HTTPBody = parameters.map { "\($0)=\($1)" }
+            .joinWithSeparator("&")
+            .dataUsingEncoding(NSUTF8StringEncoding)
+        
+        let session = NSURLSession.sharedSession()
+        
+        let task = session.dataTaskWithRequest(request) { data, response, error in
+            if let error = error {
+                completion(.Failure(error))
+                return
+            }
+            
+            guard let data = data else {
+                // TODO better error than that...
+                let error = NSError(domain: "No data received", code: 42, userInfo: nil)
+                completion(.Failure(error))
+                return
+            }
+            
+            do {
+                let object = try NSJSONSerialization.JSONObjectWithData(data, options: [])
+                if let credential = Credential(object: object) {
+                    completion(.Success(credential))
+                } else {
+                    let error = NSError(domain: "Cannot initialize credential", code: 42, userInfo: nil)
+                    completion(.Failure(error))
+                }
+            } catch {
+                completion(.Failure(error))
+            }
+        }
+        
+        task.resume()
     }
 }
 
