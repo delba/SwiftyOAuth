@@ -59,12 +59,30 @@
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Providers</string>
 			<key>path</key>
 			<string>Providers</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
+		</dict>
+		<key>6DE48D191CE21FB500FB2DC9</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>HTTP.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>6DE48D1A1CE21FB500FB2DC9</key>
+		<dict>
+			<key>fileRef</key>
+			<string>6DE48D191CE21FB500FB2DC9</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
 		</dict>
 		<key>6DF7DF631CD5393E0099C320</key>
 		<dict>
@@ -155,6 +173,7 @@
 			<array>
 				<string>6DE48CF11CE1350C00FB2DC9</string>
 				<string>6DE48CF31CE1351700FB2DC9</string>
+				<string>6DE48D1A1CE21FB500FB2DC9</string>
 				<string>6DF7DF881CD539780099C320</string>
 				<string>6DF7DF961CD547C30099C320</string>
 				<string>6DF7DF911CD53F6E0099C320</string>
@@ -261,7 +280,6 @@
 				<string>6DF7DF8D1CD53DEC0099C320</string>
 				<string>6DF7DF901CD53F6E0099C320</string>
 				<string>6DF7DF871CD539780099C320</string>
-				<string>6DF7DF8E1CD53F300099C320</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
@@ -784,7 +802,9 @@
 		<dict>
 			<key>children</key>
 			<array>
+				<string>6DE48D191CE21FB500FB2DC9</string>
 				<string>6DF7DF721CD5393F0099C320</string>
+				<string>6DF7DF8E1CD53F300099C320</string>
 				<string>6DF7DF701CD5393E0099C320</string>
 				<string>6DF7DF951CD547C30099C320</string>
 			</array>
@@ -803,6 +823,8 @@
 			<string>PBXFileReference</string>
 			<key>lastKnownFileType</key>
 			<string>sourcecode.swift</string>
+			<key>name</key>
+			<string>Result.swift</string>
 			<key>path</key>
 			<string>Result.swift</string>
 			<key>sourceTree</key>
