@@ -43,10 +43,10 @@ public class Provider: NSObject {
         
         var params = additionalParamsForAuthorization
         
-        params["client_id"] = clientID
+        params["client_id"]    = clientID
         params["redirect_uri"] = redirectURL.absoluteString
-        params["scope"] = scope
-        params["state"] = state
+        params["scope"]        = scope
+        params["state"]        = state
         
         visit(URL: authorizeURL.query(params))
     }
@@ -87,11 +87,11 @@ public class Provider: NSObject {
     private func requestToken(code code: String, completion: Result<Credential, NSError> -> Void) {
         var params = additionalParamsForTokenRequest
         
-        params["code"] = code
-        params["client_id"] = clientID
+        params["code"]          = code
+        params["client_id"]     = clientID
         params["client_secret"] = clientSecret
-        params["redirect_uri"] = redirectURL.absoluteString
-        params["state"] = state
+        params["redirect_uri"]  = redirectURL.absoluteString
+        params["state"]         = state
         
         HTTP.POST(tokenURL, parameters: params) { result in
             switch result {
