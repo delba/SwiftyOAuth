@@ -131,6 +131,8 @@ token.dictionary // ["access_token": "abc123, "token_type": "bearer", "scope": "
 ### Roadmap
 
 - [ ] Store the token in the Keychain
+- [ ] Support for Client Flow
+- [ ] Refresh token (when available)
 - [ ] More providers
 
 ## References
