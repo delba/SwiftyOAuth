@@ -193,6 +193,10 @@ extension Provider {
             return false
         }
         
+        guard state == URL.query("state") else {
+            return false
+        }
+        
         return matchingURLs(URL, redirectURL) ? true : false
     }
     
