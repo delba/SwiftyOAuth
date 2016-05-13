@@ -98,6 +98,7 @@ public class Provider: NSObject {
     public func handleURL(URL: NSURL, options: [String: AnyObject]) {
         guard shouldHandleURL(URL, options: options) else { return }
         
+        safariVC?.dismissViewControllerAnimated(true, completion: nil)
         NotificationCenter.removeObserver(self, name: UIApplicationDidBecomeActiveNotification)
         
         guard let code = URL.query("code") else {
@@ -145,19 +146,13 @@ public class Provider: NSObject {
     
     private func success(token: Token) {
         Queue.main { [weak self] in
-            guard let this = self else { return }
-            
-            this.completion?(.Success(token))
-            this.safariVC?.dismissViewControllerAnimated(true, completion: nil)
+            self?.completion?(.Success(token))
         }
     }
     
     private func failure(error: Error) {
         Queue.main { [weak self] in
-            guard let this = self else { return }
-            
-            this.completion?(.Failure(error))
-            this.safariVC?.dismissViewControllerAnimated(true, completion: nil)
+            self?.completion?(.Failure(error))
         }
     }
     
@@ -181,6 +176,7 @@ public class Provider: NSObject {
 @available(iOS 9.0, *)
 extension Provider: SFSafariViewControllerDelegate {
     public func safariViewControllerDidFinish(controller: SFSafariViewController) {
+        safariVC?.dismissViewControllerAnimated(true, completion: nil)
         failure(.Cancel)
     }
 }
