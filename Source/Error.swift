@@ -23,14 +23,23 @@
 //
 
 public enum Error: ErrorType {
+    /// The user cancelled the authorization process by closing the web browser window.
     case Cancel
+    /// The OAuth application has been suspended.
     case ApplicationSuspended(String)
+    /// The provided redirectURL that doesn't match the one registered with the OAuth application.
     case RedirectURIMismatch(String)
+    /// The user denied access.
     case AccessDenied(String)
+    /// The passed `clientID` and/or `clientSecret` are incorrect.
     case IncorrectClientCredentials(String)
+    /// The verification code is incorrect or expired.
     case BadVerificationCode(String)
+    /// The application responded with an error that doesn't match any enum cases.
     case Other(String, String)
+    /// The application emitted a response which format doesn't match a success one nor an error one.
     case Unknown([String: AnyObject])
+    /// An error trigger when making network requests or parsing JSON.
     case NSError(Foundation.NSError)
     
     init(_ dictionary: [String: AnyObject]) {

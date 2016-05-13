@@ -23,23 +23,44 @@
 //
 
 public class Provider: NSObject {
+    /// The client ID.
     public let clientID: String
+    /// The client secret.
     public let clientSecret: String
     
+    /// The authorize URL.
     public let authorizeURL: NSURL
+    /// The token URL.
     public let tokenURL: NSURL
+    /// The redirect URL.
     public let redirectURL: NSURL
     
+    /// The scope.
     public var scope: String?
+    /// The state.
     public var state: String?
     
+    /// The additional parameters for the authorization request.
     public var additionalParamsForAuthorization:  [String: AnyObject] = [:]
+    /// The additional parameters for the token request.
     public var additionalParamsForTokenRequest: [String: AnyObject] = [:]
     
+    /// The block to be executed when the authorization process ends.
     public var completion: (Result<Token, Error> -> Void)?
     
     private var safariVC: UIViewController?
     
+    /**
+     Creates a provider.
+     
+     - parameter clientID:     The client ID.
+     - parameter clientSecret: The client secret.
+     - parameter authorizeURL: The authorization request URL.
+     - parameter tokenURL:     The token request URL.
+     - parameter redirectURL:  The URL where to redirect the user.
+     
+     - returns: A newly created provider.
+     */
     public init(clientID: String, clientSecret: String, authorizeURL: String, tokenURL: String, redirectURL: String) {
         self.clientID = clientID
         self.clientSecret = clientSecret
@@ -48,6 +69,11 @@ public class Provider: NSObject {
         self.redirectURL = NSURL(string: redirectURL)!
     }
     
+    /**
+     Requests access to the OAuth application.
+     
+     - parameter completion: The block to be executed when the authorization process ends.
+     */
     public func authorize(completion: Result<Token, Error> -> Void) {
         self.completion = completion
         
@@ -63,6 +89,12 @@ public class Provider: NSObject {
         visit(URL: authorizeURL.query(params))
     }
     
+    /**
+     Handles the incoming URL.
+     
+     - parameter URL:     The incoming URL to handle.
+     - parameter options: A dictionary of launch options.
+     */
     public func handleURL(URL: NSURL, options: [String: AnyObject]) {
         guard shouldHandleURL(URL, options: options) else { return }
         

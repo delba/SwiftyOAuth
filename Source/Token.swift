@@ -27,12 +27,16 @@
 // key => Provider.baseURL.absoluteString
 
 public struct Token {
+    /// The access token.
     public let accessToken: String
+    /// The token type.
     public let tokenType: String
+    /// The scope.
     public let scope: String
+    /// The full response dictionary.
     public let dictionary: [String: AnyObject]
     
-    init?(json: JSON) {
+    internal init?(json: JSON) {
         guard let
             accessToken = json["access_token"] as? String,
             tokenType = json["token_type"] as? String,
