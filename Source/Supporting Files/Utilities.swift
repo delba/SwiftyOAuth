@@ -51,19 +51,30 @@ internal extension NSNotificationCenter {
 }
 
 internal extension NSURL {
-    var queryItems: [NSURLQueryItem] {
-        return NSURLComponents(URL: self, resolvingAgainstBaseURL: false)?.queryItems ?? []
-    }
-    
-    @nonobjc var query: [String: String] {
-        return queryItems.reduce([String: String]()) { query, item in
-            var query = query
-            query[item.name] = item.value
-            return query
+    var fragments: [String: String] {
+        var result: [String: String] = [:]
+        
+        guard let fragment = self.fragment else { return result }
+        
+        for pair in fragment.componentsSeparatedByString("&") {
+            let pair = pair.componentsSeparatedByString("=")
+            if pair.count == 2 { result[pair[0]] = pair[1] }
         }
+        
+        return result
     }
     
-    func query(items: [String: String?]) -> NSURL {
+    var queries: [String: String] {
+        var result: [String: String] = [:]
+        
+        for item in queryItems {
+            result[item.name] = item.value
+        }
+        
+        return result
+    }
+    
+    func queries(items: [String: String?]) -> NSURL {
         let items = items.flatMap { (key, value) -> (String, String)? in
             guard let value = value else { return nil }
             return (key, value)
@@ -78,13 +89,10 @@ internal extension NSURL {
         return components?.URL ?? self
     }
     
-    @nonobjc func query(name: String) -> String? {
-        for item in queryItems where item.name == name {
-            return item.value
-        }
-        
-        return nil
+    private var queryItems: [NSURLQueryItem] {
+        return NSURLComponents(URL: self, resolvingAgainstBaseURL: false)?.queryItems ?? []
     }
+    
 }
 
 @available(iOS 9.0, *)

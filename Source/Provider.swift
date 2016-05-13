@@ -22,18 +22,33 @@
 // SOFTWARE.
 //
 
+public enum Flow {
+    case Explicit
+    case Implicit
+    
+    var responseType: String {
+        switch self {
+        case .Explicit: return "code"
+        case .Implicit: return "token"
+        }
+    }
+}
+
 public class Provider: NSObject {
     /// The client ID.
     public let clientID: String
     /// The client secret.
-    public let clientSecret: String
+    public let clientSecret: String?
     
     /// The authorize URL.
     public let authorizeURL: NSURL
     /// The token URL.
-    public let tokenURL: NSURL
+    public let tokenURL: NSURL?
     /// The redirect URL.
     public let redirectURL: NSURL
+    
+    /// The flow.
+    public let flow: Flow
     
     /// The scope.
     public var scope: String?
@@ -51,13 +66,13 @@ public class Provider: NSObject {
     private var safariVC: UIViewController?
     
     /**
-     Creates a provider.
+     Creates a provider that uses the server-side (explicit) flow.
      
      - parameter clientID:     The client ID.
      - parameter clientSecret: The client secret.
      - parameter authorizeURL: The authorization request URL.
      - parameter tokenURL:     The token request URL.
-     - parameter redirectURL:  The URL where to redirect the user.
+     - parameter redirectURL:  The redirect URL.
      
      - returns: A newly created provider.
      */
@@ -67,6 +82,25 @@ public class Provider: NSObject {
         self.authorizeURL = NSURL(string: authorizeURL)!
         self.tokenURL = NSURL(string: tokenURL)!
         self.redirectURL = NSURL(string: redirectURL)!
+        self.flow = .Explicit
+    }
+    
+    /**
+     Creates a provider that uses the client-side (implicit) flow.
+     
+     - parameter clientID:     The client ID.
+     - parameter authorizeURL: The authorization request URL.
+     - parameter redirectURL:  The redirect URL.
+     
+     - returns: A newly created provider.
+     */
+    public init(clientID: String, authorizeURL: String, redirectURL: String) {
+        self.clientID = clientID
+        self.clientSecret = nil
+        self.authorizeURL = NSURL(string: authorizeURL)!
+        self.tokenURL = nil
+        self.redirectURL = NSURL(string: redirectURL)!
+        self.flow = .Implicit
     }
     
     /**
@@ -81,12 +115,13 @@ public class Provider: NSObject {
             "client_id": clientID,
             "redirect_uri": redirectURL.absoluteString,
             "scope": scope,
-            "state": state
+            "state": state,
+            "response_type": flow.responseType
         ]
         
         additionalParamsForAuthorization.forEach { params[$0] = String($1) }
         
-        visit(URL: authorizeURL.query(params))
+        visit(URL: authorizeURL.queries(params))
     }
     
     /**
@@ -101,8 +136,25 @@ public class Provider: NSObject {
         safariVC?.dismissViewControllerAnimated(true, completion: nil)
         NotificationCenter.removeObserver(self, name: UIApplicationDidBecomeActiveNotification)
         
-        guard let code = URL.query("code") else {
-            failure(Error(URL.query))
+        switch flow {
+        case .Explicit:
+            extractCode(URL)
+        case .Implicit:
+            extractToken(URL)
+        }
+    }
+    
+    private func extractToken(URL: NSURL) {
+        if let token = Token(fragments: URL.fragments) {
+            success(token)
+        } else {
+            failure(Error(URL.fragments))
+        }
+    }
+    
+    private func extractCode(URL: NSURL) {
+        guard let code = URL.queries["code"] else {
+            failure(Error(URL.queries))
             return
         }
         
@@ -129,7 +181,7 @@ public class Provider: NSObject {
         
         additionalParamsForTokenRequest.forEach { params[$0] = String($1) }
         
-        HTTP.POST(tokenURL, parameters: params) { result in
+        HTTP.POST(tokenURL!, parameters: params) { result in
             switch result {
             case .Success(let json):
                 if let token = Token(json: json) {
@@ -189,7 +241,7 @@ extension Provider {
             return false
         }
         
-        guard state == URL.query("state") else {
+        guard state == URL.queries["state"] else {
             return false
         }
         

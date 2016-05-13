@@ -1,5 +1,5 @@
 //
-// Token.swift
+// Instagram.swift
 //
 // Copyright (c) 2016 Damien (http://delba.io)
 //
@@ -22,33 +22,12 @@
 // SOFTWARE.
 //
 
-public struct Token {
-    /// The access token.
-    public let accessToken: String
-    /// The token type.
-    public let tokenType: String?
-    /// The scope.
-    public let scope: String?
-    /// The full response dictionary.
-    public let dictionary: [String: AnyObject]?
-    
-    internal init?(json: [String: AnyObject]) {
-        guard let accessToken = json["access_token"] as? String else { return nil }
-        
-        self.accessToken = accessToken
-        self.tokenType = json["token_type"] as? String
-        self.scope = json["scope"] as? String
-        
-        self.dictionary = json
-    }
-    
-    internal init?(fragments: [String: String]) {
-        guard let accessToken = fragments["access_token"] else { return nil }
-        
-        self.accessToken = accessToken
-        self.tokenType = fragments["token_type"]
-        self.scope = fragments["scope"]
-        
-        self.dictionary = fragments
+extension Provider {
+    public static func Instagram(clientID clientID: String, redirectURL: String) -> Provider {
+        return Provider(
+            clientID: clientID,
+            authorizeURL: "https://api.instagram.com/oauth/authorize",
+            redirectURL: redirectURL
+        )
     }
 }
