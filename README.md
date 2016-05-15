@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/delba/SwiftyOAuth/assets/SwiftyOAuth%402x.png?token=ACwgwrhWkWrvKuSy5wWXuBY-sdKnNawNks5XPAOXwA%3D%3D">
+  <img src="https://raw.githubusercontent.com/delba/SwiftyOAuth/assets/SwiftyOAuth%402x.png">
 </p>
 
 <p align="center">
