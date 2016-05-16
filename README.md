@@ -11,10 +11,10 @@
 **SwiftyOAuth** is a *small* OAuth library with a built-in set of providers and a nice API to add your owns.
 
 ```swift
-let github: Provider = .GitHub(clientID: "***", clientSecret: "***", redirectURL: "foo://callback")
+let instagram: Provider = .Instagram(clientID: "***", redirectURL: "foo://callback")
 
 github.authorize { result in
-    print(result) // Success(Token(accessToken: "abc123", tokenType: "bearer", scope: ""))
+    print(result) // Success(Token(accessToken: "abc123"))
 }
 ```
 
@@ -29,11 +29,21 @@ github.authorize { result in
 Initialize a provider with the custom URL scheme that you defined:
 
 ```swift
+// Provider using the server-side (explicit) flow
+
 let provider = Provider(
     clientID: "***",
     clientSecret: "***",
     authorizeURL: "https://example.com/authorize",
     tokenURL: "https://example.com/authorize/token",
+    redirectURL: "foo://callback"
+)
+
+// Provider using the client-side (implicit) flow
+
+let provider = Provider(
+    clientID: "***",
+    authorizeURL: "https://example.com/authorize",
     redirectURL: "foo://callback"
 )
 ```
@@ -66,7 +76,7 @@ Handle the incoming requests in your `AppDelegate`:
 ```swift
 func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
     github.handleURL(url, options: options)
-        
+
     return true
 }
 ```
@@ -80,7 +90,7 @@ github.authorize { (result: Result<Token, Error>) -> Void in
         print(token)
     case .Failure(let error):
         print(error)
-    } 
+    }
 }
 ```
 
@@ -126,32 +136,34 @@ token.dictionary // ["access_token": "abc123, "token_type": "bearer", "scope": "
 
 - GitHub - [code](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/GitHub.swift), [doc](https://developer.github.com/v3/oauth/)
 - Dribbble - [code](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Dribbble.swift), [doc](http://developer.dribbble.com/v1/oauth/)
+- Instagram - [code](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Instagram.swift), [doc](https://www.instagram.com/developer/authentication/)
 - *More to come...*
 
 ### Roadmap
 
+- [x] Support for the client-side (implicit) flow
 - [ ] Store the token in the Keychain
-- [ ] Support for Client Flow
 - [ ] Refresh token (when available)
-- [ ] More providers
 
 ## References
 
 ### Token
 
-| Provider     | `access_token` | `token_type` | `scope`  |
-| ------------ | -------------- | ------------ | -------- |
-| **GitHub**   | yes            | yes          | yes      |
-| **Dribbble** | yes            | yes          | yes      |
+| Provider      | `access_token` | `token_type` | `scope`  |
+| ------------- | -------------- | ------------ | -------- |
+| **GitHub**    | yes            | yes          | yes      |
+| **Dribbble**  | yes            | yes          | yes      |
+| **Instagram** | yes            | no           | no       |
 
 ### Parameters
 
 ##### Authorize request params
 
-| Provider     | `client_id` | `redirect_uri` | `scope`  | `state`  | Additional parameters |
-| ------------ | ----------- | -------------- | -------- | -------- | --------------------- |
-| **GitHub**   | required    | optional       | optional | optional | `allow_signup`        |
-| **Dribbble** | required    | optional       | optional | optional |                       |
+| Provider      | `client_id` | `redirect_uri` | `scope`  | `state`  | Additional parameters |
+| ------------- | ----------- | -------------- | -------- | -------- | --------------------- |
+| **GitHub**    | required    | optional       | optional | optional | `allow_signup`        |
+| **Dribbble**  | required    | optional       | optional | optional |                       |
+| **Instagram** | required    | optional       | optional | optional |                       |
 
 ##### Token request params
 
@@ -164,10 +176,11 @@ token.dictionary // ["access_token": "abc123, "token_type": "bearer", "scope": "
 
 ##### Authorize request errors
 
-| Provider     | `.ApplicationSuspended` | `.RedirectURIMismatch`  | `.AccessDenied` |
-| ------------ | ----------------------- | ----------------------- | --------------- |
-| **GitHub**   | `application_suspended` | `redirect_uri_mismatch` | `access_denied` |
-| **Dribbble** | `application_suspended` | `redirect_uri_mismatch` | `access_denied` |
+| Provider      | `.ApplicationSuspended` | `.RedirectURIMismatch`  | `.AccessDenied` |
+| ------------- | ----------------------- | ----------------------- | --------------- |
+| **GitHub**    | `application_suspended` | `redirect_uri_mismatch` | `access_denied` |
+| **Dribbble**  | `application_suspended` | `redirect_uri_mismatch` | `access_denied` |
+| **Instagram** |                         |                         | `access_denied` |
 
 ##### Token request errors
 
