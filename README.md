@@ -48,7 +48,7 @@ let provider = Provider(
 )
 ```
 
-Alternatively, you can use a built-in provider:
+Alternatively, you can use one of the [built-in providers](https://github.com/delba/SwiftyOAuth#providers):
 
 ```swift
 let github = .GitHub(
