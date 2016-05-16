@@ -13,7 +13,7 @@
 ```swift
 let instagram: Provider = .Instagram(clientID: "***", redirectURL: "foo://callback")
 
-github.authorize { result in
+instagram.authorize { result in
     print(result) // Success(Token(accessToken: "abc123"))
 }
 ```
