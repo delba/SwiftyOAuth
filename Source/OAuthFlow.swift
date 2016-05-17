@@ -70,6 +70,7 @@ extension Provider {
     private func requestToken(code: String, completion: Result<Token, Error> -> Void) {
         var params = [
             "code": code,
+            "grant_type": "authorization_code",
             "client_id": clientID,
             "client_secret": clientSecret,
             "redirect_uri": redirectURL.absoluteString,
