@@ -38,6 +38,24 @@ public class Provider: NSObject {
     /// The OAuth flow.
     public let oauthFlow: OAuthFlow
     
+    /// The token.
+    public internal(set) var token: Token? {
+        get {
+            guard let dictionary = UserDefaults.dictionaryForKey(tokenKey) else {
+                return nil
+            }
+            return Token(dictionary: dictionary)
+        }
+        
+        set {
+            UserDefaults.setObject(newValue?.dictionary, forKey: tokenKey)
+        }
+    }
+    
+    private var tokenKey: String {
+        return "io.delba.SwiftyOAuth.\(authorizeURL.absoluteString)"
+    }
+    
     /// The scope.
     public var scope: String?
     /// The state.

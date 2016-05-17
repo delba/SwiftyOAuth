@@ -43,6 +43,7 @@ extension Provider {
         let result: Result<Token, Error>
         
         if let token = Token(dictionary: URL.fragments) {
+            self.token = token
             result = .Success(token)
         } else {
             result = .Failure(Error(URL.fragments))
@@ -85,6 +86,7 @@ extension Provider {
             switch resultJSON {
             case .Success(let json):
                 if let token = Token(dictionary: json) {
+                    self.token = token
                     result = .Success(token)
                 } else {
                     result = .Failure(Error(json))

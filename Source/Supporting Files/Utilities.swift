@@ -24,6 +24,7 @@
 
 internal let Application = UIApplication.sharedApplication()
 internal let NotificationCenter = NSNotificationCenter.defaultCenter()
+internal let UserDefaults = NSUserDefaults.standardUserDefaults()
 
 internal func == <T: Equatable>(tuple1: (T?, T?, T?), tuple2: (T?, T?, T?)) -> Bool {
     return (tuple1.0 == tuple2.0) && (tuple1.1 == tuple2.1) && (tuple1.2 == tuple2.2)
