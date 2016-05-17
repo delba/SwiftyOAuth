@@ -22,18 +22,6 @@
 // SOFTWARE.
 //
 
-public enum Flow {
-    case Explicit
-    case Implicit
-    
-    var responseType: String {
-        switch self {
-        case .Explicit: return "code"
-        case .Implicit: return "token"
-        }
-    }
-}
-
 public class Provider: NSObject {
     /// The client ID.
     public let clientID: String
@@ -47,8 +35,8 @@ public class Provider: NSObject {
     /// The redirect URL.
     public let redirectURL: NSURL
     
-    /// The flow.
-    public let flow: Flow
+    /// The OAuth flow.
+    public let oauthFlow: OAuthFlow
     
     /// The scope.
     public var scope: String?
@@ -61,9 +49,27 @@ public class Provider: NSObject {
     public var additionalParamsForTokenRequest: [String: AnyObject] = [:]
     
     /// The block to be executed when the authorization process ends.
-    public var completion: (Result<Token, Error> -> Void)?
+    private var completion: (Result<Token, Error> -> Void)?
     
     private var safariVC: UIViewController?
+    
+    /**
+     Creates a provider that uses the client-side (implicit) flow.
+     
+     - parameter clientID:     The client ID.
+     - parameter authorizeURL: The authorization request URL.
+     - parameter redirectURL:  The redirect URL.
+     
+     - returns: A newly created provider.
+     */
+    public init(clientID: String, authorizeURL: String, redirectURL: String) {
+        self.clientID = clientID
+        self.clientSecret = nil
+        self.authorizeURL = NSURL(string: authorizeURL)!
+        self.tokenURL = nil
+        self.redirectURL = NSURL(string: redirectURL)!
+        self.oauthFlow = .ClientSide
+    }
     
     /**
      Creates a provider that uses the server-side (explicit) flow.
@@ -82,25 +88,7 @@ public class Provider: NSObject {
         self.authorizeURL = NSURL(string: authorizeURL)!
         self.tokenURL = NSURL(string: tokenURL)!
         self.redirectURL = NSURL(string: redirectURL)!
-        self.flow = .Explicit
-    }
-    
-    /**
-     Creates a provider that uses the client-side (implicit) flow.
-     
-     - parameter clientID:     The client ID.
-     - parameter authorizeURL: The authorization request URL.
-     - parameter redirectURL:  The redirect URL.
-     
-     - returns: A newly created provider.
-     */
-    public init(clientID: String, authorizeURL: String, redirectURL: String) {
-        self.clientID = clientID
-        self.clientSecret = nil
-        self.authorizeURL = NSURL(string: authorizeURL)!
-        self.tokenURL = nil
-        self.redirectURL = NSURL(string: redirectURL)!
-        self.flow = .Implicit
+        self.oauthFlow = .ServerSide
     }
     
     /**
@@ -116,7 +104,7 @@ public class Provider: NSObject {
             "redirect_uri": redirectURL.absoluteString,
             "scope": scope,
             "state": state,
-            "response_type": flow.responseType
+            "response_type": oauthFlow.responseType
         ]
         
         additionalParamsForAuthorization.forEach { params[$0] = String($1) }
@@ -136,100 +124,45 @@ public class Provider: NSObject {
         safariVC?.dismissViewControllerAnimated(true, completion: nil)
         NotificationCenter.removeObserver(self, name: UIApplicationDidBecomeActiveNotification)
         
-        switch flow {
-        case .Explicit:
-            extractCode(URL)
-        case .Implicit:
-            extractToken(URL)
-        }
-    }
-    
-    private func extractToken(URL: NSURL) {
-        if let token = Token(fragments: URL.fragments) {
-            success(token)
-        } else {
-            failure(Error(URL.fragments))
-        }
-    }
-    
-    private func extractCode(URL: NSURL) {
-        guard let code = URL.queries["code"] else {
-            failure(Error(URL.queries))
-            return
-        }
+        guard let completion = completion else { return }
         
-        requestToken(code: code) { [weak self] result in
-            guard let this = self else { return }
-            
-            switch result {
-            case .Success(let token):
-                this.success(token)
-            case .Failure(let error):
-                this.failure(error)
-            }
-        }
-    }
-    
-    private func requestToken(code code: String, completion: Result<Token, Error> -> Void) {
-        var params = [
-            "code": code,
-            "client_id": clientID,
-            "client_secret": clientSecret,
-            "redirect_uri": redirectURL.absoluteString,
-            "state": state
-        ]
-        
-        additionalParamsForTokenRequest.forEach { params[$0] = String($1) }
-        
-        HTTP.POST(tokenURL!, parameters: params) { result in
-            switch result {
-            case .Success(let json):
-                if let token = Token(json: json) {
-                    completion(.Success(token))
-                } else {
-                    completion(.Failure(Error(json)))
-                }
-            case .Failure(let error):
-                let error = Error(error)
-                completion(.Failure(error))
-            }
-        }
-    }
-    
-    private func success(token: Token) {
-        Queue.main { [weak self] in
-            self?.completion?(.Success(token))
-        }
-    }
-    
-    private func failure(error: Error) {
-        Queue.main { [weak self] in
-            self?.completion?(.Failure(error))
+        switch oauthFlow {
+        case .ClientSide: handleURLForClientSideFlow(URL, completion: completion)
+        case .ServerSide: handleURLForServerSideFlow(URL, completion: completion)
         }
     }
     
     private func visit(URL URL: NSURL) {
         if #available(iOS 9.0, *) {
             safariVC = SFSafariViewController(URL: URL, delegate: self)
-            Application.presentViewController(safariVC!)
+            Application.presentViewController(safariVC)
         } else {
             NotificationCenter.addObserver(self, selector: #selector(Provider.didBecomeActive(_:)), name: UIApplicationDidBecomeActiveNotification)
             Application.openURL(URL)
         }
     }
-    
-    @objc func didBecomeActive(notification: NSNotification) {
-        NotificationCenter.removeObserver(self, name: UIApplicationDidBecomeActiveNotification)
-        
-        failure(.Cancel)
-    }
 }
+
+// MARK: - Close browser window
 
 @available(iOS 9.0, *)
 extension Provider: SFSafariViewControllerDelegate {
     public func safariViewControllerDidFinish(controller: SFSafariViewController) {
         safariVC?.dismissViewControllerAnimated(true, completion: nil)
-        failure(.Cancel)
+        
+        if let completion = completion {
+            Queue.main { completion(.Failure(.Cancel)) }
+        }
+    }
+}
+
+extension Provider {
+    @objc func didBecomeActive(notification: NSNotification) {
+        NotificationCenter.removeObserver(self, name: UIApplicationDidBecomeActiveNotification)
+        
+        if let completion = completion {
+            Queue.main { completion(.Failure(.Cancel)) }
+        }
     }
 }
 

@@ -35,8 +35,10 @@ internal extension UIApplication {
         return root?.presentedViewController ?? root // Handle presenting an alert over a modal screen
     }
     
-    func presentViewController(viewController: UIViewController) {
-        rootViewController?.presentViewController(viewController, animated: true, completion: nil)
+    func presentViewController(viewController: UIViewController?) {
+        if let vc = viewController {
+            rootViewController?.presentViewController(vc, animated: true, completion: nil)
+        }
     }
 }
 
