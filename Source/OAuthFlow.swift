@@ -42,7 +42,7 @@ extension Provider {
     func handleURLForClientSideFlow(URL: NSURL, completion: Result<Token, Error> -> Void) {
         let result: Result<Token, Error>
         
-        if let token = Token(fragments: URL.fragments) {
+        if let token = Token(dictionary: URL.fragments) {
             result = .Success(token)
         } else {
             result = .Failure(Error(URL.fragments))
@@ -84,7 +84,7 @@ extension Provider {
             
             switch resultJSON {
             case .Success(let json):
-                if let token = Token(json: json) {
+                if let token = Token(dictionary: json) {
                     result = .Success(token)
                 } else {
                     result = .Failure(Error(json))

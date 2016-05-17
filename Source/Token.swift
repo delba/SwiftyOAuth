@@ -24,31 +24,28 @@
 
 public struct Token {
     /// The access token.
-    public let accessToken: String
-    /// The token type.
-    public let tokenType: String?
-    /// The scope.
-    public let scope: String?
-    /// The full response dictionary.
-    public let dictionary: [String: AnyObject]?
-    
-    internal init?(json: [String: AnyObject]) {
-        guard let accessToken = json["access_token"] as? String else { return nil }
-        
-        self.accessToken = accessToken
-        self.tokenType = json["token_type"] as? String
-        self.scope = json["scope"] as? String
-        
-        self.dictionary = json
+    public var accessToken: String {
+        return dictionary["access_token"] as! String
     }
     
-    internal init?(fragments: [String: String]) {
-        guard let accessToken = fragments["access_token"] else { return nil }
+    /// The token type.
+    public var tokenType: String? {
+        return dictionary["token_type"] as? String
+    }
+    
+    /// The scope.
+    public var scope: String? {
+        return dictionary["scope"] as? String
+    }
+    
+    /// The full response dictionary.
+    public let dictionary: [String: AnyObject]
+    
+    internal init?(dictionary: [String: AnyObject]) {
+        guard dictionary["access_token"] as? String != nil else {
+            return nil
+        }
         
-        self.accessToken = accessToken
-        self.tokenType = fragments["token_type"]
-        self.scope = fragments["scope"]
-        
-        self.dictionary = fragments
+        self.dictionary = dictionary
     }
 }
