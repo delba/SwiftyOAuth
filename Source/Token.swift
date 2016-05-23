@@ -34,8 +34,12 @@ public struct Token {
     }
     
     /// The scope.
-    public var scope: String? {
-        return dictionary["scope"] as? String
+    public var scope: [String]? {
+        guard let scope = dictionary["scope"] as? String else {
+            return nil
+        }
+        
+        return scope.componentsSeparatedByString(" ")
     }
     
     /// The full response dictionary.

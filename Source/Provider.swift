@@ -57,7 +57,7 @@ public class Provider: NSObject {
     }
     
     /// The scope.
-    public var scope: String?
+    public var scope: [String]?
     /// The state.
     public var state: String?
     
@@ -120,7 +120,7 @@ public class Provider: NSObject {
         var params = [
             "client_id": clientID,
             "redirect_uri": redirectURL.absoluteString,
-            "scope": scope,
+            "scope": scope?.joinWithSeparator(" "),
             "state": state,
             "response_type": oauthFlow.responseType
         ]

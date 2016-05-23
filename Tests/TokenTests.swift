@@ -30,7 +30,7 @@ class TokenTests: XCTestCase {
         let dictionary: [String: AnyObject] = [
             "access_token": "accessToken",
             "token_type": "tokenType",
-            "scope": "scope"
+            "scope": "first second"
         ]
         
         let token = Token(dictionary: dictionary)
@@ -38,7 +38,8 @@ class TokenTests: XCTestCase {
         XCTAssertNotNil(token)
         XCTAssertEqual("accessToken", token?.accessToken)
         XCTAssertEqual("tokenType", token?.tokenType)
-        XCTAssertEqual("scope", token?.scope)
+        XCTAssertNotNil(token?.scope)
+        XCTAssertEqual(["first", "second"], token!.scope!)
     }
     
     func testFailableInit() {
