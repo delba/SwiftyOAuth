@@ -28,6 +28,31 @@ public struct Token {
         return dictionary["access_token"] as! String
     }
     
+    /// The refresh token.
+    public var refreshToken: String? {
+        return dictionary["refresh_token"] as? String
+    }
+    
+    public var expiresIn: NSTimeInterval? {
+        return dictionary["expires_in"] as? NSTimeInterval
+    }
+    
+    public var isExpired: Bool {
+        guard let expiresIn = expiresIn else {
+            return false
+        }
+        
+        return NSDate.timeIntervalSinceReferenceDate() < createdAt + expiresIn
+    }
+    
+    public var isValid: Bool {
+        return !isExpired
+    }
+    
+    private var createdAt: NSTimeInterval {
+        return dictionary["created_at"] as! NSTimeInterval
+    }
+    
     /// The token type.
     public var tokenType: String? {
         return dictionary["token_type"] as? String
@@ -49,6 +74,9 @@ public struct Token {
         guard dictionary["access_token"] as? String != nil else {
             return nil
         }
+        
+        var dictionary = dictionary
+        dictionary["created_at"] = NSDate.timeIntervalSinceReferenceDate()
         
         self.dictionary = dictionary
     }
