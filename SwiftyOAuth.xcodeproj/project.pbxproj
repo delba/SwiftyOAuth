@@ -10,6 +10,8 @@
 		6D1BAFF71CE308370012431F /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1BAFF61CE308370012431F /* Error.swift */; };
 		6D444D441CF487A300709148 /* UtilitiesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D444D431CF487A300709148 /* UtilitiesTests.swift */; };
 		6D444D471CF48D5100709148 /* TokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D444D461CF48D5100709148 /* TokenTests.swift */; };
+		6D444D4B1CF49E2900709148 /* Uber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D444D4A1CF49E2900709148 /* Uber.swift */; };
+		6D444D4D1CF4A22500709148 /* GrantType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D444D4C1CF4A22500709148 /* GrantType.swift */; };
 		6DB5DDDA1CEA5A5B00C9105D /* OAuthFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB5DDD91CEA5A5B00C9105D /* OAuthFlow.swift */; };
 		6DE48CF11CE1350C00FB2DC9 /* GitHub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE48CF01CE1350C00FB2DC9 /* GitHub.swift */; };
 		6DE48CF31CE1351700FB2DC9 /* Dribbble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE48CF21CE1351700FB2DC9 /* Dribbble.swift */; };
@@ -38,6 +40,8 @@
 		6D1BAFF61CE308370012431F /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		6D444D431CF487A300709148 /* UtilitiesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilitiesTests.swift; sourceTree = "<group>"; };
 		6D444D461CF48D5100709148 /* TokenTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenTests.swift; sourceTree = "<group>"; };
+		6D444D4A1CF49E2900709148 /* Uber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Uber.swift; sourceTree = "<group>"; };
+		6D444D4C1CF4A22500709148 /* GrantType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrantType.swift; sourceTree = "<group>"; };
 		6DB5DDD91CEA5A5B00C9105D /* OAuthFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuthFlow.swift; sourceTree = "<group>"; };
 		6DE48CF01CE1350C00FB2DC9 /* GitHub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitHub.swift; sourceTree = "<group>"; };
 		6DE48CF21CE1351700FB2DC9 /* Dribbble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dribbble.swift; sourceTree = "<group>"; };
@@ -88,6 +92,7 @@
 				6DE48CF21CE1351700FB2DC9 /* Dribbble.swift */,
 				6DE48CF01CE1350C00FB2DC9 /* GitHub.swift */,
 				6DEEA0AC1CE618C000951F94 /* Instagram.swift */,
+				6D444D4A1CF49E2900709148 /* Uber.swift */,
 			);
 			path = Providers;
 			sourceTree = "<group>";
@@ -116,6 +121,7 @@
 				6DE48CF41CE1351D00FB2DC9 /* Providers */,
 				6DF7DF8D1CD53DEC0099C320 /* Supporting Files */,
 				6D1BAFF61CE308370012431F /* Error.swift */,
+				6D444D4C1CF4A22500709148 /* GrantType.swift */,
 				6DB5DDD91CEA5A5B00C9105D /* OAuthFlow.swift */,
 				6DF7DF871CD539780099C320 /* Provider.swift */,
 				6DF7DF901CD53F6E0099C320 /* Token.swift */,
@@ -258,8 +264,10 @@
 				6DE48CF11CE1350C00FB2DC9 /* GitHub.swift in Sources */,
 				6DE48CF31CE1351700FB2DC9 /* Dribbble.swift in Sources */,
 				6DE48D1A1CE21FB500FB2DC9 /* HTTP.swift in Sources */,
+				6D444D4D1CF4A22500709148 /* GrantType.swift in Sources */,
 				6DF7DF881CD539780099C320 /* Provider.swift in Sources */,
 				6DF7DF961CD547C30099C320 /* Utilities.swift in Sources */,
+				6D444D4B1CF49E2900709148 /* Uber.swift in Sources */,
 				6DF7DF911CD53F6E0099C320 /* Token.swift in Sources */,
 				6DB5DDDA1CEA5A5B00C9105D /* OAuthFlow.swift in Sources */,
 				6DEEA0AD1CE618C000951F94 /* Instagram.swift in Sources */,

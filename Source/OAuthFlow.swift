@@ -65,18 +65,18 @@ extension Provider {
             return
         }
         
-        requestToken(code, completion: completion)
+        requestToken(.AuthorizationCode(code), completion: completion)
     }
     
-    private func requestToken(code: String, completion: Result<Token, Error> -> Void) {
+    internal func requestToken(grantType: GrantType, completion: Result<Token, Error> -> Void) {
         var params = [
-            "code": code,
-            "grant_type": "authorization_code",
             "client_id": clientID,
             "client_secret": clientSecret,
             "redirect_uri": redirectURL.absoluteString,
             "state": state
         ]
+        
+        grantType.params.forEach { params[$0] = $1 }
         
         additionalParamsForTokenRequest.forEach { params[$0] = String($1) }
         

@@ -130,6 +130,16 @@ public class Provider: NSObject {
         visit(URL: authorizeURL.queries(params))
     }
     
+    public func refreshToken(completion: Result<Token, Error> -> Void) {
+        guard let refreshToken = token?.refreshToken else {
+            let error = Error.Other("", "")
+            completion(Result.Failure(error))
+            return
+        }
+        
+        requestToken(.RefreshToken(refreshToken), completion: completion)
+    }
+    
     /**
      Handles the incoming URL.
      
