@@ -94,6 +94,22 @@ github.authorize { (result: Result<Token, Error>) -> Void in
 }
 ```
 
+If the provider provides an expirable token, you may want to refresh it.
+
+```swift
+let uber: Provider = .Uber(
+    clientID: "***",
+    clientSecret: "***",
+    redirectURL: "foo://callback/uber"
+)
+
+if let token = uber.token where token.isExpired {
+    uber.refreshToken { result in
+        // print("Token:", result.value)
+    }
+}
+```
+
 #### Token
 
 The `access_token`, `token_type` and `scope` are available as `Token` properties:
@@ -102,6 +118,10 @@ The `access_token`, `token_type` and `scope` are available as `Token` properties
 token.accessToken // abc123
 token.tokenType // bearer
 token.scope // [user, repo]
+
+token.expiresIn
+token.isExpired
+token.isValid
 ```
 
 Additionally, you can access all the response data via the `dictionary` property:
@@ -137,6 +157,7 @@ token.dictionary // ["access_token": "abc123, "token_type": "bearer", "scope": "
 - GitHub - [code](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/GitHub.swift), [doc](https://developer.github.com/v3/oauth/)
 - Dribbble - [code](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Dribbble.swift), [doc](http://developer.dribbble.com/v1/oauth/)
 - Instagram - [code](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Instagram.swift), [doc](https://www.instagram.com/developer/authentication/)
+- Uber - [code](), [doc](https://developer.uber.com/docs/authentication#oauth-20)
 - *More to come...*
 
 ### Roadmap
