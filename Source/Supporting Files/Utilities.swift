@@ -76,6 +76,7 @@ internal extension NSURL {
         return result
     }
     
+    @warn_unused_result
     func queries(items: [String: String?]) -> NSURL {
         let items = items.flatMap { (key, value) -> (String, String)? in
             guard let value = value else { return nil }
