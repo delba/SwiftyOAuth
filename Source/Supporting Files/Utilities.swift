@@ -99,6 +99,27 @@ internal extension NSURL {
     
 }
 
+internal extension NSUserDefaults {
+    func getTokenForProvider(provider: Provider) -> Token? {
+        let key = keyForProvider(provider)
+        
+        guard let dictionary = dictionaryForKey(key) else {
+            return nil
+        }
+        
+        return Token(dictionary: dictionary)
+    }
+    
+    func setToken(token: Token?, forProvider provider: Provider) {
+        let key = keyForProvider(provider)
+        setObject(token?.dictionary, forKey: key)
+    }
+    
+    private func keyForProvider(provider: Provider) -> String {
+        return "io.delba.SwiftyOAuth.\(provider.authorizeURL.absoluteString)"
+    }
+}
+
 @available(iOS 9.0, *)
 internal extension SFSafariViewController {
     convenience init(URL: NSURL, delegate: SFSafariViewControllerDelegate) {
