@@ -170,11 +170,12 @@ token.dictionary // ["access_token": "abc123, "token_type": "bearer", "scope": "
 
 ### Token
 
-| Provider      | `access_token` | `token_type` | `scope`  |
-| ------------- | -------------- | ------------ | -------- |
-| **GitHub**    | yes            | yes          | yes      |
-| **Dribbble**  | yes            | yes          | yes      |
-| **Instagram** | yes            | no           | no       |
+| Provider      | `access_token` | `token_type` | `scope`  | `expires_in` | `refresh_token` |
+| ------------- | -------------- | ------------ | -------- | ------------ | --------------- |
+| **GitHub**    | yes            | yes          | yes      | no           | no              |
+| **Dribbble**  | yes            | yes          | yes      | no           | no              |
+| **Instagram** | yes            | no           | no       | no           | no              |
+| **Uber**      | yes            | yes          | yes      | yes          | yes             |
 
 ### Parameters
 
@@ -185,13 +186,21 @@ token.dictionary // ["access_token": "abc123, "token_type": "bearer", "scope": "
 | **GitHub**    | required    | optional       | optional | optional | `allow_signup`        |
 | **Dribbble**  | required    | optional       | optional | optional |                       |
 | **Instagram** | required    | optional       | optional | optional |                       |
+| **Uber**      | required    | optional       | optional | optional |                       |
 
 ##### Token request params
 
-| Provider     | `code`   | `client_id` | `client_secret` | `redirect_uri` | `state`  |
-| ------------ | -------- | ----------- | --------------- | -------------- | -------- |
-| **GitHub**   | required | required    | required        | optional       | optional |
-| **Dribbble** | required | required    | required        | optional       |          |
+| Provider     | `client_id` | `client_secret` | `redirect_uri` | `grant_type`           | `code`   |  `state`  |
+| ------------ | ----------- | --------------- | -------------- | ---------------------- | -------- |  -------- |
+| **GitHub**   | required    | required        | optional       |                        | required |  optional |
+| **Dribbble** | required    | required        | optional       |                        | required |           |
+| **Uber**     | required    | required        | optional       | `"authorization_code"` | required |           |
+
+##### Token refresh params
+
+| Provider     | `client_id` | `client_secret` | `redirect_uri` | `grant_type`      | `refresh_token` |
+| ------------ | ----------- | --------------- | -------------- | ----------------- | --------------- |
+| **Uber**     | required    | required        | optional       | `"refresh_token"` | required        |
 
 ### Errors
 
