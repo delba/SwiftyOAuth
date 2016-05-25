@@ -35,7 +35,7 @@ public class Provider: NSObject {
     /// The redirect URL.
     public let redirectURL: NSURL
     
-    /// The OAuth flow.
+    /// The response type.
     private let responseType: ResponseType
     
     /// The token.
@@ -44,8 +44,14 @@ public class Provider: NSObject {
         set { UserDefaults.setToken(newValue, forProvider: self) }
     }
     
+    /// The scopes.
+    public var scopes: [String]?
+    
     /// The scope.
-    public var scope: [String]?
+    private var scope: String? {
+        return scopes?.joinWithSeparator(" ")
+    }
+    
     /// The state.
     public var state: String?
     
@@ -108,7 +114,7 @@ public class Provider: NSObject {
         var params = [
             "client_id": clientID,
             "redirect_uri": redirectURL.absoluteString,
-            "scope": scope?.joinWithSeparator(" "),
+            "scope": scope,
             "state": state
         ]
         

@@ -62,7 +62,7 @@ Optionally set the `state` and `scope` properties:
 
 ```swift
 github.state = "asdfjkl;" // An random string used to protect against CSRF attacks.
-github.scope = ["user", "repo"]
+github.scopes = ["user", "repo"]
 ```
 
 Define additional parameters for the authorization request or the token request with `additionalParamsForAuthorization` and `additionalParamsForTokenRequest` respectively:
@@ -117,7 +117,7 @@ The `access_token`, `token_type` and `scope` are available as `Token` properties
 ```swift
 token.accessToken // abc123
 token.tokenType // bearer
-token.scope // [user, repo]
+token.scopes // [user, repo]
 
 token.expiresIn
 token.isExpired
