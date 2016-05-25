@@ -38,8 +38,8 @@ class TokenTests: XCTestCase {
         XCTAssertNotNil(token)
         XCTAssertEqual("accessToken", token?.accessToken)
         XCTAssertEqual("tokenType", token?.tokenType)
-        XCTAssertNotNil(token?.scope)
-        XCTAssertEqual(["first", "second"], token!.scope!)
+        XCTAssertNotNil(token?.scopes)
+        XCTAssertEqual(["first", "second"], token!.scopes!)
     }
     
     func testFailableInit() {
