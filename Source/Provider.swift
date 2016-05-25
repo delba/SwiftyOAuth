@@ -125,6 +125,11 @@ public class Provider: NSObject {
         visit(URL: authorizeURL.queries(params))
     }
     
+    /**
+     Refreshes the token.
+     
+     - parameter completion: The block to be executed when the refresh token process ends.
+     */
     public func refreshToken(completion: Result<Token, Error> -> Void) {
         guard let refreshToken = token?.refreshToken else {
             let error = Error.Other("", "")
