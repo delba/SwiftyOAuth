@@ -154,8 +154,12 @@ public class Provider: NSObject {
         case .Code: handleURLForCodeResponseType(URL, completion: completion)
         }
     }
-    
-    private func visit(URL URL: NSURL) {
+}
+
+// MARK: - Visit URL
+
+private extension Provider {
+    func visit(URL URL: NSURL) {
         if #available(iOS 9.0, *) {
             safariVC = SFSafariViewController(URL: URL, delegate: self)
             Application.presentViewController(safariVC)
@@ -166,9 +170,9 @@ public class Provider: NSObject {
     }
 }
 
-// MARK: - Token Response Type
+// MARK: - Handle Incoming URL
 
-extension Provider {
+private extension Provider {
     func handleURLForTokenResponseType(URL: NSURL, completion: Result<Token, Error> -> Void) {
         let result: Result<Token, Error>
         
@@ -181,11 +185,7 @@ extension Provider {
         
         Queue.main { completion(result) }
     }
-}
-
-// MARK: - Code Response Type
-
-extension Provider {
+    
     func handleURLForCodeResponseType(URL: NSURL, completion: Result<Token, Error> -> Void) {
         guard let code = URL.queries["code"] else {
             let error = Error(URL.queries)
@@ -198,7 +198,35 @@ extension Provider {
         requestToken(.AuthorizationCode(code), completion: completion)
     }
     
-    internal func requestToken(grantType: GrantType, completion: Result<Token, Error> -> Void) {
+    func shouldHandleURL(URL: NSURL, options: [String: AnyObject]) -> Bool {
+        guard isLegitSourceApplication(options) else {
+            return false
+        }
+        
+        guard state == URL.queries["state"] else {
+            return false
+        }
+        
+        return matchingURLs(URL, redirectURL) ? true : false
+    }
+    
+    func isLegitSourceApplication(options: [String: AnyObject]) -> Bool {
+        guard let sourceApplication = options["UIApplicationOpenURLOptionsSourceApplicationKey"] as? String else {
+            return false
+        }
+        
+        return ["com.apple.mobilesafari", "com.apple.SafariViewService"].contains(sourceApplication)
+    }
+    
+    func matchingURLs(a: NSURL, _ b: NSURL) -> Bool {
+        return (a.scheme, a.host, a.path) == (b.scheme, b.host, b.path)
+    }
+}
+
+// MARK: - Request Token
+
+private extension Provider {
+    func requestToken(grantType: GrantType, completion: Result<Token, Error> -> Void) {
         var params = [
             "client_id": clientID,
             "client_secret": clientSecret,
@@ -230,7 +258,7 @@ extension Provider {
     }
 }
 
-// MARK: - Close browser window
+// MARK: - Close Browser Window
 
 @available(iOS 9.0, *)
 extension Provider: SFSafariViewControllerDelegate {
@@ -250,33 +278,5 @@ extension Provider {
         if let completion = completion {
             Queue.main { completion(.Failure(.Cancel)) }
         }
-    }
-}
-
-// MARK: - ShouldHandleOpenURL
-
-extension Provider {
-    private func shouldHandleURL(URL: NSURL, options: [String: AnyObject]) -> Bool {
-        guard isLegitSourceApplication(options) else {
-            return false
-        }
-        
-        guard state == URL.queries["state"] else {
-            return false
-        }
-        
-        return matchingURLs(URL, redirectURL) ? true : false
-    }
-    
-    private func isLegitSourceApplication(options: [String: AnyObject]) -> Bool {
-        guard let sourceApplication = options["UIApplicationOpenURLOptionsSourceApplicationKey"] as? String else {
-            return false
-        }
-        
-        return ["com.apple.mobilesafari", "com.apple.SafariViewService"].contains(sourceApplication)
-    }
-    
-    private func matchingURLs(a: NSURL, _ b: NSURL) -> Bool {
-        return (a.scheme, a.host, a.path) == (b.scheme, b.host, b.path)
     }
 }
