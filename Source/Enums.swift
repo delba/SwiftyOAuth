@@ -1,5 +1,5 @@
 //
-// ResponseType.swift
+// Enums.swift
 //
 // Copyright (c) 2016 Damien (http://delba.io)
 //
@@ -22,7 +22,7 @@
 // SOFTWARE.
 //
 
-// MARK: - AuthorizationFlow
+// MARK: - ResponseType
 
 internal enum ResponseType {
     case Token
@@ -37,6 +37,28 @@ internal enum ResponseType {
         case .Code:
             return [
                 "response_type": "code"
+            ]
+        }
+    }
+}
+
+// MARK: - GrantType
+
+internal enum GrantType {
+    case AuthorizationCode(String)
+    case RefreshToken(String)
+    
+    var params: [String: String] {
+        switch self {
+        case .AuthorizationCode(let code):
+            return [
+                "grant_type": "authorization_code",
+                "code": code
+            ]
+        case .RefreshToken(let token):
+            return [
+                "grant_type": "refresh_token",
+                "refresh_token": token
             ]
         }
     }
