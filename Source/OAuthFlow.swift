@@ -28,10 +28,16 @@ internal enum OAuthFlow {
     case ClientSide
     case ServerSide
     
-    var responseType: String {
+    var params: [String: String] {
         switch self {
-        case .ClientSide: return "token"
-        case .ServerSide: return "code"
+        case .ClientSide:
+            return [
+                "response_type": "token"
+            ]
+        case .ServerSide:
+            return [
+                "response_type": "code"
+            ]
         }
     }
 }

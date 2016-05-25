@@ -109,9 +109,10 @@ public class Provider: NSObject {
             "client_id": clientID,
             "redirect_uri": redirectURL.absoluteString,
             "scope": scope?.joinWithSeparator(" "),
-            "state": state,
-            "response_type": oauthFlow.responseType
+            "state": state
         ]
+        
+        oauthFlow.params.forEach { params[$0] = $1 }
         
         additionalParamsForAuthorization.forEach { params[$0] = String($1) }
         
