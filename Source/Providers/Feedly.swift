@@ -27,8 +27,8 @@ extension Provider {
         return Provider(
             clientID: clientID,
             clientSecret: clientSecret,
-            authorizeURL: "http://cloud.feedly.com/v3/auth/auth",
-            tokenURL: "http://cloud.feedly.com/v3/auth/token",
+            authorizeURL: "https://cloud.feedly.com/v3/auth/auth",
+            tokenURL: "https://cloud.feedly.com/v3/auth/token",
             redirectURL: redirectURL
         )
     }
