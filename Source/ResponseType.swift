@@ -1,5 +1,5 @@
 //
-// OAuthFlow.swift
+// ResponseType.swift
 //
 // Copyright (c) 2016 Damien (http://delba.io)
 //
@@ -24,17 +24,17 @@
 
 // MARK: - AuthorizationFlow
 
-internal enum OAuthFlow {
-    case ClientSide
-    case ServerSide
+internal enum ResponseType {
+    case Token
+    case Code
     
     var params: [String: String] {
         switch self {
-        case .ClientSide:
+        case .Token:
             return [
                 "response_type": "token"
             ]
-        case .ServerSide:
+        case .Code:
             return [
                 "response_type": "code"
             ]
@@ -45,7 +45,7 @@ internal enum OAuthFlow {
 // MARK: - Client-side (implicit) flow
 
 extension Provider {
-    func handleURLForClientSideFlow(URL: NSURL, completion: Result<Token, Error> -> Void) {
+    func handleURLForTokenResponseType(URL: NSURL, completion: Result<Token, Error> -> Void) {
         let result: Result<Token, Error>
         
         if let token = Token(dictionary: URL.fragments) {
@@ -62,7 +62,7 @@ extension Provider {
 // MARK: - Server-side (explicit) flow
 
 extension Provider {
-    func handleURLForServerSideFlow(URL: NSURL, completion: Result<Token, Error> -> Void) {
+    func handleURLForCodeResponseType(URL: NSURL, completion: Result<Token, Error> -> Void) {
         guard let code = URL.queries["code"] else {
             let error = Error(URL.queries)
             

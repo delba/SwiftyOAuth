@@ -36,7 +36,7 @@ public class Provider: NSObject {
     public let redirectURL: NSURL
     
     /// The OAuth flow.
-    private let oauthFlow: OAuthFlow
+    private let responseType: ResponseType
     
     /// The token.
     public internal(set) var token: Token? {
@@ -74,7 +74,7 @@ public class Provider: NSObject {
         self.authorizeURL = NSURL(string: authorizeURL)!
         self.tokenURL = nil
         self.redirectURL = NSURL(string: redirectURL)!
-        self.oauthFlow = .ClientSide
+        self.responseType = .Token
     }
     
     /**
@@ -94,7 +94,7 @@ public class Provider: NSObject {
         self.authorizeURL = NSURL(string: authorizeURL)!
         self.tokenURL = NSURL(string: tokenURL)!
         self.redirectURL = NSURL(string: redirectURL)!
-        self.oauthFlow = .ServerSide
+        self.responseType = .Code
     }
     
     /**
@@ -112,7 +112,7 @@ public class Provider: NSObject {
             "state": state
         ]
         
-        oauthFlow.params.forEach { params[$0] = $1 }
+        responseType.params.forEach { params[$0] = $1 }
         
         additionalParamsForAuthorization.forEach { params[$0] = String($1) }
         
@@ -143,9 +143,9 @@ public class Provider: NSObject {
         
         guard let completion = completion else { return }
         
-        switch oauthFlow {
-        case .ClientSide: handleURLForClientSideFlow(URL, completion: completion)
-        case .ServerSide: handleURLForServerSideFlow(URL, completion: completion)
+        switch responseType {
+        case .Token: handleURLForTokenResponseType(URL, completion: completion)
+        case .Code: handleURLForCodeResponseType(URL, completion: completion)
         }
     }
     
