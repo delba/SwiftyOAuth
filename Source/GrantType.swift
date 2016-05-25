@@ -36,7 +36,7 @@ enum GrantType {
         case .RefreshToken(let token):
             return [
                 "grant_type": "refresh_token",
-                "refres_token": token
+                "refresh_token": token
             ]
         }
     }
