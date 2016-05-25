@@ -22,7 +22,7 @@
 // SOFTWARE.
 //
 
-enum GrantType {
+internal enum GrantType {
     case AuthorizationCode(String)
     case RefreshToken(String)
     

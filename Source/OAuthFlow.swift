@@ -24,7 +24,7 @@
 
 // MARK: - AuthorizationFlow
 
-public enum OAuthFlow {
+internal enum OAuthFlow {
     case ClientSide
     case ServerSide
     

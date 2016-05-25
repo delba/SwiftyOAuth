@@ -36,7 +36,7 @@ public class Provider: NSObject {
     public let redirectURL: NSURL
     
     /// The OAuth flow.
-    public let oauthFlow: OAuthFlow
+    private let oauthFlow: OAuthFlow
     
     /// The token.
     public internal(set) var token: Token? {
