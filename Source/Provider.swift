@@ -160,6 +160,70 @@ public class Provider: NSObject {
     }
 }
 
+// MARK: - Token Response Type
+
+extension Provider {
+    func handleURLForTokenResponseType(URL: NSURL, completion: Result<Token, Error> -> Void) {
+        let result: Result<Token, Error>
+        
+        if let token = Token(dictionary: URL.fragments) {
+            self.token = token
+            result = .Success(token)
+        } else {
+            result = .Failure(Error(URL.fragments))
+        }
+        
+        Queue.main { completion(result) }
+    }
+}
+
+// MARK: - Code Response Type
+
+extension Provider {
+    func handleURLForCodeResponseType(URL: NSURL, completion: Result<Token, Error> -> Void) {
+        guard let code = URL.queries["code"] else {
+            let error = Error(URL.queries)
+            
+            Queue.main { completion(.Failure(error)) }
+            
+            return
+        }
+        
+        requestToken(.AuthorizationCode(code), completion: completion)
+    }
+    
+    internal func requestToken(grantType: GrantType, completion: Result<Token, Error> -> Void) {
+        var params = [
+            "client_id": clientID,
+            "client_secret": clientSecret,
+            "redirect_uri": redirectURL.absoluteString,
+            "state": state
+        ]
+        
+        grantType.params.forEach { params[$0] = $1 }
+        
+        additionalParamsForTokenRequest.forEach { params[$0] = String($1) }
+        
+        HTTP.POST(tokenURL!, parameters: params) { resultJSON in
+            let result: Result<Token, Error>
+            
+            switch resultJSON {
+            case .Success(let json):
+                if let token = Token(dictionary: json) {
+                    self.token = token
+                    result = .Success(token)
+                } else {
+                    result = .Failure(Error(json))
+                }
+            case .Failure(let error):
+                result = .Failure(Error(error))
+            }
+            
+            Queue.main { completion(result) }
+        }
+    }
+}
+
 // MARK: - Close browser window
 
 @available(iOS 9.0, *)
