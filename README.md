@@ -65,10 +65,10 @@ github.state = "asdfjkl;" // An random string used to protect against CSRF attac
 github.scopes = ["user", "repo"]
 ```
 
-Define additional parameters for the authorization request or the token request with `additionalParamsForAuthorization` and `additionalParamsForTokenRequest` respectively:
+Define additional parameters for the authorization request or the token request with `additionalAuthRequestParams` and `additionalTokenRequestParams` respectively:
 
 ```swift
-github.additionalParamsForAuthorization["allow_signup"] = "false"
+github.additionalAuthRequestParams["allow_signup"] = "false"
 ```
 
 Handle the incoming requests in your `AppDelegate`:

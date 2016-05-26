@@ -56,9 +56,9 @@ public class Provider: NSObject {
     public var state: String?
     
     /// The additional parameters for the authorization request.
-    public var additionalParamsForAuthorization:  [String: String] = [:]
+    public var additionalAuthRequestParams: [String: String] = [:]
     /// The additional parameters for the token request.
-    public var additionalParamsForTokenRequest: [String: String] = [:]
+    public var additionalTokenRequestParams: [String: String] = [:]
     
     /// The block to be executed when the authorization process ends.
     private var completion: (Result<Token, Error> -> Void)?
@@ -163,7 +163,7 @@ private extension Provider {
         if let state = state { params["state"] = state }
         
         params.merge(responseType.params)
-        params.merge(additionalParamsForAuthorization)
+        params.merge(additionalAuthRequestParams)
         
         return params
     }
@@ -178,7 +178,7 @@ private extension Provider {
         if let state = state { params["state"] = state }
         
         params.merge(grantType.params)
-        params.merge(additionalParamsForTokenRequest)
+        params.merge(additionalTokenRequestParams)
         
         return params
     }
