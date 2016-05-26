@@ -33,18 +33,21 @@ public struct Token {
         return dictionary["refresh_token"] as? String
     }
     
+    /// The remaining lifetime on the access token.
     public var expiresIn: NSTimeInterval? {
         return dictionary["expires_in"] as? NSTimeInterval
     }
     
+    /// A boolean value indicating whether the token is expired.
     public var isExpired: Bool {
         guard let expiresIn = expiresIn else {
             return false
         }
         
-        return NSDate.timeIntervalSinceReferenceDate() < createdAt + expiresIn
+        return NSDate.timeIntervalSinceReferenceDate() > createdAt + expiresIn
     }
     
+    /// A boolean value indicating whether the token is valid.
     public var isValid: Bool {
         return !isExpired
     }
