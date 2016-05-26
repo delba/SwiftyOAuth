@@ -111,18 +111,7 @@ public class Provider: NSObject {
     public func authorize(completion: Result<Token, Error> -> Void) {
         self.completion = completion
         
-        var params = [
-            "client_id": clientID,
-            "redirect_uri": redirectURL.absoluteString,
-            "scope": scope,
-            "state": state
-        ]
-        
-        responseType.params.forEach { params[$0] = $1 }
-        
-        additionalParamsForAuthorization.forEach { params[$0] = String($1) }
-        
-        visit(URL: authorizeURL.queries(params))
+        visit(URL: authorizeURL.queries(authRequestParams))
     }
     
     /**
@@ -158,6 +147,40 @@ public class Provider: NSObject {
         case .Token: handleURLForTokenResponseType(URL, completion: completion)
         case .Code: handleURLForCodeResponseType(URL, completion: completion)
         }
+    }
+}
+
+// MARK: - Requests Params
+
+private extension Provider {
+    private var authRequestParams: [String: String?] {
+        var params = [
+            "client_id": clientID,
+            "redirect_uri": redirectURL.absoluteString,
+            "scope": scope,
+            "state": state
+        ]
+        
+        responseType.params.forEach { params[$0] = $1 }
+        
+        additionalParamsForAuthorization.forEach { params[$0] = String($1) }
+        
+        return params
+    }
+    
+    func tokenRequestParams(grantType: GrantType) -> [String: String?] {
+        var params = [
+            "client_id": clientID,
+            "client_secret": clientSecret,
+            "redirect_uri": redirectURL.absoluteString,
+            "state": state
+        ]
+        
+        grantType.params.forEach { params[$0] = $1 }
+        
+        additionalParamsForTokenRequest.forEach { params[$0] = String($1) }
+        
+        return params
     }
 }
 
@@ -232,16 +255,7 @@ private extension Provider {
 
 private extension Provider {
     func requestToken(grantType: GrantType, completion: Result<Token, Error> -> Void) {
-        var params = [
-            "client_id": clientID,
-            "client_secret": clientSecret,
-            "redirect_uri": redirectURL.absoluteString,
-            "state": state
-        ]
-        
-        grantType.params.forEach { params[$0] = $1 }
-        
-        additionalParamsForTokenRequest.forEach { params[$0] = String($1) }
+        let params = tokenRequestParams(grantType)
         
         HTTP.POST(tokenURL!, parameters: params) { resultJSON in
             let result: Result<Token, Error>
