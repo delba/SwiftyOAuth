@@ -1,5 +1,5 @@
 //
-// Enums.swift
+// ResponseType.swift
 //
 // Copyright (c) 2016 Damien (http://delba.io)
 //
@@ -22,22 +22,6 @@
 // SOFTWARE.
 //
 
-// MARK: - TokenType
-
-public enum TokenType {
-    case Bearer
-    
-    init?(_ object: AnyObject?) {
-        guard let s = object as? String where s.caseInsensitiveCompare("bearer") == .OrderedSame else {
-            return nil
-        }
-        
-        self = .Bearer
-    }
-}
-
-// MARK: - ResponseType
-
 internal enum ResponseType {
     case Token
     case Code
@@ -51,28 +35,6 @@ internal enum ResponseType {
         case .Code:
             return [
                 "response_type": "code"
-            ]
-        }
-    }
-}
-
-// MARK: - GrantType
-
-internal enum GrantType {
-    case AuthorizationCode(String)
-    case RefreshToken(String)
-    
-    var params: [String: String] {
-        switch self {
-        case .AuthorizationCode(let code):
-            return [
-                "grant_type": "authorization_code",
-                "code": code
-            ]
-        case .RefreshToken(let token):
-            return [
-                "grant_type": "refresh_token",
-                "refresh_token": token
             ]
         }
     }
