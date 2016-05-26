@@ -22,6 +22,20 @@
 // SOFTWARE.
 //
 
+// MARK: - TokenType
+
+public enum TokenType {
+    case Bearer
+    
+    init?(_ object: AnyObject?) {
+        guard let s = object as? String where s.caseInsensitiveCompare("bearer") == .OrderedSame else {
+            return nil
+        }
+        
+        self = .Bearer
+    }
+}
+
 // MARK: - ResponseType
 
 internal enum ResponseType {

@@ -54,8 +54,8 @@ public struct Token {
     }
     
     /// The token type.
-    public var tokenType: String? {
-        return dictionary["token_type"] as? String
+    public var tokenType: TokenType? {
+        return TokenType(dictionary["token_type"])
     }
     
     /// The scopes.

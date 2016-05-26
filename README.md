@@ -116,7 +116,7 @@ The `access_token`, `token_type` and `scope` are available as `Token` properties
 
 ```swift
 token.accessToken // abc123
-token.tokenType // bearer
+token.tokenType // .Bearer
 token.scopes // [user, repo]
 
 token.expiresIn

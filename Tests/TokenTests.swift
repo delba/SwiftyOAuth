@@ -29,7 +29,6 @@ class TokenTests: XCTestCase {
     func testInit() {
         let dictionary: [String: AnyObject] = [
             "access_token": "accessToken",
-            "token_type": "tokenType",
             "scope": "first second"
         ]
         
@@ -37,7 +36,6 @@ class TokenTests: XCTestCase {
         
         XCTAssertNotNil(token)
         XCTAssertEqual("accessToken", token?.accessToken)
-        XCTAssertEqual("tokenType", token?.tokenType)
         XCTAssertNotNil(token?.scopes)
         XCTAssertEqual(["first", "second"], token!.scopes!)
     }
@@ -51,5 +49,31 @@ class TokenTests: XCTestCase {
         let token = Token(dictionary: dictionary)
         
         XCTAssertNil(token)
+    }
+    
+    func testTokenType() {
+        var dictionary: [String: AnyObject]
+        
+        dictionary = [
+            "token_type": "bearer"
+        ]
+        
+        XCTAssert(TokenType(dictionary["token_type"]) == .Bearer)
+        
+        dictionary = [
+            "token_type": "Bearer"
+        ]
+        
+        XCTAssert(TokenType(dictionary["token_type"]) == .Bearer)
+        
+        dictionary = [
+            "token_type": "other"
+        ]
+        
+        XCTAssertNil(TokenType(dictionary["token_type"]))
+        
+        dictionary = [:]
+        
+        XCTAssertNil(TokenType(dictionary["token_type"]))
     }
 }
