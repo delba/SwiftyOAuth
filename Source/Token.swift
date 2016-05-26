@@ -58,7 +58,7 @@ public struct Token {
         return dictionary["token_type"] as? String
     }
     
-    /// The scope.
+    /// The scopes.
     public var scopes: [String]? {
         return scope?.componentsSeparatedByString(" ")
     }
