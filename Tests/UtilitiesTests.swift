@@ -67,17 +67,27 @@ class Utilities: XCTestCase {
         XCTAssertEqual(["foo": "bar", "baz": "value"], url.queries)
         
         url = base.queries([
-            "foo": "bar",
-            "baz": nil
+            "foo": "bar"
         ])
         
         XCTAssertEqual(["foo":"bar"], url.queries)
+    }
+    
+    func testMergeDictionaries() {
+        var params = [
+            "client_id": "clientID",
+            "client_secret": "clientSecret",
+            "redirect_uri": "redirectURL"
+        ]
         
-        url = base.queries([
-            "baz": nil
-        ])
+        params.merge(["bool": "false"])
         
-        XCTAssertEqual([:], url.queries)
+        XCTAssertEqual([
+            "client_id": "clientID",
+            "client_secret": "clientSecret",
+            "redirect_uri": "redirectURL",
+            "bool": "false"
+        ], params)
     }
     
 }

@@ -56,9 +56,9 @@ public class Provider: NSObject {
     public var state: String?
     
     /// The additional parameters for the authorization request.
-    public var additionalParamsForAuthorization:  [String: AnyObject] = [:]
+    public var additionalParamsForAuthorization:  [String: String] = [:]
     /// The additional parameters for the token request.
-    public var additionalParamsForTokenRequest: [String: AnyObject] = [:]
+    public var additionalParamsForTokenRequest: [String: String] = [:]
     
     /// The block to be executed when the authorization process ends.
     private var completion: (Result<Token, Error> -> Void)?
@@ -153,32 +153,32 @@ public class Provider: NSObject {
 // MARK: - Requests Params
 
 private extension Provider {
-    private var authRequestParams: [String: String?] {
+    private var authRequestParams: [String: String] {
         var params = [
             "client_id": clientID,
-            "redirect_uri": redirectURL.absoluteString,
-            "scope": scope,
-            "state": state
+            "redirect_uri": redirectURL.absoluteString
         ]
         
-        responseType.params.forEach { params[$0] = $1 }
+        if let scope = scope { params["scope"] = scope }
+        if let state = state { params["state"] = state }
         
-        additionalParamsForAuthorization.forEach { params[$0] = String($1) }
+        params.merge(responseType.params)
+        params.merge(additionalParamsForAuthorization)
         
         return params
     }
     
-    func tokenRequestParams(grantType: GrantType) -> [String: String?] {
+    func tokenRequestParams(grantType: GrantType) -> [String: String] {
         var params = [
             "client_id": clientID,
-            "client_secret": clientSecret,
-            "redirect_uri": redirectURL.absoluteString,
-            "state": state
+            "client_secret": clientSecret!,
+            "redirect_uri": redirectURL.absoluteString
         ]
         
-        grantType.params.forEach { params[$0] = $1 }
+        if let state = state { params["state"] = state }
         
-        additionalParamsForTokenRequest.forEach { params[$0] = String($1) }
+        params.merge(grantType.params)
+        params.merge(additionalParamsForTokenRequest)
         
         return params
     }

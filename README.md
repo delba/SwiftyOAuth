@@ -68,7 +68,7 @@ github.scopes = ["user", "repo"]
 Define additional parameters for the authorization request or the token request with `additionalParamsForAuthorization` and `additionalParamsForTokenRequest` respectively:
 
 ```swift
-github.additionalParamsForAuthorization["allow_signup"] = false
+github.additionalParamsForAuthorization["allow_signup"] = "false"
 ```
 
 Handle the incoming requests in your `AppDelegate`:

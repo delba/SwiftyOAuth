@@ -78,12 +78,7 @@ internal extension NSURL {
     }
     
     @warn_unused_result
-    func queries(items: [String: String?]) -> NSURL {
-        let items = items.flatMap { (key, value) -> (String, String)? in
-            guard let value = value else { return nil }
-            return (key, value)
-        }
-        
+    func queries(items: [String: String]) -> NSURL {
         let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: false)
         
         components?.queryItems = items.map { (name, value) in
@@ -97,6 +92,12 @@ internal extension NSURL {
         return NSURLComponents(URL: self, resolvingAgainstBaseURL: false)?.queryItems ?? []
     }
     
+}
+
+internal extension Dictionary {
+    mutating func merge(other: Dictionary) {
+        other.forEach { self[$0] = $1 }
+    }
 }
 
 internal extension NSUserDefaults {
