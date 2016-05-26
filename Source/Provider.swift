@@ -153,7 +153,7 @@ public class Provider: NSObject {
 // MARK: - Requests Params
 
 private extension Provider {
-    private var authRequestParams: [String: String] {
+    var authRequestParams: [String: String] {
         var params = [
             "client_id": clientID,
             "redirect_uri": redirectURL.absoluteString
