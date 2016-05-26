@@ -25,20 +25,40 @@
 public enum Error: ErrorType {
     /// The user cancelled the authorization process by closing the web browser window.
     case Cancel
+    
     /// The OAuth application has been suspended.
     case ApplicationSuspended(String)
+    
     /// The provided redirectURL that doesn't match the one registered with the OAuth application.
     case RedirectURIMismatch(String)
+    
     /// The user denied access.
     case AccessDenied(String)
+    
+    /// Some required parameters were not provided.
+    case InvalidRequest(String)
+    
+    /// The scope parameter provided is not a valid subset of scopes.
+    case InvalidScope(String)
+    
     /// The passed `clientID` and/or `clientSecret` are incorrect.
-    case IncorrectClientCredentials(String)
+    case InvalidClient(String)
+    
     /// The verification code is incorrect or expired.
-    case BadVerificationCode(String)
+    case InvalidGrant(String)
+    
+    /// The server returned an unknown error.
+    case ServerError(String)
+    
+    /// The endpoint is temporarily unable to respond.
+    case TemporarilyUnavailable(String)
+    
     /// The application responded with an error that doesn't match any enum cases.
     case Other(String, String)
+    
     /// The application emitted a response which format doesn't match a success one nor an error one.
     case Unknown([String: AnyObject])
+    
     /// An error trigger when making network requests or parsing JSON.
     case NSError(Foundation.NSError)
     
@@ -55,10 +75,18 @@ public enum Error: ErrorType {
             self = .RedirectURIMismatch(description)
         case "access_denied":
             self = .AccessDenied(description)
-        case "incorrect_client_credentials", "invalid_client":
-            self = .IncorrectClientCredentials(description)
-        case "bad_verification_code", "invalid_grant":
-            self = .BadVerificationCode(description)
+        case "invalid_request":
+            self = .InvalidRequest(description)
+        case "invalid_scope":
+            self = .InvalidScope(description)
+        case "invalid_client", "incorrect_client_credentials":
+            self = .InvalidClient(description)
+        case "invalid_grant", "bad_verification_code":
+            self = .InvalidGrant(description)
+        case "server_error":
+            self = .ServerError(description)
+        case "temporarily_unavailable":
+            self = .TemporarilyUnavailable(description)
         default:
             self = .Other(error, description)
         }
