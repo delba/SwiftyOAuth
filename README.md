@@ -19,12 +19,14 @@ instagram.authorize { result in
 ```
 
 <p align="center">
-  <a href="#usage">Usage</a> • <a href="#references">References</a> • <a href="#installation">Installation</a> • <a href="#license">License</a>
+  <a href="#usage">Usage</a> • <a href="#providers">Providers</a> • <a href="#installation">Installation</a> • <a href="#license">License</a>
 </p>
 
 ## Usage
 
 #### Provider
+
+[`Provider.swift`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Provider.swift)
 
 Initialize a provider with the custom URL scheme that you defined:
 
@@ -103,16 +105,18 @@ let uber: Provider = .Uber(
     redirectURL: "foo://callback/uber"
 )
 
-if let token = uber.token where token.isExpired {
-    uber.refreshToken { result in
-        // print("Token:", result.value)
-    }
+// uber.token!.isExpired => true
+
+uber.refreshToken { result in
+    // print("Token:", result.value)
 }
 ```
 
 #### Token
 
-The `access_token`, `token_type` and `scope` are available as `Token` properties:
+[`Token.swift`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Token.swift)
+
+The `access_token`, `token_type`, `scopes`, and informations related to the expiration are available as `Token` properties:
 
 ```swift
 token.accessToken // abc123
@@ -124,13 +128,15 @@ token.isExpired
 token.isValid
 ```
 
-Additionally, you can access all the response data via the `dictionary` property:
+Additionally, you can access all the token data via the `dictionary` property:
 
 ```swift
 token.dictionary // ["access_token": "abc123, "token_type": "bearer", "scope": "user repo"]
 ```
 
 #### Error
+
+[`Error.swift`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Error.swift)
 
 **Error** is a enum that conforms to the `ErrorType` protocol.
 
@@ -142,9 +148,9 @@ token.dictionary // ["access_token": "abc123, "token_type": "bearer", "scope": "
 
 - `AccessDenied` The user rejects access to your application.
 
-- `IncorrectClientCredentials` The `clientID` and or `clientSecret` you passed are incorrect.
+- `InvalidClient` The `clientID` and or `clientSecret` you passed are incorrect.
 
-- `BadVerificationCode` The verification code you passed is incorrect, expired, or doesn't match what you received in the first request for authorization.
+- `InvalidGrant` The verification code you passed is incorrect, expired, or doesn't match what you received in the first request for authorization.
 
 - `Other` The application emitted a response in the form of `{"error": "xxx", "error_description": "yyy"}` but SwiftyOAuth doesn't have a enum for it. The data is available in the associated values.
 
@@ -154,70 +160,16 @@ token.dictionary // ["access_token": "abc123, "token_type": "bearer", "scope": "
 
 #### Providers
 
-- GitHub - [code](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/GitHub.swift), [doc](https://developer.github.com/v3/oauth/)
-- Dribbble - [code](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Dribbble.swift), [doc](http://developer.dribbble.com/v1/oauth/)
-- Instagram - [code](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Instagram.swift), [doc](https://www.instagram.com/developer/authentication/)
-- Uber - [code](), [doc](https://developer.uber.com/docs/authentication#oauth-20)
+[`Providers/`](https://github.com/delba/SwiftyOAuth/tree/master/Source/Providers)
+
+- [`GitHub`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/GitHub.swift)
+- [`Dribbble`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Dribbble.swift)
+- [`Instagram`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Instagram.swift)
+- [`Uber`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Uber.swift)
+- [`Feedly`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Feedly.swift)
 - *More to come...*
 
-### Roadmap
-
-- [x] Support for the client-side (implicit) flow
-- [ ] Store the token in the Keychain
-- [ ] Refresh token (when available)
-
-## References
-
-### Token
-
-| Provider      | `access_token` | `token_type` | `scope`  | `expires_in` | `refresh_token` |
-| ------------- | -------------- | ------------ | -------- | ------------ | --------------- |
-| **GitHub**    | yes            | yes          | yes      | no           | no              |
-| **Dribbble**  | yes            | yes          | yes      | no           | no              |
-| **Instagram** | yes            | no           | no       | no           | no              |
-| **Uber**      | yes            | yes          | yes      | yes          | yes             |
-
-### Parameters
-
-##### Authorize request params
-
-| Provider      | `client_id` | `redirect_uri` | `scope`  | `state`  | Additional parameters |
-| ------------- | ----------- | -------------- | -------- | -------- | --------------------- |
-| **GitHub**    | required    | optional       | optional | optional | `allow_signup`        |
-| **Dribbble**  | required    | optional       | optional | optional |                       |
-| **Instagram** | required    | optional       | optional | optional |                       |
-| **Uber**      | required    | optional       | optional | optional |                       |
-
-##### Token request params
-
-| Provider     | `client_id` | `client_secret` | `redirect_uri` | `grant_type`           | `code`   |  `state`  |
-| ------------ | ----------- | --------------- | -------------- | ---------------------- | -------- |  -------- |
-| **GitHub**   | required    | required        | optional       |                        | required |  optional |
-| **Dribbble** | required    | required        | optional       |                        | required |           |
-| **Uber**     | required    | required        | optional       | `"authorization_code"` | required |           |
-
-##### Token refresh params
-
-| Provider     | `client_id` | `client_secret` | `redirect_uri` | `grant_type`      | `refresh_token` |
-| ------------ | ----------- | --------------- | -------------- | ----------------- | --------------- |
-| **Uber**     | required    | required        | optional       | `"refresh_token"` | required        |
-
-### Errors
-
-##### Authorize request errors
-
-| Provider      | `.ApplicationSuspended` | `.RedirectURIMismatch`  | `.AccessDenied` |
-| ------------- | ----------------------- | ----------------------- | --------------- |
-| **GitHub**    | `application_suspended` | `redirect_uri_mismatch` | `access_denied` |
-| **Dribbble**  | `application_suspended` | `redirect_uri_mismatch` | `access_denied` |
-| **Instagram** |                         |                         | `access_denied` |
-
-##### Token request errors
-
-| Provider     | `.IncorrectClientCredentials`  | `.RedirectURIMismatch`  | `.BadVerificationCode`  |
-| ------------ | ------------------------------ | ----------------------- | ----------------------- |
-| **GitHub**   | `incorrect_client_credentials` | `redirect_uri_mismatch` | `bad_verification_code` |
-| **Dribbble** | `invalid_client`               | `invalid_grant`         | `invalid_grant`         |
+Check the [**wiki**](https://github.com/delba/SwiftyOAuth/wiki) for more informations!
 
 ## Installation
 
@@ -235,7 +187,7 @@ $ brew install carthage
 To integrate **SwiftyOAuth** into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "delba/SwiftyOAuth" >= 0.2
+github "delba/SwiftyOAuth" >= 0.3
 ```
 
 #### CocoaPods
@@ -253,7 +205,7 @@ To integrate **SwiftyOAuth** into your Xcode project using CocoaPods, specify it
 ```ruby
 use_frameworks!
 
-pod 'SwiftyOAuth', '~> 0.2'
+pod 'SwiftyOAuth', '~> 0.3'
 ```
 
 ## License
