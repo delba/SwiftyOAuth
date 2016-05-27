@@ -169,6 +169,7 @@ token.dictionary // ["access_token": "abc123, "token_type": "bearer", "scope": "
 - [`Feedly`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Feedly.swift)
 - [`Vimeo`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Vimeo.swift)
 - [`SoundCloud`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/SoundCloud.swift)
+- [`StackExchange`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/StackExchange.swift)
 - *More to come...*
 
 Check the [**wiki**](https://github.com/delba/SwiftyOAuth/wiki) for more informations!
