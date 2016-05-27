@@ -167,6 +167,7 @@ token.dictionary // ["access_token": "abc123, "token_type": "bearer", "scope": "
 - [`Instagram`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Instagram.swift)
 - [`Uber`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Uber.swift)
 - [`Feedly`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Feedly.swift)
+- [`Vimeo`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Vimeo.swift)
 - *More to come...*
 
 Check the [**wiki**](https://github.com/delba/SwiftyOAuth/wiki) for more informations!
