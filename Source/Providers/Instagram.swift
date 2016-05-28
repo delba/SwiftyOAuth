@@ -30,4 +30,14 @@ extension Provider {
             redirectURL: redirectURL
         )
     }
+    
+    public static func Instagram(clientID clientID: String, clientSecret: String, redirectURL: String) -> Provider {
+        return Provider(
+            clientID: clientID,
+            clientSecret: clientSecret,
+            authorizeURL: "https://api.instagram.com/oauth/authorize",
+            tokenURL: "https://api.instagram.com/oauth/access_token",
+            redirectURL: redirectURL
+        )
+    }
 }
