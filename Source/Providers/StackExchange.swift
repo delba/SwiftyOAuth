@@ -30,4 +30,14 @@ extension Provider {
             redirectURL: redirectURL
         )
     }
+    
+    public static func StackExchange(clientID clientID: String, clientSecret: String, redirectURL: String) -> Provider {
+        return Provider(
+            clientID: clientID,
+            clientSecret: clientSecret,
+            authorizeURL: "https://stackexchange.com/oauth",
+            tokenURL: "https://stackexchange.com/oauth/access_token",
+            redirectURL: redirectURL
+        )
+    }
 }
