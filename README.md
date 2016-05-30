@@ -212,6 +212,10 @@ use_frameworks!
 pod 'SwiftyOAuth', '~> 0.3'
 ```
 
+#### Manually
+1. Download and drop the ```/Sources``` folder in your project.  
+2. Congratulations!
+
 ## License
 
 Copyright (c) 2016 Damien (http://delba.io)
