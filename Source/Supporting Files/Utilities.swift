@@ -41,10 +41,8 @@ extension UIApplication {
         return vc
     }
     
-    func presentViewController(viewController: UIViewController?) {
-        if let vc = viewController {
-            rootViewController?.presentViewController(vc, animated: true, completion: nil)
-        }
+    internal func presentViewController(viewController: UIViewController, animated: Bool = true, completion: (() -> Void)? = nil) {
+        topViewController?.presentViewController(viewController, animated: animated, completion: completion)
     }
 }
 

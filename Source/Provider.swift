@@ -190,7 +190,7 @@ private extension Provider {
     func visit(URL URL: NSURL) {
         if #available(iOS 9.0, *) {
             safariVC = SFSafariViewController(URL: URL, delegate: self)
-            Application.presentViewController(safariVC)
+            Application.presentViewController(safariVC!)
         } else {
             NotificationCenter.addObserver(self, selector: #selector(Provider.didBecomeActive(_:)), name: UIApplicationDidBecomeActiveNotification)
             Application.openURL(URL)
