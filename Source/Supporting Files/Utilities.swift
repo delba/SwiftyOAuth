@@ -30,10 +30,15 @@ internal func == <T: Equatable>(tuple1: (T?, T?, T?), tuple2: (T?, T?, T?)) -> B
     return (tuple1.0 == tuple2.0) && (tuple1.1 == tuple2.1) && (tuple1.2 == tuple2.2)
 }
 
-internal extension UIApplication {
-    var rootViewController: UIViewController? {
-        let root = delegate?.window??.rootViewController
-        return root?.presentedViewController ?? root // Handle presenting an alert over a modal screen
+extension UIApplication {
+    private var topViewController: UIViewController? {
+        var vc = delegate?.window??.rootViewController
+        
+        while let presentedVC = vc?.presentedViewController {
+            vc = presentedVC
+        }
+        
+        return vc
     }
     
     func presentViewController(viewController: UIViewController?) {
