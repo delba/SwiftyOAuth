@@ -28,6 +28,8 @@ instagram.authorize { result in
 
 [`Provider.swift`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Provider.swift)
 
+##### Step 1: Create a provider 
+
 Initialize a provider with the custom URL scheme that you defined:
 
 ```swift
@@ -73,6 +75,8 @@ Define additional parameters for the authorization request or the token request 
 github.additionalAuthRequestParams["allow_signup"] = "false"
 ```
 
+##### Step 2: Handle the incoming requests
+
 Handle the incoming requests in your `AppDelegate`:
 
 ```swift
@@ -82,6 +86,8 @@ func application(app: UIApplication, openURL url: NSURL, options: [String : AnyO
     return true
 }
 ```
+
+##### Step 3: Ask for authorization
 
 Finally, ask for authorization. SwiftyOAuth will either present a `SFSafariViewController` (iOS 9) or open mobile safari.
 
