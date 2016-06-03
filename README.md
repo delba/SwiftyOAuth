@@ -34,19 +34,19 @@ Initialize a provider with the custom URL scheme that you defined:
 // Provider using the server-side (explicit) flow
 
 let provider = Provider(
-    clientID: "***",
+    clientID:     "***",
     clientSecret: "***",
     authorizeURL: "https://example.com/authorize",
-    tokenURL: "https://example.com/authorize/token",
-    redirectURL: "foo://callback"
+    tokenURL:     "https://example.com/authorize/token",
+    redirectURL:  "foo://callback"
 )
 
 // Provider using the client-side (implicit) flow
 
 let provider = Provider(
-    clientID: "***",
+    clientID:     "***",
     authorizeURL: "https://example.com/authorize",
-    redirectURL: "foo://callback"
+    redirectURL:  "foo://callback"
 )
 ```
 
@@ -54,16 +54,16 @@ Alternatively, you can use one of the [built-in providers](https://github.com/de
 
 ```swift
 let github = .GitHub(
-    clientID: "***",
+    clientID:     "***",
     clientSecret: "***",
-    redirectURL: "foo://callback"
+    redirectURL:  "foo://callback"
 )
 ```
 
-Optionally set the `state` and `scope` properties:
+Optionally set the `state` and `scopes` properties:
 
 ```swift
-github.state = "asdfjkl;" // An random string used to protect against CSRF attacks.
+github.state  = "asdfjkl;" // An random string used to protect against CSRF attacks.
 github.scopes = ["user", "repo"]
 ```
 
@@ -88,10 +88,8 @@ Finally, ask for authorization. SwiftyOAuth will either present a `SFSafariViewC
 ```swift
 github.authorize { (result: Result<Token, Error>) -> Void in
     switch result {
-    case .Success(let token):
-        print(token)
-    case .Failure(let error):
-        print(error)
+    case .Success(let token): print(token)
+    case .Failure(let error): print(error)
     }
 }
 ```
@@ -108,7 +106,10 @@ let uber: Provider = .Uber(
 // uber.token!.isExpired => true
 
 uber.refreshToken { result in
-    // print("Token:", result.value)
+    switch result {
+    case .Success(let token): print(token)
+    case .Failure(let error): print(error)
+    }
 }
 ```
 
@@ -120,18 +121,18 @@ The `access_token`, `token_type`, `scopes`, and informations related to the expi
 
 ```swift
 token.accessToken // abc123
-token.tokenType // .Bearer
-token.scopes // [user, repo]
+token.tokenType   // .Bearer
+token.scopes      // ["user", "repo"]
 
-token.expiresIn
-token.isExpired
-token.isValid
+token.expiresIn // 123
+token.isExpired // false
+token.isValid   // true
 ```
 
 Additionally, you can access all the token data via the `dictionary` property:
 
 ```swift
-token.dictionary // ["access_token": "abc123, "token_type": "bearer", "scope": "user repo"]
+token.dictionary // ["access_token": "abc123", "token_type": "bearer", "scope": "user repo"]
 ```
 
 #### Error
@@ -162,15 +163,15 @@ token.dictionary // ["access_token": "abc123, "token_type": "bearer", "scope": "
 
 [`Providers/`](https://github.com/delba/SwiftyOAuth/tree/master/Source/Providers)
 
-- [`GitHub`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/GitHub.swift)
-- [`Dribbble`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Dribbble.swift)
-- [`Instagram`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Instagram.swift)
-- [`Uber`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Uber.swift)
-- [`Feedly`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Feedly.swift)
-- [`Vimeo`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Vimeo.swift)
-- [`SoundCloud`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/SoundCloud.swift)
-- [`StackExchange`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/StackExchange.swift)
-- [`Medium`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Medium.swift)
+- [`GitHub`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/GitHub.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/GitHub)
+- [`Dribbble`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Dribbble.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Dribbble)
+- [`Instagram`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Instagram.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Instagram)
+- [`Uber`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Uber.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Uber)
+- [`Feedly`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Feedly.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Feedly)
+- [`Vimeo`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Vimeo.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Vimeo)
+- [`SoundCloud`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/SoundCloud.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/SoundCloud)
+- [`StackExchange`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/StackExchange.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/StackExchange)
+- [`Medium`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Medium.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Medium)
 - *More to come...*
 
 Check the [**wiki**](https://github.com/delba/SwiftyOAuth/wiki) for more informations!
