@@ -178,6 +178,7 @@ token.dictionary // ["access_token": "abc123", "token_type": "bearer", "scope": 
 - [`SoundCloud`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/SoundCloud.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/SoundCloud)
 - [`StackExchange`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/StackExchange.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/StackExchange)
 - [`Medium`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Medium.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Medium)
+- [`Foursquare`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Foursquare.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Foursquare)
 - *More to come...*
 
 Check the [**wiki**](https://github.com/delba/SwiftyOAuth/wiki) for more informations!
