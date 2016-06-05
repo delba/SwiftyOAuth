@@ -188,6 +188,7 @@ token.dictionary // ["access_token": "abc123", "token_type": "bearer", "scope": 
 - [`Spotify`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Spotify.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Spotify)
 - [`Meetup`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Meetup.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Meetup)
 - [`Strava`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Strava.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Strava)
+- [`Google`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Google.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Google)
 - *More to come...*
 
 Check the [**wiki**](https://github.com/delba/SwiftyOAuth/wiki) for more informations!
