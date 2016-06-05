@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6D1BAFF71CE308370012431F /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1BAFF61CE308370012431F /* Error.swift */; };
 		6D1C3C4A1D0469230096C7C9 /* Stripe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C3C491D0469230096C7C9 /* Stripe.swift */; };
+		6D1C3C4C1D0469A60096C7C9 /* Reddit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C3C4B1D0469A60096C7C9 /* Reddit.swift */; };
 		6D444D441CF487A300709148 /* UtilitiesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D444D431CF487A300709148 /* UtilitiesTests.swift */; };
 		6D444D471CF48D5100709148 /* TokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D444D461CF48D5100709148 /* TokenTests.swift */; };
 		6D444D4B1CF49E2900709148 /* Uber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D444D4A1CF49E2900709148 /* Uber.swift */; };
@@ -47,6 +48,7 @@
 /* Begin PBXFileReference section */
 		6D1BAFF61CE308370012431F /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		6D1C3C491D0469230096C7C9 /* Stripe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stripe.swift; sourceTree = "<group>"; };
+		6D1C3C4B1D0469A60096C7C9 /* Reddit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reddit.swift; sourceTree = "<group>"; };
 		6D444D431CF487A300709148 /* UtilitiesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilitiesTests.swift; sourceTree = "<group>"; };
 		6D444D461CF48D5100709148 /* TokenTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenTests.swift; sourceTree = "<group>"; };
 		6D444D4A1CF49E2900709148 /* Uber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Uber.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				6DE48CF01CE1350C00FB2DC9 /* GitHub.swift */,
 				6DEEA0AC1CE618C000951F94 /* Instagram.swift */,
 				6D5351351CFB7097001BEF41 /* Medium.swift */,
+				6D1C3C4B1D0469A60096C7C9 /* Reddit.swift */,
 				6D5351311CF894E7001BEF41 /* SoundCloud.swift */,
 				6D5351331CF89660001BEF41 /* StackExchange.swift */,
 				6D1C3C491D0469230096C7C9 /* Stripe.swift */,
@@ -299,6 +302,7 @@
 				6DE48D1A1CE21FB500FB2DC9 /* HTTP.swift in Sources */,
 				6D53512D1CF73890001BEF41 /* GrantType.swift in Sources */,
 				6D1C3C4A1D0469230096C7C9 /* Stripe.swift in Sources */,
+				6D1C3C4C1D0469A60096C7C9 /* Reddit.swift in Sources */,
 				6DF7DF881CD539780099C320 /* Provider.swift in Sources */,
 				6D5351361CFB7097001BEF41 /* Medium.swift in Sources */,
 				6DF7DF961CD547C30099C320 /* Utilities.swift in Sources */,
