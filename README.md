@@ -184,6 +184,7 @@ token.dictionary // ["access_token": "abc123", "token_type": "bearer", "scope": 
 - [`Weibo`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Weibo.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Weibo)
 - [`Slack`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Slack.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Slack)
 - [`Dropbox`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Dropbox.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Dropbox)
+- [`Basecamp`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Basecamp.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Basecamp)
 - *More to come...*
 
 Check the [**wiki**](https://github.com/delba/SwiftyOAuth/wiki) for more informations!
