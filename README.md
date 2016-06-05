@@ -186,6 +186,7 @@ token.dictionary // ["access_token": "abc123", "token_type": "bearer", "scope": 
 - [`Dropbox`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Dropbox.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Dropbox)
 - [`Basecamp`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Basecamp.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Basecamp)
 - [`Spotify`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Spotify.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Spotify)
+- [`Meetup`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Meetup.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Meetup)
 - *More to come...*
 
 Check the [**wiki**](https://github.com/delba/SwiftyOAuth/wiki) for more informations!

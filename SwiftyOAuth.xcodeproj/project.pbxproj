@@ -15,6 +15,7 @@
 		6D1C3C521D046D4E0096C7C9 /* Dropbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C3C511D046D4E0096C7C9 /* Dropbox.swift */; };
 		6D1C3C541D046E8F0096C7C9 /* Basecamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C3C531D046E8F0096C7C9 /* Basecamp.swift */; };
 		6D1C3C561D046F5F0096C7C9 /* Spotify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C3C551D046F5F0096C7C9 /* Spotify.swift */; };
+		6D1C3C581D046FD10096C7C9 /* Meetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C3C571D046FD10096C7C9 /* Meetup.swift */; };
 		6D444D441CF487A300709148 /* UtilitiesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D444D431CF487A300709148 /* UtilitiesTests.swift */; };
 		6D444D471CF48D5100709148 /* TokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D444D461CF48D5100709148 /* TokenTests.swift */; };
 		6D444D4B1CF49E2900709148 /* Uber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D444D4A1CF49E2900709148 /* Uber.swift */; };
@@ -59,6 +60,7 @@
 		6D1C3C511D046D4E0096C7C9 /* Dropbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dropbox.swift; sourceTree = "<group>"; };
 		6D1C3C531D046E8F0096C7C9 /* Basecamp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Basecamp.swift; sourceTree = "<group>"; };
 		6D1C3C551D046F5F0096C7C9 /* Spotify.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spotify.swift; sourceTree = "<group>"; };
+		6D1C3C571D046FD10096C7C9 /* Meetup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Meetup.swift; sourceTree = "<group>"; };
 		6D444D431CF487A300709148 /* UtilitiesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilitiesTests.swift; sourceTree = "<group>"; };
 		6D444D461CF48D5100709148 /* TokenTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenTests.swift; sourceTree = "<group>"; };
 		6D444D4A1CF49E2900709148 /* Uber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Uber.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				6DE48CF01CE1350C00FB2DC9 /* GitHub.swift */,
 				6DEEA0AC1CE618C000951F94 /* Instagram.swift */,
 				6D5351351CFB7097001BEF41 /* Medium.swift */,
+				6D1C3C571D046FD10096C7C9 /* Meetup.swift */,
 				6D1C3C4B1D0469A60096C7C9 /* Reddit.swift */,
 				6D1C3C4F1D046C9F0096C7C9 /* Slack.swift */,
 				6D5351311CF894E7001BEF41 /* SoundCloud.swift */,
@@ -327,6 +330,7 @@
 				6D1C3C561D046F5F0096C7C9 /* Spotify.swift in Sources */,
 				6D5351291CF73876001BEF41 /* TokenType.swift in Sources */,
 				6D1C3C521D046D4E0096C7C9 /* Dropbox.swift in Sources */,
+				6D1C3C581D046FD10096C7C9 /* Meetup.swift in Sources */,
 				6D444D4B1CF49E2900709148 /* Uber.swift in Sources */,
 				6D1C3C4E1D046B620096C7C9 /* Weibo.swift in Sources */,
 				6D5351301CF893E0001BEF41 /* Vimeo.swift in Sources */,
