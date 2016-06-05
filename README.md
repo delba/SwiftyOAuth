@@ -179,6 +179,7 @@ token.dictionary // ["access_token": "abc123", "token_type": "bearer", "scope": 
 - [`StackExchange`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/StackExchange.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/StackExchange)
 - [`Medium`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Medium.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Medium)
 - [`Foursquare`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Foursquare.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Foursquare)
+- [`Stripe`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Stripe.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Stripe)
 - *More to come...*
 
 Check the [**wiki**](https://github.com/delba/SwiftyOAuth/wiki) for more informations!
