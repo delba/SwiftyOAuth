@@ -182,6 +182,7 @@ token.dictionary // ["access_token": "abc123", "token_type": "bearer", "scope": 
 - [`Stripe`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Stripe.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Stripe)
 - [`Reddit`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Reddit.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Reddit)
 - [`Weibo`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Weibo.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Weibo)
+- [`Slack`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Slack.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Slack)
 - *More to come...*
 
 Check the [**wiki**](https://github.com/delba/SwiftyOAuth/wiki) for more informations!
