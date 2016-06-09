@@ -24,7 +24,6 @@
 
 internal let Application = UIApplication.sharedApplication()
 internal let NotificationCenter = NSNotificationCenter.defaultCenter()
-internal let UserDefaults = NSUserDefaults.standardUserDefaults()
 
 internal func == <T: Equatable>(tuple1: (T?, T?, T?), tuple2: (T?, T?, T?)) -> Bool {
     return (tuple1.0 == tuple2.0) && (tuple1.1 == tuple2.1) && (tuple1.2 == tuple2.2)
@@ -100,27 +99,6 @@ internal extension NSURL {
 internal extension Dictionary {
     mutating func merge(other: Dictionary) {
         other.forEach { self[$0] = $1 }
-    }
-}
-
-internal extension NSUserDefaults {
-    func getTokenForProvider(provider: Provider) -> Token? {
-        let key = keyForProvider(provider)
-        
-        guard let dictionary = dictionaryForKey(key) else {
-            return nil
-        }
-        
-        return Token(dictionary: dictionary)
-    }
-    
-    func setToken(token: Token?, forProvider provider: Provider) {
-        let key = keyForProvider(provider)
-        setObject(token?.dictionary, forKey: key)
-    }
-    
-    private func keyForProvider(provider: Provider) -> String {
-        return "io.delba.SwiftyOAuth.\(provider.authorizeURL.absoluteString)"
     }
 }
 
