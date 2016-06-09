@@ -50,8 +50,9 @@ struct HTTP {
             }
             
             guard let data = data else {
-                let error = Error.HTTPNoDataReturned("No data received for \(parameters.description)")
-                completion(.Failure(error.nsError))
+                // TODO better error than that...
+                let error = NSError(domain: "No data received", code: 42, userInfo: nil)
+                completion(.Failure(error))
                 return
             }
             
@@ -60,8 +61,8 @@ struct HTTP {
                 if let dictionary = object as? JSON {
                     completion(.Success(dictionary))
                 } else {
-                    let error = Error.JSONDeserializationError("Cannot initialize token due to deseralization error")
-                    completion(.Failure(error.nsError))
+                    let error = NSError(domain: "Cannot initialize token", code: 42, userInfo: nil)
+                    completion(.Failure(error))
                 }
             } catch {
                 completion(.Failure(error as NSError))
