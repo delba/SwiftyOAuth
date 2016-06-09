@@ -30,11 +30,13 @@ class UserDefaultTokenStoreTests: XCTestCase {
     func testStoreTokenForProvider(){
         let token = Token.mockToken()
         let provider = Provider.mockProvider()
-        let tokenStore = UserDefaultsTokenStore()
+        
+        let innerStore = NSUserDefaults.standardUserDefaults()
+        let tokenStore = UserDefaultsTokenStore(userDefaults: innerStore)
         
         tokenStore.setToken(token, forProvider: provider)
         
-        let savedInformation = NSUserDefaults.standardUserDefaults().dictionaryForKey(tokenStore.keyForProvider(provider))
+        let savedInformation = innerStore.dictionaryForKey(tokenStore.keyForProvider(provider))
         
         XCTAssertNotNil(savedInformation)
         XCTAssert(savedInformation!["access_token"] as? String == token?.accessToken, "Access token mismatch")
@@ -46,7 +48,9 @@ class UserDefaultTokenStoreTests: XCTestCase {
     func testGetTokenForProvider(){
         let token = Token.mockToken()
         let provider = Provider.mockProvider()
-        let tokenStore = UserDefaultsTokenStore()
+        
+        let innerStore = NSUserDefaults.standardUserDefaults()
+        let tokenStore = UserDefaultsTokenStore(userDefaults: innerStore)
         
         tokenStore.setToken(token, forProvider: provider)
         
@@ -64,11 +68,13 @@ class UbiquitousKeyValueStoreTests: XCTestCase {
     func testStoreTokenForProvider(){
         let token = Token.mockToken()
         let provider = Provider.mockProvider()
-        let tokenStore = UbiquitousKeyValueStore()
+        
+        let innerStore = NSUbiquitousKeyValueStore.defaultStore()
+        let tokenStore = UbiquitousKeyValueStore(ubiquitousKeyValueStore: innerStore)
         
         tokenStore.setToken(token, forProvider: provider)
         
-        let savedInformation = NSUbiquitousKeyValueStore.defaultStore().dictionaryForKey(tokenStore.keyForProvider(provider))
+        let savedInformation = innerStore.dictionaryForKey(tokenStore.keyForProvider(provider))
         
         XCTAssertNotNil(savedInformation)
         XCTAssert(savedInformation!["access_token"] as? String == token?.accessToken, "Access token mismatch")
