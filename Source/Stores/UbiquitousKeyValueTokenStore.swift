@@ -16,7 +16,7 @@ public class UbiquitousKeyValueStore: TokenStore {
     }
     
     public func getTokenForProvider(provider: Provider) -> Token? {
-        // Before reading the out information from the iCloud Key Value store it is important to synchronize cached information with -synchronize
+        // Before reading the information from the iCloud Key Value store it is important to synchronize cached information with -synchronize
         ubiquitousKeyValueStore.synchronize()
         
         let key = keyForProvider(provider)
