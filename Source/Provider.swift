@@ -269,7 +269,7 @@ private extension Provider {
                     result = .Failure(Error(json))
                 }
             case .Failure(let error):
-                result = .Failure(Error.NSError(error))
+                result = .Failure(Error(error))
             }
             
             Queue.main { completion(result) }
