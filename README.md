@@ -141,6 +141,15 @@ Additionally, you can access all the token data via the `dictionary` property:
 token.dictionary // ["access_token": "abc123", "token_type": "bearer", "scope": "user repo"]
 ```
 
+#### Token Store
+
+Every `Token` is stored and retrieved through an object that conforms to the `TokenStore` protocol. 
+
+The library currently supports following `TokenStore`s:
+
+* `NSUserDefaults`: the default *Token Store*. Information are saved locally and, if properly initialized, to your *App Group*.
+* `NSUbiquitousKeyValueStore`: the information are saved in the *iCloud Key Value Store*. Before you use this *Token Store* make sure your project has been properly configured as described [here](https://developer.apple.com/library/mac/documentation/General/Conceptual/iCloudDesignGuide/Chapters/iCloudFundametals.html#//apple_ref/doc/uid/TP40012094-CH6-SW26).
+
 #### Error
 
 [`Error.swift`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Error.swift)
