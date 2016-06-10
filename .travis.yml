@@ -4,6 +4,12 @@ branches:
   only:
     - master
 
+before_install:
+  - git submodule update --init --recursive
+  - brew update || brew update
+  - brew outdated carthage || brew upgrade carthage
+  - sh bin/setup
+
 xcode_project: SwiftyOAuth.xcodeproj
 xcode_scheme: SwiftyOAuthTests
 osx_image: xcode7.3
