@@ -38,9 +38,8 @@ public enum SwiftyOAuthErrorCode: Int {
     case Other = 10
     case Unknown = 11
     case NSError = 12
-    case InvalidAccessToken = 13
-    case JSONDeserialization = 14
-    case HTTPNoDataReturned = 15
+    case JSONDeserialization = 13
+    case HTTPNoDataReturned = 14
 }
 
 public enum Error: ErrorType {
@@ -73,9 +72,6 @@ public enum Error: ErrorType {
     
     /// The endpoint is temporarily unable to respond.
     case TemporarilyUnavailable(String)
-    
-    /// The application has an invalid access token. This error is returned when the invalid state of the token requires a new authorization process. Expired access token are already properly handled in order to be refreshed
-    case InvalidAccessToken(String)
     
     /// An error occured while deserializing a JSON response.
     case JSONDeserializationError(String)
@@ -152,13 +148,11 @@ extension Error {
             return description
         case Other(let error, let description):
             return "\(error) : \(description)"
-        case InvalidAccessToken(let description):
-            return description
         case Unknown(let dictionary):
             return dictionary.description
         case JSONDeserializationError(let description):
             return description
-        case .HTTPNoDataReturned(let description):
+        case HTTPNoDataReturned(let description):
             return description
         default:
             return NSLocalizedString("Not available error description", comment: "The message for errors with no description")
@@ -187,15 +181,13 @@ extension Error {
             return SwiftyOAuthErrorCode.ServerError
         case TemporarilyUnavailable( _):
             return SwiftyOAuthErrorCode.TemporarilyUnavailable
-        case .InvalidAccessToken( _):
-            return SwiftyOAuthErrorCode.InvalidAccessToken
         case Other( _):
             return SwiftyOAuthErrorCode.Other
         case Unknown( _):
             return SwiftyOAuthErrorCode.Unknown
         case JSONDeserializationError( _):
             return SwiftyOAuthErrorCode.JSONDeserialization
-        case .HTTPNoDataReturned( _):
+        case HTTPNoDataReturned( _):
             return SwiftyOAuthErrorCode.HTTPNoDataReturned
         default:
             return SwiftyOAuthErrorCode.Unknown
