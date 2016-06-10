@@ -101,7 +101,7 @@ public class Provider: NSObject {
         self.clientID = clientID
         self.clientSecret = clientSecret
         self.authorizeURL = NSURL(string: authorizeURL)!
-        self.tokenURL = NSURL(string: tokenURL)!
+        self.tokenURL = NSURL(string: tokenURL)
         self.redirectURL = NSURL(string: redirectURL)!
         self.responseType = .Code
     }
@@ -171,10 +171,15 @@ private extension Provider {
         return params
     }
     
-    func tokenRequestParams(grantType: GrantType) -> [String: String] {
+    func tokenRequestParams(grantType: GrantType) -> [String: String]? {
+        
+        guard let clientSecret = clientSecret else {
+            return nil
+        }
+        
         var params = [
             "client_id": clientID,
-            "client_secret": clientSecret!,
+            "client_secret": clientSecret,
             "redirect_uri": redirectURL.absoluteString
         ]
         
@@ -258,24 +263,31 @@ private extension Provider {
 
 private extension Provider {
     func requestToken(grantType: GrantType, completion: Result<Token, Error> -> Void) {
-        let params = tokenRequestParams(grantType)
+        guard let params = tokenRequestParams(grantType) else {
+            Queue.main {completion(.Failure(Error.InvalidRequest("Wrong token information provided"))) }
+            return
+        }
         
-        HTTP.POST(tokenURL!, parameters: params) { resultJSON in
-            let result: Result<Token, Error>
-            
-            switch resultJSON {
-            case .Success(let json):
-                if let token = Token(dictionary: json) {
-                    self.token = token
-                    result = .Success(token)
-                } else {
-                    result = .Failure(Error(json))
+        if let tokenURL = tokenURL {
+            HTTP.POST(tokenURL, parameters: params) { [unowned self] resultJSON in
+                let result: Result<Token, Error>
+                
+                switch resultJSON {
+                case .Success(let json):
+                    if let token = Token(dictionary: json) {
+                        self.token = token
+                        result = .Success(token)
+                    } else {
+                        result = .Failure(Error(json))
+                    }
+                case .Failure(let error):
+                    result = .Failure(Error(error))
                 }
-            case .Failure(let error):
-                result = .Failure(Error(error))
+                
+                Queue.main { completion(result) }
             }
-            
-            Queue.main { completion(result) }
+        } else {
+            Queue.main {completion(.Failure(Error.InvalidRequest("Wrong token URL provided: \(self.tokenURL)"))) }
         }
     }
 }
