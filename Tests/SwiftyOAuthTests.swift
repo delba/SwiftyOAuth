@@ -26,5 +26,5 @@ import XCTest
 @testable import SwiftyOAuth
 
 class SwiftyOAuthTests: XCTestCase {
-    
+
 }

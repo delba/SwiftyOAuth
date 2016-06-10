@@ -25,12 +25,7 @@
 typealias JSON = [String: AnyObject]
 
 struct HTTP {
-    static func POST(URL: NSURL, parameters: [String: String?], completion: Result<JSON, NSError> -> Void) {
-        let parameters = parameters.flatMap { (key, value) -> (String, String)? in
-            guard let value = value else { return nil }
-            return (key, value)
-        }
-        
+    static func POST(URL: NSURL, parameters: [String: String], completion: Result<JSON, NSError> -> Void) {
         let request = NSMutableURLRequest(URL: URL)
         
         request.setValue("application/json", forHTTPHeaderField: "Accept")
@@ -50,9 +45,8 @@ struct HTTP {
             }
             
             guard let data = data else {
-                // TODO better error than that...
-                let error = NSError(domain: "No data received", code: 42, userInfo: nil)
-                completion(.Failure(error))
+                let error = Error.HTTPNoDataReturned("No data received for \(parameters.description)")
+                completion(.Failure(error.nsError))
                 return
             }
             
@@ -61,8 +55,8 @@ struct HTTP {
                 if let dictionary = object as? JSON {
                     completion(.Success(dictionary))
                 } else {
-                    let error = NSError(domain: "Cannot initialize token", code: 42, userInfo: nil)
-                    completion(.Failure(error))
+                    let error = Error.JSONDeserializationError("Cannot initialize token due to deseralization error")
+                    completion(.Failure(error.nsError))
                 }
             } catch {
                 completion(.Failure(error as NSError))

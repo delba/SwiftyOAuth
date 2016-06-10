@@ -22,6 +22,26 @@
 // SOFTWARE.
 //
 
+public let SwiftyOAuthErrorDomain = "SwiOAuthErrorDomain"
+
+public enum SwiftyOAuthErrorCode: Int {
+    case Cancel = 0
+    case ApplicationSuspended = 1
+    case RedirectURIMismatch = 2
+    case AccessDenied = 3
+    case InvalidRequest = 4
+    case InvalidScope = 5
+    case InvalidClient = 6
+    case InvalidGrant = 7
+    case ServerError = 8
+    case TemporarilyUnavailable = 9
+    case Other = 10
+    case Unknown = 11
+    case NSError = 12
+    case JSONDeserialization = 13
+    case HTTPNoDataReturned = 14
+}
+
 public enum Error: ErrorType {
     /// The user cancelled the authorization process by closing the web browser window.
     case Cancel
@@ -52,6 +72,12 @@ public enum Error: ErrorType {
     
     /// The endpoint is temporarily unable to respond.
     case TemporarilyUnavailable(String)
+    
+    /// An error occured while deserializing a JSON response.
+    case JSONDeserializationError(String)
+    
+    /// An error occured while parsing an HTTP response which returned nothing.
+    case HTTPNoDataReturned(String)
     
     /// The application responded with an error that doesn't match any enum cases.
     case Other(String, String)
@@ -94,5 +120,95 @@ public enum Error: ErrorType {
     
     init(_ error: Foundation.NSError) {
         self = .NSError(error)
+    }
+}
+
+extension Error {
+    private func description() -> String {
+        switch self {
+        case Cancel:
+            return "Operation cancelled"
+        case ApplicationSuspended(let description):
+            return description
+        case RedirectURIMismatch(let description):
+            return description
+        case AccessDenied(let description):
+            return description
+        case InvalidRequest(let description):
+            return description
+        case InvalidScope(let description):
+            return description
+        case InvalidClient(let description):
+            return description
+        case InvalidGrant(let description):
+            return description
+        case ServerError(let description):
+            return description
+        case TemporarilyUnavailable(let description):
+            return description
+        case Other(let error, let description):
+            return "\(error) : \(description)"
+        case Unknown(let dictionary):
+            return dictionary.description
+        case JSONDeserializationError(let description):
+            return description
+        case HTTPNoDataReturned(let description):
+            return description
+        default:
+            return NSLocalizedString("Not available error description", comment: "The message for errors with no description")
+        }
+    }
+    
+    private func code() -> SwiftyOAuthErrorCode {
+        switch self {
+        case Cancel:
+            return SwiftyOAuthErrorCode.Cancel
+        case ApplicationSuspended( _):
+            return SwiftyOAuthErrorCode.ApplicationSuspended
+        case RedirectURIMismatch( _):
+            return SwiftyOAuthErrorCode.RedirectURIMismatch
+        case AccessDenied( _):
+            return SwiftyOAuthErrorCode.AccessDenied
+        case InvalidRequest( _):
+            return SwiftyOAuthErrorCode.InvalidRequest
+        case InvalidScope( _):
+            return SwiftyOAuthErrorCode.InvalidScope
+        case InvalidClient( _):
+            return SwiftyOAuthErrorCode.InvalidClient
+        case InvalidGrant( _):
+            return SwiftyOAuthErrorCode.InvalidGrant
+        case ServerError( _):
+            return SwiftyOAuthErrorCode.ServerError
+        case TemporarilyUnavailable( _):
+            return SwiftyOAuthErrorCode.TemporarilyUnavailable
+        case Other( _):
+            return SwiftyOAuthErrorCode.Other
+        case Unknown( _):
+            return SwiftyOAuthErrorCode.Unknown
+        case JSONDeserializationError( _):
+            return SwiftyOAuthErrorCode.JSONDeserialization
+        case HTTPNoDataReturned( _):
+            return SwiftyOAuthErrorCode.HTTPNoDataReturned
+        default:
+            return SwiftyOAuthErrorCode.Unknown
+        }
+    }
+
+    private func domain() -> String {
+        return SwiftyOAuthErrorDomain
+    }
+    
+    public var nsError: Foundation.NSError {
+        switch self {
+        case NSError(let error):
+            return error
+        default:
+            var userInfo = [String: AnyObject]()
+            
+            userInfo[NSLocalizedDescriptionKey] = NSLocalizedString(description(), comment: "")
+            
+            return Foundation.NSError(domain: SwiftyOAuthErrorDomain, code: code().rawValue, userInfo: userInfo)
+        }
+
     }
 }

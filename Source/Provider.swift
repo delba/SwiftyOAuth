@@ -260,7 +260,7 @@ private extension Provider {
     func requestToken(grantType: GrantType, completion: Result<Token, Error> -> Void) {
         let params = tokenRequestParams(grantType)
         
-        HTTP.POST(tokenURL!, parameters: params) { resultJSON in
+        HTTP.POST(tokenURL!, parameters: params) { [unowned self] resultJSON in
             let result: Result<Token, Error>
             
             switch resultJSON {
@@ -274,7 +274,6 @@ private extension Provider {
             case .Failure(let error):
                 result = .Failure(Error(error))
             }
-            
             Queue.main { completion(result) }
         }
     }
