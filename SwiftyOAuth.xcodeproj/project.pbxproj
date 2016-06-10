@@ -57,18 +57,6 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		E5BE04961D0AE8D7004C5969 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		6D1BAFF61CE308370012431F /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		6D1C3C491D0469230096C7C9 /* Stripe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stripe.swift; sourceTree = "<group>"; };
@@ -282,7 +270,6 @@
 				6DF7DF731CD5393F0099C320 /* Sources */,
 				6DF7DF741CD5393F0099C320 /* Frameworks */,
 				6DF7DF751CD5393F0099C320 /* Resources */,
-				E5BE04961D0AE8D7004C5969 /* CopyFiles */,
 			);
 			buildRules = (
 			);
