@@ -77,12 +77,12 @@ public class Provider: NSObject {
      
      - returns: A newly created provider.
      */
-    public init(clientID: String, authorizeURL: String, redirectURL: String) {
+    public init(clientID: String, authorizeURL: URLStringConvertible, redirectURL: URLStringConvertible) {
         self.clientID = clientID
         self.clientSecret = nil
-        self.authorizeURL = NSURL(string: authorizeURL)!
+        self.authorizeURL = NSURL(string: authorizeURL.URLString)!
         self.tokenURL = nil
-        self.redirectURL = NSURL(string: redirectURL)!
+        self.redirectURL = NSURL(string: redirectURL.URLString)!
         self.responseType = .Token
     }
     
@@ -97,12 +97,12 @@ public class Provider: NSObject {
      
      - returns: A newly created provider.
      */
-    public init(clientID: String, clientSecret: String, authorizeURL: String, tokenURL: String, redirectURL: String) {
+    public init(clientID: String, clientSecret: String, authorizeURL: URLStringConvertible, tokenURL: URLStringConvertible, redirectURL: URLStringConvertible) {
         self.clientID = clientID
         self.clientSecret = clientSecret
-        self.authorizeURL = NSURL(string: authorizeURL)!
-        self.tokenURL = NSURL(string: tokenURL)!
-        self.redirectURL = NSURL(string: redirectURL)!
+        self.authorizeURL = NSURL(string: authorizeURL.URLString)!
+        self.tokenURL = NSURL(string: tokenURL.URLString)!
+        self.redirectURL = NSURL(string: redirectURL.URLString)!
         self.responseType = .Code
     }
     

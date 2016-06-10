@@ -29,6 +29,24 @@ internal func == <T: Equatable>(tuple1: (T?, T?, T?), tuple2: (T?, T?, T?)) -> B
     return (tuple1.0 == tuple2.0) && (tuple1.1 == tuple2.1) && (tuple1.2 == tuple2.2)
 }
 
+public protocol URLStringConvertible {
+    var URLString: String { get }
+}
+
+extension String: URLStringConvertible {
+    public var URLString: String {
+        return self
+    }
+}
+
+extension NSURL: URLStringConvertible {
+    public var URLString: String {
+        return absoluteString
+    }
+}
+
+// MARK: - UIApplication
+
 extension UIApplication {
     private var topViewController: UIViewController? {
         var vc = delegate?.window??.rootViewController
