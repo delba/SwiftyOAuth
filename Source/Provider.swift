@@ -65,8 +65,8 @@ public class Provider: NSObject {
     
     private var safariVC: UIViewController?
     
-    /// The Token Store to use to store the token.
-    private var tokenStore: TokenStore
+    /// The Token Store used to store the token.
+    public var tokenStore: TokenStore = NSUserDefaults.standardUserDefaults()
     
     /**
      Creates a provider that uses the client-side (implicit) flow.
@@ -74,18 +74,16 @@ public class Provider: NSObject {
      - parameter clientID:     The client ID.
      - parameter authorizeURL: The authorization request URL.
      - parameter redirectURL:  The redirect URL.
-     - parameter tokenStore:   The Token Store to use to store the Token.
      
      - returns: A newly created provider.
      */
-    public init(clientID: String, authorizeURL: String, redirectURL: String, tokenStore: TokenStore = UserDefaultsTokenStore()) {
+    public init(clientID: String, authorizeURL: String, redirectURL: String) {
         self.clientID = clientID
         self.clientSecret = nil
         self.authorizeURL = NSURL(string: authorizeURL)!
         self.tokenURL = nil
         self.redirectURL = NSURL(string: redirectURL)!
         self.responseType = .Token
-        self.tokenStore = tokenStore
     }
     
     /**
@@ -96,18 +94,16 @@ public class Provider: NSObject {
      - parameter authorizeURL: The authorization request URL.
      - parameter tokenURL:     The token request URL.
      - parameter redirectURL:  The redirect URL.
-     - parameter tokenStore:   The Token Store to use to store the Token.
      
      - returns: A newly created provider.
      */
-    public init(clientID: String, clientSecret: String, authorizeURL: String, tokenURL: String, redirectURL: String, tokenStore: TokenStore = UserDefaultsTokenStore()) {
+    public init(clientID: String, clientSecret: String, authorizeURL: String, tokenURL: String, redirectURL: String) {
         self.clientID = clientID
         self.clientSecret = clientSecret
         self.authorizeURL = NSURL(string: authorizeURL)!
         self.tokenURL = NSURL(string: tokenURL)!
         self.redirectURL = NSURL(string: redirectURL)!
         self.responseType = .Code
-        self.tokenStore = tokenStore
     }
     
     /**
