@@ -23,32 +23,8 @@
 //
 
 import XCTest
-import OHHTTPStubs
 @testable import SwiftyOAuth
 
 class SwiftyOAuthTests: XCTestCase {
-    let bundle = NSBundle(forClass: SwiftyOAuthTests.self)
-    
-    let token: Token? = {
-        let dictionary = [
-            "access_token": "THE_STUB_ACCESS_TOKEN",
-            "refresh_token": "THE_STUB_REFRESH_TOKEN",
-            "expires_in": NSDate().timeIntervalSinceNow + 3600,
-            "token_type": "Bearer"
-        ]
-        
-        return Token(dictionary: dictionary as! [String : AnyObject])
-    }()
-    
-    let expiredToken: Token? = {
-        let dictionary = [
-            "access_token": "THE_STUB_ACCESS_TOKEN",
-            "refresh_token": "THE_STUB_REFRESH_TOKEN",
-            "expires_in": -10,
-            "created_at": NSDate().timeIntervalSinceReferenceDate,
-            "token_type": "Bearer"
-        ]
-        
-        return Token(dictionary: dictionary as! [String : AnyObject])
-    }()
+
 }
