@@ -151,6 +151,50 @@ public class Provider: NSObject {
         case .Code: handleURLForCodeResponseType(URL, completion: completion)
         }
     }
+    
+    /// Alters the given request by adding authentication, if possible.
+    ///
+    /// In case of an expired access token and the presence of a refresh token,
+    /// automatically tries to refresh the access token. If refreshing the
+    /// access token fails, the access token is cleared.
+    ///
+    /// **Note:** If the access token must be refreshed, network I/O is
+    ///     performed.
+    ///
+    /// **Note:** The completion closure may be invoked on any thread.
+    ///
+    /// - parameter request: An unauthenticated NSURLRequest.
+    /// - parameter completion: A callback to invoke with the authenticated request.
+    public func authenticateRequest(request: NSURLRequest, completion: Result<NSURLRequest, NSError> -> ()) {
+        if let token = token {
+            if token.isValid {
+                let mutableRequest = request.mutableCopy() as! NSMutableURLRequest
+                mutableRequest.setAccessToken(token)
+                completion(Result.Success(mutableRequest))
+            } else {
+                // Invalid token.
+                if token.isExpired {
+                    // It is expired. Let's refresh it.
+                    refreshToken({ [weak self] (result) in
+                        switch result {
+                        case .Success( _):
+                            self?.authenticateRequest(request, completion: completion)
+                        case .Failure(let error):
+                            completion(Result.Failure(error.nsError))
+                        }
+                    })
+                } else {
+                    // Not handled. Complete with error.
+                    let error = Error.InvalidAccessToken("Access token is invalid. Please rissue a new access token")
+                    completion(Result.Failure(error.nsError))
+                }
+            }
+        } else {
+            // No token available. The client must start an authentication process properly through -authorize method
+            let error = Error.InvalidAccessToken("No access token found. Please reissue a new access token through -authorize method")
+            completion(Result.Failure(error.nsError))
+        }
+    }
 }
 
 // MARK: - Requests Params

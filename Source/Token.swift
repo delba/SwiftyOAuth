@@ -85,3 +85,14 @@ public struct Token {
         self.dictionary = dictionary
     }
 }
+
+extension NSMutableURLRequest {
+    public func setAccessToken(token: Token) -> Void {
+        if let type = token.tokenType {
+            switch type {
+            case TokenType.Bearer:
+                self.setValue("Bearer \(token.accessToken)", forHTTPHeaderField: "Authorization")
+            }
+        }
+    }
+}
