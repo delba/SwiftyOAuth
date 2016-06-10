@@ -43,8 +43,8 @@ public protocol TokenStore {
     func setToken(token: Token?, forProvider provider: Provider)
 }
 
-extension TokenStore {
-    internal func keyForProvider(provider: Provider) -> String {
+internal extension TokenStore {
+    func keyForProvider(provider: Provider) -> String {
         return "io.delba.SwiftyOAuth.\(provider.authorizeURL.absoluteString)"
     }
 }
