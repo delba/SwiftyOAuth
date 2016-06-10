@@ -101,7 +101,7 @@ public class Provider: NSObject {
         self.clientID = clientID
         self.clientSecret = clientSecret
         self.authorizeURL = NSURL(string: authorizeURL)!
-        self.tokenURL = NSURL(string: tokenURL)!
+        self.tokenURL = NSURL(string: tokenURL)
         self.redirectURL = NSURL(string: redirectURL)!
         self.responseType = .Code
     }
@@ -151,6 +151,50 @@ public class Provider: NSObject {
         case .Code: handleURLForCodeResponseType(URL, completion: completion)
         }
     }
+    
+    /// Alters the given request by adding authentication, if possible.
+    ///
+    /// In case of an expired access token and the presence of a refresh token,
+    /// automatically tries to refresh the access token. If refreshing the
+    /// access token fails, the access token is cleared.
+    ///
+    /// **Note:** If the access token must be refreshed, network I/O is
+    ///     performed.
+    ///
+    /// **Note:** The completion closure may be invoked on any thread.
+    ///
+    /// - parameter request: An unauthenticated NSURLRequest.
+    /// - parameter completion: A callback to invoke with the authenticated request.
+    public func authenticateRequest(request: NSURLRequest, completion: Result<NSURLRequest, NSError> -> ()) {
+        if let token = token {
+            if token.isValid {
+                let mutableRequest = request.mutableCopy() as! NSMutableURLRequest
+                mutableRequest.setAccessToken(token)
+                completion(Result.Success(mutableRequest))
+            } else {
+                // Invalid token.
+                if token.isExpired {
+                    // It is expired. Let's refresh it.
+                    refreshToken({ [weak self] (result) in
+                        switch result {
+                        case .Success( _):
+                            self?.authenticateRequest(request, completion: completion)
+                        case .Failure(let error):
+                            completion(Result.Failure(error.nsError))
+                        }
+                    })
+                } else {
+                    // Not handled. Complete with error.
+                    let error = Error.InvalidAccessToken("Access token is invalid. Please rissue a new access token")
+                    completion(Result.Failure(error.nsError))
+                }
+            }
+        } else {
+            // No token available. The client must start an authentication process properly through -authorize method
+            let error = Error.InvalidAccessToken("No access token found. Please reissue a new access token through -authorize method")
+            completion(Result.Failure(error.nsError))
+        }
+    }
 }
 
 // MARK: - Requests Params
@@ -171,10 +215,15 @@ private extension Provider {
         return params
     }
     
-    func tokenRequestParams(grantType: GrantType) -> [String: String] {
+    func tokenRequestParams(grantType: GrantType) -> [String: String]? {
+        
+        guard let clientSecret = clientSecret else {
+            return nil
+        }
+        
         var params = [
             "client_id": clientID,
-            "client_secret": clientSecret!,
+            "client_secret": clientSecret,
             "redirect_uri": redirectURL.absoluteString
         ]
         
@@ -258,24 +307,30 @@ private extension Provider {
 
 private extension Provider {
     func requestToken(grantType: GrantType, completion: Result<Token, Error> -> Void) {
-        let params = tokenRequestParams(grantType)
+        guard let params = tokenRequestParams(grantType) else {
+            Queue.main {completion(.Failure(Error.InvalidRequest("Wrong token information provided"))) }
+            return
+        }
         
-        HTTP.POST(tokenURL!, parameters: params) { resultJSON in
-            let result: Result<Token, Error>
-            
-            switch resultJSON {
-            case .Success(let json):
-                if let token = Token(dictionary: json) {
-                    self.token = token
-                    result = .Success(token)
-                } else {
-                    result = .Failure(Error(json))
+        if let tokenURL = tokenURL {
+            HTTP.POST(tokenURL, parameters: params) { [unowned self] resultJSON in
+                let result: Result<Token, Error>
+                
+                switch resultJSON {
+                case .Success(let json):
+                    if let token = Token(dictionary: json) {
+                        self.token = token
+                        result = .Success(token)
+                    } else {
+                        result = .Failure(Error(json))
+                    }
+                case .Failure(let error):
+                    result = .Failure(Error(error))
                 }
-            case .Failure(let error):
-                result = .Failure(Error(error))
+                Queue.main { completion(result) }
             }
-            
-            Queue.main { completion(result) }
+        } else {
+            Queue.main {completion(.Failure(Error.InvalidRequest("Wrong token URL provided: \(self.tokenURL)"))) }
         }
     }
 }
