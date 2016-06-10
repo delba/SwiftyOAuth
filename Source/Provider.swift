@@ -327,7 +327,6 @@ private extension Provider {
                 case .Failure(let error):
                     result = .Failure(Error(error))
                 }
-                
                 Queue.main { completion(result) }
             }
         } else {
