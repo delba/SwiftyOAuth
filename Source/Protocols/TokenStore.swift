@@ -8,7 +8,7 @@
 
 public protocol TokenStore {
     /**
-     Retrieve a token for the in input Provider
+     Retrieve a token for the given Provider
      
      - parameter provider: The provider requesting the `Token`.
      
