@@ -45,8 +45,6 @@
 		E5BE04521D0A0397004C5969 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BE04511D0A0397004C5969 /* UserDefaults.swift */; };
 		E5BE04541D0A0659004C5969 /* UbiquitousKeyValueStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BE04531D0A0659004C5969 /* UbiquitousKeyValueStore.swift */; };
 		E5BE04571D0A1174004C5969 /* TokenStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BE04551D0A1174004C5969 /* TokenStoreTests.swift */; };
-		E5BE04981D0AE8E0004C5969 /* OHHTTPStubs.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E5BE04971D0AE8E0004C5969 /* OHHTTPStubs.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E5BE04991D0AE943004C5969 /* authorize-valid.json in Resources */ = {isa = PBXBuildFile; fileRef = E5BE04941D0AE55C004C5969 /* authorize-valid.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,7 +64,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E5BE04981D0AE8E0004C5969 /* OHHTTPStubs.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,8 +111,6 @@
 		E5BE04511D0A0397004C5969 /* UserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		E5BE04531D0A0659004C5969 /* UbiquitousKeyValueStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UbiquitousKeyValueStore.swift; sourceTree = "<group>"; };
 		E5BE04551D0A1174004C5969 /* TokenStoreTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenStoreTests.swift; sourceTree = "<group>"; };
-		E5BE04941D0AE55C004C5969 /* authorize-valid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "authorize-valid.json"; sourceTree = "<group>"; };
-		E5BE04971D0AE8E0004C5969 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../Carthage/Build/iOS/OHHTTPStubs.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,7 +135,6 @@
 		6D444D451CF487DE00709148 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E5BE04971D0AE8E0004C5969 /* OHHTTPStubs.framework */,
 				6DF7DF7E1CD5393F0099C320 /* Info.plist */,
 			);
 			path = "Supporting Files";
@@ -218,7 +212,6 @@
 		6DF7DF7B1CD5393F0099C320 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				E5BE04931D0AE506004C5969 /* JSON Responses */,
 				6D444D451CF487DE00709148 /* Supporting Files */,
 				6DF7DF7C1CD5393F0099C320 /* SwiftyOAuthTests.swift */,
 				E5BE04551D0A1174004C5969 /* TokenStoreTests.swift */,
@@ -248,14 +241,6 @@
 				E5BE04511D0A0397004C5969 /* UserDefaults.swift */,
 			);
 			path = TokenStores;
-			sourceTree = "<group>";
-		};
-		E5BE04931D0AE506004C5969 /* JSON Responses */ = {
-			isa = PBXGroup;
-			children = (
-				E5BE04941D0AE55C004C5969 /* authorize-valid.json */,
-			);
-			path = "JSON Responses";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -358,7 +343,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E5BE04991D0AE943004C5969 /* authorize-valid.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
