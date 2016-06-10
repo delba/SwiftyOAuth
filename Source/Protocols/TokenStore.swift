@@ -6,11 +6,6 @@
 //  Copyright © 2016 delba. All rights reserved.
 //
 
-import Foundation
-
-/**
- *  Define the contract for objects that are designated to store a `Token` struct.
- */
 public protocol TokenStore {
     /**
      Retrieve a token for the in input Provider
