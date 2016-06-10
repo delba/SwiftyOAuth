@@ -23,13 +23,16 @@
 //
 
 import XCTest
+import OHHTTPStubs
 @testable import SwiftyOAuth
 
 class SwiftyOAuthTests: XCTestCase {
+    let bundle = NSBundle(forClass: SwiftyOAuthTests.self)
+    
     let token: Token? = {
         let dictionary = [
-            "access_token": "A_TEST_ACCESS_TOKEN",
-            "refresh_token": "A_TEST_REFRESH_TOKEN",
+            "access_token": "THE_STUB_ACCESS_TOKEN",
+            "refresh_token": "THE_STUB_REFRESH_TOKEN",
             "expires_in": NSDate().timeIntervalSinceNow + 3600,
             "token_type": "Bearer"
         ]
@@ -39,8 +42,8 @@ class SwiftyOAuthTests: XCTestCase {
     
     let expiredToken: Token? = {
         let dictionary = [
-            "access_token": "A_TEST_ACCESS_TOKEN_2",
-            "refresh_token": "A_TEST_REFRESH_TOKEN_2",
+            "access_token": "THE_STUB_ACCESS_TOKEN",
+            "refresh_token": "THE_STUB_REFRESH_TOKEN",
             "expires_in": -10,
             "created_at": NSDate().timeIntervalSinceReferenceDate,
             "token_type": "Bearer"
@@ -121,6 +124,14 @@ class SwiftyOAuthTests: XCTestCase {
         let originalRequest = NSURLRequest(URL: NSURL(string: "http://siwfityoauth.delba.io")!)
         let expectation = expectationWithDescription("Authenticate a NSURLRequest by refreshing an expired token.")
         
+        
+        OHHTTPStubs.stubRequestsPassingTest({ request in
+            return (request.URL!.absoluteString == "http://tokenurl.siwfityoauth.delba.io")
+            }, withStubResponse: { [unowned self] request in
+                print(self.bundle.pathForResource("authorize-valid", ofType: "json")!)
+                return OHHTTPStubsResponse(data: NSData(contentsOfFile: self.bundle.pathForResource("authorize-valid", ofType: "json")!)!, statusCode: 200, headers: [ "Content-Type": "application/json" ])
+        })
+        
         provider.authenticateRequest(originalRequest) { [unowned self] (result) in
             switch result {
             case .Success(let authenticatedRequest):
@@ -130,7 +141,6 @@ class SwiftyOAuthTests: XCTestCase {
                 XCTAssertEqual(originalRequest.HTTPShouldHandleCookies, originalRequest.HTTPShouldHandleCookies)
                 XCTAssertEqual(originalRequest.HTTPBodyStream, originalRequest.HTTPBodyStream)
                 XCTAssertEqual(originalRequest.URL, originalRequest.URL)
-                
                 XCTAssertEqual(authenticatedRequest.valueForHTTPHeaderField("Authorization"), "Bearer \(self.expiredToken!.accessToken)")
                 
                 // Clean up
