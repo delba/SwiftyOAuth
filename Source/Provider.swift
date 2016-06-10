@@ -40,8 +40,8 @@ public class Provider: NSObject {
     
     /// The token.
     public internal(set) var token: Token? {
-        get { return UserDefaults.getTokenForProvider(self) }
-        set { UserDefaults.setToken(newValue, forProvider: self) }
+        get { return tokenStore.getTokenForProvider(self) }
+        set { tokenStore.setToken(newValue, forProvider: self) }
     }
     
     /// The scopes.
@@ -64,6 +64,9 @@ public class Provider: NSObject {
     private var completion: (Result<Token, Error> -> Void)?
     
     private var safariVC: UIViewController?
+    
+    /// The Token Store used to store the token.
+    public var tokenStore: TokenStore = NSUserDefaults.standardUserDefaults()
     
     /**
      Creates a provider that uses the client-side (implicit) flow.
