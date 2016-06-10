@@ -30,6 +30,7 @@
 		6D5351341CF89660001BEF41 /* StackExchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5351331CF89660001BEF41 /* StackExchange.swift */; };
 		6D5351361CFB7097001BEF41 /* Medium.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5351351CFB7097001BEF41 /* Medium.swift */; };
 		6D67A8781D01790600492D83 /* Foursquare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D67A8771D01790600492D83 /* Foursquare.swift */; };
+		6DACDED31D04CA9400E58C0B /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DACDED21D04CA9400E58C0B /* WebViewController.swift */; };
 		6DE48CF11CE1350C00FB2DC9 /* GitHub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE48CF01CE1350C00FB2DC9 /* GitHub.swift */; };
 		6DE48CF31CE1351700FB2DC9 /* Dribbble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE48CF21CE1351700FB2DC9 /* Dribbble.swift */; };
 		6DE48D1A1CE21FB500FB2DC9 /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE48D191CE21FB500FB2DC9 /* HTTP.swift */; };
@@ -81,6 +82,7 @@
 		6D5351331CF89660001BEF41 /* StackExchange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackExchange.swift; sourceTree = "<group>"; };
 		6D5351351CFB7097001BEF41 /* Medium.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Medium.swift; sourceTree = "<group>"; };
 		6D67A8771D01790600492D83 /* Foursquare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Foursquare.swift; sourceTree = "<group>"; };
+		6DACDED21D04CA9400E58C0B /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		6DE48CF01CE1350C00FB2DC9 /* GitHub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitHub.swift; sourceTree = "<group>"; };
 		6DE48CF21CE1351700FB2DC9 /* Dribbble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dribbble.swift; sourceTree = "<group>"; };
 		6DE48D191CE21FB500FB2DC9 /* HTTP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTP.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 				6DF7DF8E1CD53F300099C320 /* Result.swift */,
 				6DF7DF701CD5393E0099C320 /* SwiftyOAuth.h */,
 				6DF7DF951CD547C30099C320 /* Utilities.swift */,
+				6DACDED21D04CA9400E58C0B /* WebViewController.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				6DF7DF881CD539780099C320 /* Provider.swift in Sources */,
 				6D5351361CFB7097001BEF41 /* Medium.swift in Sources */,
 				6D1C3C541D046E8F0096C7C9 /* Basecamp.swift in Sources */,
+				6DACDED31D04CA9400E58C0B /* WebViewController.swift in Sources */,
 				6DF7DF961CD547C30099C320 /* Utilities.swift in Sources */,
 				6D53512B1CF73885001BEF41 /* ResponseType.swift in Sources */,
 				6D1C3C561D046F5F0096C7C9 /* Spotify.swift in Sources */,
