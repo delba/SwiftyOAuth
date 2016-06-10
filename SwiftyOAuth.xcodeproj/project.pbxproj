@@ -42,9 +42,9 @@
 		6DF7DF911CD53F6E0099C320 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF7DF901CD53F6E0099C320 /* Token.swift */; };
 		6DF7DF961CD547C30099C320 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF7DF951CD547C30099C320 /* Utilities.swift */; };
 		E5BE044F1D0A01E1004C5969 /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BE044E1D0A01E1004C5969 /* TokenStore.swift */; };
-		E5BE04521D0A0397004C5969 /* UserDefaultsTokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BE04511D0A0397004C5969 /* UserDefaultsTokenStore.swift */; };
-		E5BE04541D0A0659004C5969 /* UbiquitousKeyValueTokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BE04531D0A0659004C5969 /* UbiquitousKeyValueTokenStore.swift */; };
-		E5BE04571D0A1174004C5969 /* TokenStoresTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BE04551D0A1174004C5969 /* TokenStoresTests.swift */; };
+		E5BE04521D0A0397004C5969 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BE04511D0A0397004C5969 /* UserDefaults.swift */; };
+		E5BE04541D0A0659004C5969 /* UbiquitousKeyValueStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BE04531D0A0659004C5969 /* UbiquitousKeyValueStore.swift */; };
+		E5BE04571D0A1174004C5969 /* TokenStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BE04551D0A1174004C5969 /* TokenStoreTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,9 +96,9 @@
 		6DF7DF901CD53F6E0099C320 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		6DF7DF951CD547C30099C320 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		E5BE044E1D0A01E1004C5969 /* TokenStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenStore.swift; sourceTree = "<group>"; };
-		E5BE04511D0A0397004C5969 /* UserDefaultsTokenStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsTokenStore.swift; sourceTree = "<group>"; };
-		E5BE04531D0A0659004C5969 /* UbiquitousKeyValueTokenStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UbiquitousKeyValueTokenStore.swift; sourceTree = "<group>"; };
-		E5BE04551D0A1174004C5969 /* TokenStoresTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenStoresTests.swift; sourceTree = "<group>"; };
+		E5BE04511D0A0397004C5969 /* UserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		E5BE04531D0A0659004C5969 /* UbiquitousKeyValueStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UbiquitousKeyValueStore.swift; sourceTree = "<group>"; };
+		E5BE04551D0A1174004C5969 /* TokenStoreTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenStoreTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,11 +186,10 @@
 		6DF7DF6F1CD5393E0099C320 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				E5BE04501D0A0386004C5969 /* Stores */,
-				E5BE044D1D0A01C9004C5969 /* Protocols */,
 				6D53512E1CF73899001BEF41 /* Enums */,
 				6DE48CF41CE1351D00FB2DC9 /* Providers */,
 				6DF7DF8D1CD53DEC0099C320 /* Supporting Files */,
+				E5BE04501D0A0386004C5969 /* TokenStores */,
 				6D1BAFF61CE308370012431F /* Error.swift */,
 				6DF7DF871CD539780099C320 /* Provider.swift */,
 				6DF7DF901CD53F6E0099C320 /* Token.swift */,
@@ -203,9 +202,9 @@
 			children = (
 				6D444D451CF487DE00709148 /* Supporting Files */,
 				6DF7DF7C1CD5393F0099C320 /* SwiftyOAuthTests.swift */,
+				E5BE04551D0A1174004C5969 /* TokenStoreTests.swift */,
 				6D444D461CF48D5100709148 /* TokenTests.swift */,
 				6D444D431CF487A300709148 /* UtilitiesTests.swift */,
-				E5BE04551D0A1174004C5969 /* TokenStoresTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -222,21 +221,14 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		E5BE044D1D0A01C9004C5969 /* Protocols */ = {
+		E5BE04501D0A0386004C5969 /* TokenStores */ = {
 			isa = PBXGroup;
 			children = (
 				E5BE044E1D0A01E1004C5969 /* TokenStore.swift */,
+				E5BE04531D0A0659004C5969 /* UbiquitousKeyValueStore.swift */,
+				E5BE04511D0A0397004C5969 /* UserDefaults.swift */,
 			);
-			path = Protocols;
-			sourceTree = "<group>";
-		};
-		E5BE04501D0A0386004C5969 /* Stores */ = {
-			isa = PBXGroup;
-			children = (
-				E5BE04511D0A0397004C5969 /* UserDefaultsTokenStore.swift */,
-				E5BE04531D0A0659004C5969 /* UbiquitousKeyValueTokenStore.swift */,
-			);
-			path = Stores;
+			path = TokenStores;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -371,8 +363,8 @@
 				6D444D4B1CF49E2900709148 /* Uber.swift in Sources */,
 				6D1C3C4E1D046B620096C7C9 /* Weibo.swift in Sources */,
 				6D5351301CF893E0001BEF41 /* Vimeo.swift in Sources */,
-				E5BE04541D0A0659004C5969 /* UbiquitousKeyValueTokenStore.swift in Sources */,
-				E5BE04521D0A0397004C5969 /* UserDefaultsTokenStore.swift in Sources */,
+				E5BE04541D0A0659004C5969 /* UbiquitousKeyValueStore.swift in Sources */,
+				E5BE04521D0A0397004C5969 /* UserDefaults.swift in Sources */,
 				6D5351321CF894E7001BEF41 /* SoundCloud.swift in Sources */,
 				6DF7DF911CD53F6E0099C320 /* Token.swift in Sources */,
 				6D5351341CF89660001BEF41 /* StackExchange.swift in Sources */,
@@ -388,7 +380,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D444D471CF48D5100709148 /* TokenTests.swift in Sources */,
-				E5BE04571D0A1174004C5969 /* TokenStoresTests.swift in Sources */,
+				E5BE04571D0A1174004C5969 /* TokenStoreTests.swift in Sources */,
 				6D444D441CF487A300709148 /* UtilitiesTests.swift in Sources */,
 				6DF7DF7D1CD5393F0099C320 /* SwiftyOAuthTests.swift in Sources */,
 			);
