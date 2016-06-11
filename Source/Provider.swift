@@ -138,8 +138,22 @@ public class Provider: NSObject {
      - parameter URL:     The incoming URL to handle.
      - parameter options: A dictionary of launch options.
      */
+    @available(iOS 9.0, *)
     public func handleURL(URL: NSURL, options: [String: AnyObject]) {
-        guard shouldHandleURL(URL, options: options) else { return }
+        let sourceApplication = options["UIApplicationOpenURLOptionsSourceApplicationKey"] as? String
+        
+        handleURL(URL, sourceApplication: sourceApplication)
+    }
+    
+    /**
+     Handles the incoming URL.
+     
+     - parameter URL:               The incoming URL to handle.
+     - parameter sourceApplication: The source application.
+     */
+    @available(*, deprecated=9.0, message="Use handleURL:options: in application:openURL:options: instead.")
+    public func handleURL(URL: NSURL, sourceApplication: String?) {
+        guard shouldHandleURL(URL, sourceApplication: sourceApplication) else { return }
         
         safariVC?.dismissViewControllerAnimated(true, completion: nil)
         NotificationCenter.removeObserver(self, name: UIApplicationDidBecomeActiveNotification)
@@ -229,10 +243,8 @@ private extension Provider {
         requestToken(.AuthorizationCode(code), completion: completion)
     }
     
-    func shouldHandleURL(URL: NSURL, options: [String: AnyObject]) -> Bool {
-        guard isLegitSourceApplication(options) else {
-            return false
-        }
+    func shouldHandleURL(URL: NSURL, sourceApplication: String?) -> Bool {
+        guard isLegitSourceApplication(sourceApplication) else { return false }
         
         guard state == URL.queries["state"] else {
             return false
@@ -241,10 +253,8 @@ private extension Provider {
         return matchingURLs(URL, redirectURL) ? true : false
     }
     
-    func isLegitSourceApplication(options: [String: AnyObject]) -> Bool {
-        guard let sourceApplication = options["UIApplicationOpenURLOptionsSourceApplicationKey"] as? String else {
-            return false
-        }
+    func isLegitSourceApplication(sourceApplication: String?) -> Bool {
+        guard let sourceApplication = sourceApplication else { return false }
         
         return ["com.apple.mobilesafari", "com.apple.SafariViewService"].contains(sourceApplication)
     }
