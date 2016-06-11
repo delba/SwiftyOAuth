@@ -250,11 +250,9 @@ private extension Provider {
     func shouldHandleURL(URL: NSURL, sourceApplication: String?) -> Bool {
         guard isLegitSourceApplication(sourceApplication) else { return false }
         
-        guard state == URL.queries["state"] else {
-            return false
-        }
+        guard state == URL.queries["state"] else { return false }
         
-        return matchingURLs(URL, redirectURL) ? true : false
+        return matchingURLs(URL, redirectURL)
     }
     
     func isLegitSourceApplication(sourceApplication: String?) -> Bool {
