@@ -25,13 +25,16 @@
 public class Provider: NSObject {
     /// The client ID.
     public let clientID: String
+    
     /// The client secret.
     public let clientSecret: String?
     
     /// The authorize URL.
     public let authorizeURL: NSURL
+    
     /// The token URL.
     public let tokenURL: NSURL?
+    
     /// The redirect URL.
     public let redirectURL: NSURL
     
@@ -57,6 +60,7 @@ public class Provider: NSObject {
     
     /// The additional parameters for the authorization request.
     public var additionalAuthRequestParams: [String: String] = [:]
+    
     /// The additional parameters for the token request.
     public var additionalTokenRequestParams: [String: String] = [:]
     
