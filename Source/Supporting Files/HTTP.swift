@@ -25,12 +25,7 @@
 typealias JSON = [String: AnyObject]
 
 struct HTTP {
-    static func POST(URL: NSURL, parameters: [String: String?], completion: Result<JSON, NSError> -> Void) {
-        let parameters = parameters.flatMap { (key, value) -> (String, String)? in
-            guard let value = value else { return nil }
-            return (key, value)
-        }
-        
+    static func POST(URL: NSURL, parameters: [String: String], completion: Result<JSON, NSError> -> Void) {
         let request = NSMutableURLRequest(URL: URL)
         
         request.setValue("application/json", forHTTPHeaderField: "Accept")
