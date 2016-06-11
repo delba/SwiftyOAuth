@@ -144,7 +144,7 @@ public class Provider: NSObject {
      */
     @available(iOS 9.0, *)
     public func handleURL(URL: NSURL, options: [String: AnyObject]) {
-        let sourceApplication = options["UIApplicationOpenURLOptionsSourceApplicationKey"] as? String
+        let sourceApplication = options[UIApplicationOpenURLOptionsSourceApplicationKey] as? String
         
         handleURL(URL, sourceApplication: sourceApplication)
     }
