@@ -32,4 +32,12 @@ extension Provider {
             redirectURL: redirectURL
         )
     }
+    
+    public static func Spotify(clientID clientID: String, clientSecret: String) -> Provider {
+        return Provider(
+            clientID: clientID,
+            clientSecret: clientSecret,
+            tokenURL: "https://accounts.spotify.com/api/token"
+        )
+    }
 }
