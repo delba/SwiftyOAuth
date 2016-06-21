@@ -30,13 +30,13 @@ public class Provider: NSObject {
     public let clientSecret: String?
     
     /// The authorize URL.
-    public let authorizeURL: NSURL
+    public let authorizeURL: NSURL?
     
     /// The token URL.
     public let tokenURL: NSURL?
     
     /// The redirect URL.
-    public let redirectURL: NSURL
+    public let redirectURL: NSURL?
     
     /// Whether the in-app browser is a WKWebView
     public var useWebView = false
@@ -126,9 +126,9 @@ public class Provider: NSObject {
     public init(clientID: String, clientSecret: String, tokenURL: URLStringConvertible) {
         self.clientID = clientID
         self.clientSecret = clientSecret
-        self.authorizeURL = NSURL()
+        self.authorizeURL = nil
         self.tokenURL = NSURL(string: tokenURL.URLString)!
-        self.redirectURL = NSURL()
+        self.redirectURL = nil
         self.responseType = .Client
     }
     
@@ -144,7 +144,7 @@ public class Provider: NSObject {
         case .Client:
             requestToken(.ClientCredentials, completion: completion)
         default:
-            visit(URL: authorizeURL.queries(authRequestParams))
+            visit(URL: authorizeURL!.queries(authRequestParams))
         }
     }
     
@@ -208,7 +208,7 @@ private extension Provider {
     var authRequestParams: [String: String] {
         var params = [
             "client_id": clientID,
-            "redirect_uri": redirectURL.absoluteString
+            "redirect_uri": redirectURL!.absoluteString
         ]
         
         if let scope = scope { params["scope"] = scope }
@@ -223,10 +223,10 @@ private extension Provider {
     func tokenRequestParams(grantType: GrantType) -> [String: String] {
         var params = [
             "client_id": clientID,
-            "client_secret": clientSecret!,
-            "redirect_uri": redirectURL.absoluteString
+            "client_secret": clientSecret!
         ]
         
+        if let redirectURL = redirectURL { params["redirect_uri"] = redirectURL.absoluteString }
         if let state = state { params["state"] = state }
         
         params.merge(grantType.params)
@@ -305,7 +305,7 @@ internal extension Provider {
     func shouldHandleURL(URL: NSURL) -> Bool {
         guard state == URL.queries["state"] else { return false }
         
-        return matchingURLs(URL, redirectURL)
+        return matchingURLs(URL, redirectURL!)
     }
 }
 
