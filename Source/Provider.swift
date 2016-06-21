@@ -139,7 +139,8 @@ public class Provider: NSObject {
      */
     public func authorize(completion: Result<Token, Error> -> Void) {
         self.completion = completion
-        switch self.responseType {
+        
+        switch responseType {
         case .Client:
             requestToken(.ClientCredentials, completion: completion)
         default:
