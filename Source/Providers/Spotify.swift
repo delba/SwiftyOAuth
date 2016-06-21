@@ -33,6 +33,14 @@ extension Provider {
         )
     }
     
+    public static func Spotify(clientID clientID: String, redirectURL: String) -> Provider {
+        return Provider(
+            clientID: clientID,
+            authorizeURL: "https://accounts.spotify.com/authorize",
+            redirectURL: redirectURL
+        )
+    }
+    
     public static func Spotify(clientID clientID: String, clientSecret: String) -> Provider {
         return Provider(
             clientID: clientID,
