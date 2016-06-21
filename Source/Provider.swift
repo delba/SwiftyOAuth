@@ -141,10 +141,10 @@ public class Provider: NSObject {
         self.completion = completion
         
         switch responseType {
+        case .Token, .Code:
+            visit(URL: authorizeURL!.queries(authRequestParams))
         case .Client:
             requestToken(.ClientCredentials, completion: completion)
-        default:
-            visit(URL: authorizeURL!.queries(authRequestParams))
         }
     }
     
