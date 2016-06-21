@@ -45,6 +45,6 @@ public protocol TokenStore {
 
 internal extension TokenStore {
     func keyForProvider(provider: Provider) -> String {
-        return "io.delba.SwiftyOAuth.\(provider.authorizeURL.absoluteString)"
+        return "io.delba.SwiftyOAuth.\(provider.clientID)"
     }
 }
