@@ -25,6 +25,7 @@
 internal enum ResponseType {
     case Token
     case Code
+    case Client
     
     var params: [String: String] {
         switch self {
@@ -35,6 +36,10 @@ internal enum ResponseType {
         case .Code:
             return [
                 "response_type": "code"
+            ]
+        case .Client:
+            return [
+                "grant_type": "client_credentials"
             ]
         }
     }

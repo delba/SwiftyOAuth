@@ -113,6 +113,24 @@ public class Provider: NSObject {
         self.redirectURL = NSURL(string: redirectURL.URLString)!
         self.responseType = .Code
     }
+
+    /**
+     Creates a provider that uses the client credentials flow.
+     
+     - parameter clientID:     The client ID.
+     - parameter clientSecret: The client secret.
+     - parameter tokenURL:     The token request URL.
+     
+     - returns: A newly created provider.
+     */
+    public init(clientID: String, clientSecret: String, tokenURL: URLStringConvertible) {
+        self.clientID = clientID
+        self.clientSecret = clientSecret
+        self.authorizeURL = NSURL()
+        self.tokenURL = NSURL(string: tokenURL.URLString)!
+        self.redirectURL = NSURL()
+        self.responseType = .Client
+    }
     
     /**
      Requests access to the OAuth application.
@@ -121,8 +139,12 @@ public class Provider: NSObject {
      */
     public func authorize(completion: Result<Token, Error> -> Void) {
         self.completion = completion
-        
-        visit(URL: authorizeURL.queries(authRequestParams))
+        switch self.responseType {
+        case .Client:
+            requestToken(.ClientCredentials, completion: completion)
+        default:
+            visit(URL: authorizeURL.queries(authRequestParams))
+        }
     }
     
     /**
@@ -173,7 +195,7 @@ public class Provider: NSObject {
         guard let completion = completion else { return }
         
         switch responseType {
-        case .Token: handleURLForTokenResponseType(URL, completion: completion)
+        case .Token, .Client: handleURLForTokenResponseType(URL, completion: completion)
         case .Code: handleURLForCodeResponseType(URL, completion: completion)
         }
     }
