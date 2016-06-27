@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		37A549861D1D8A560056786D /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A549851D1D8A560056786D /* Keychain.swift */; };
+		37A549891D1D8A7C0056786D /* KeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A549871D1D8A630056786D /* KeychainTests.swift */; };
+		37A5498D1D1D8AFA0056786D /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A5498C1D1D8AFA0056786D /* KeychainStore.swift */; };
+		37A5498E1D1D8B010056786D /* KeychainStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A5498A1D1D8AEF0056786D /* KeychainStoreTests.swift */; };
 		6D1BAFF71CE308370012431F /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1BAFF61CE308370012431F /* Error.swift */; };
 		6D1C3C4A1D0469230096C7C9 /* Stripe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C3C491D0469230096C7C9 /* Stripe.swift */; };
 		6D1C3C4C1D0469A60096C7C9 /* Reddit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1C3C4B1D0469A60096C7C9 /* Reddit.swift */; };
@@ -59,6 +63,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		37A549851D1D8A560056786D /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
+		37A549871D1D8A630056786D /* KeychainTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainTests.swift; sourceTree = "<group>"; };
+		37A5498A1D1D8AEF0056786D /* KeychainStoreTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainStoreTests.swift; sourceTree = "<group>"; };
+		37A5498C1D1D8AFA0056786D /* KeychainStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
 		6D1BAFF61CE308370012431F /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		6D1C3C491D0469230096C7C9 /* Stripe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stripe.swift; sourceTree = "<group>"; };
 		6D1C3C4B1D0469A60096C7C9 /* Reddit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reddit.swift; sourceTree = "<group>"; };
@@ -207,6 +215,8 @@
 				E5BE04551D0A1174004C5969 /* TokenStoreTests.swift */,
 				6D444D461CF48D5100709148 /* TokenTests.swift */,
 				6D444D431CF487A300709148 /* UtilitiesTests.swift */,
+				37A549871D1D8A630056786D /* KeychainTests.swift */,
+				37A5498A1D1D8AEF0056786D /* KeychainStoreTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -230,6 +240,8 @@
 				E5BE044E1D0A01E1004C5969 /* TokenStore.swift */,
 				E5BE04531D0A0659004C5969 /* UbiquitousKeyValueStore.swift */,
 				E5BE04511D0A0397004C5969 /* UserDefaults.swift */,
+				37A549851D1D8A560056786D /* Keychain.swift */,
+				37A5498C1D1D8AFA0056786D /* KeychainStore.swift */,
 			);
 			path = TokenStores;
 			sourceTree = "<group>";
@@ -360,6 +372,7 @@
 				6DACDED31D04CA9400E58C0B /* WebViewController.swift in Sources */,
 				6DF7DF961CD547C30099C320 /* Utilities.swift in Sources */,
 				6D53512B1CF73885001BEF41 /* ResponseType.swift in Sources */,
+				37A549861D1D8A560056786D /* Keychain.swift in Sources */,
 				6D1C3C561D046F5F0096C7C9 /* Spotify.swift in Sources */,
 				6D5351291CF73876001BEF41 /* TokenType.swift in Sources */,
 				6D1C3C521D046D4E0096C7C9 /* Dropbox.swift in Sources */,
@@ -369,6 +382,7 @@
 				6D5351301CF893E0001BEF41 /* Vimeo.swift in Sources */,
 				E5BE04541D0A0659004C5969 /* UbiquitousKeyValueStore.swift in Sources */,
 				E5BE04521D0A0397004C5969 /* UserDefaults.swift in Sources */,
+				37A5498D1D1D8AFA0056786D /* KeychainStore.swift in Sources */,
 				6D5351321CF894E7001BEF41 /* SoundCloud.swift in Sources */,
 				6DF7DF911CD53F6E0099C320 /* Token.swift in Sources */,
 				6D5351341CF89660001BEF41 /* StackExchange.swift in Sources */,
@@ -387,6 +401,8 @@
 				E5BE04571D0A1174004C5969 /* TokenStoreTests.swift in Sources */,
 				6D444D441CF487A300709148 /* UtilitiesTests.swift in Sources */,
 				6DF7DF7D1CD5393F0099C320 /* SwiftyOAuthTests.swift in Sources */,
+				37A549891D1D8A7C0056786D /* KeychainTests.swift in Sources */,
+				37A5498E1D1D8B010056786D /* KeychainStoreTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
