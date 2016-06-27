@@ -26,9 +26,7 @@ class KeychainStore: TokenStore {
     func getTokenForProvider(provider: Provider) -> Token? {
         let key = keyForProvider(provider)
         
-        guard let data = Keychain.load(key),
-            dictionary = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? [String: AnyObject]
-            else { return nil }
+        guard let dictionary = Keychain.load(key) else { return nil }
 
         return Token(dictionary: dictionary)
     }
@@ -37,8 +35,7 @@ class KeychainStore: TokenStore {
         let key = keyForProvider(provider)
         
         if let token = token {
-            let data = NSKeyedArchiver.archivedDataWithRootObject(token.dictionary)
-            Keychain.save(key, data: data)
+            Keychain.save(key, dictionary: token.dictionary)
         } else {
             Keychain.delete(key)
         }

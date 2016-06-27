@@ -25,54 +25,60 @@
 
 import Security
 
-class Keychain {
-    class func save(key: String, data: NSData) -> Bool {
-        let query = [
+internal struct Keychain {
+    static func save(key: String, dictionary: [String: AnyObject]) -> Bool {
+        let data = NSKeyedArchiver.archivedDataWithRootObject(dictionary)
+        
+        let query: CFDictionaryRef = [
             kSecClass as String       : kSecClassGenericPassword as String,
             kSecAttrAccount as String : key,
-            kSecValueData as String   : data ]
+            kSecValueData as String   : data
+        ]
         
-        SecItemDelete(query as CFDictionaryRef)
+        SecItemDelete(query)
         
-        let status: OSStatus = SecItemAdd(query as CFDictionaryRef, nil)
+        let status: OSStatus = SecItemAdd(query, nil)
         
         return status == noErr
     }
     
-    class func load(key: String) -> NSData? {
+    static func load(key: String) -> [String: AnyObject]? {
         let query = [
             kSecClass as String       : kSecClassGenericPassword,
             kSecAttrAccount as String : key,
             kSecReturnData as String  : kCFBooleanTrue,
-            kSecMatchLimit as String  : kSecMatchLimitOne ]
+            kSecMatchLimit as String  : kSecMatchLimitOne
+        ]
         
         var dataTypeRef: AnyObject?
-        let status = withUnsafeMutablePointer(&dataTypeRef) { SecItemCopyMatching(query, UnsafeMutablePointer($0)) }
         
-        if status == errSecSuccess {
-            if let data = dataTypeRef as! NSData? {
-                return data
-            }
+        let status = withUnsafeMutablePointer(&dataTypeRef) {
+            SecItemCopyMatching(query, UnsafeMutablePointer($0))
         }
-        return nil
+        
+        guard status == errSecSuccess, let data = dataTypeRef as? NSData else { return nil }
+        
+        return NSKeyedUnarchiver.unarchiveObjectWithData(data) as? [String: AnyObject]
     }
     
-    class func delete(key: String) -> Bool {
+    static func delete(key: String) -> Bool {
         let query = [
             kSecClass as String       : kSecClassGenericPassword,
-            kSecAttrAccount as String : key ]
+            kSecAttrAccount as String : key
+        ]
         
         let status: OSStatus = SecItemDelete(query as CFDictionaryRef)
         
         return status == noErr
     }
     
-    class func clear() -> Bool {
-        let query = [ kSecClass as String : kSecClassGenericPassword ]
+    static func clear() -> Bool {
+        let query = [
+            kSecClass as String : kSecClassGenericPassword
+        ]
         
         let status: OSStatus = SecItemDelete(query as CFDictionaryRef)
         
         return status == noErr
     }
-    
 }

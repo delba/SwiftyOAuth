@@ -40,29 +40,38 @@ class KeychainTests: XCTestCase {
     func testSaveLoad() {
         let key1 = "testSaveLoadKey1"
         let key2 = "testSaveLoadKey2"
-        let saveData = "data".dataValue
+        
+        let dictionary: [String: AnyObject] = [
+            "string": "string",
+            "bool": true
+        ]
         
         XCTAssertTrue(Keychain.load(key1) == nil)
         XCTAssertTrue(Keychain.load(key2) == nil)
         
-        XCTAssertTrue(Keychain.save(key1, data: saveData))
+        XCTAssertTrue(Keychain.save(key1, dictionary: dictionary))
         
         XCTAssertTrue(Keychain.load(key1) != nil)
         XCTAssertTrue(Keychain.load(key2) == nil)
         
-        let loadData = Keychain.load(key1)!
+        let loadDictionary = Keychain.load(key1)!
         
-        XCTAssertEqual(loadData.stringValue, saveData.stringValue)
+        XCTAssertEqual("string", loadDictionary["string"] as? String)
+        XCTAssertEqual(true, loadDictionary["bool"] as? Bool)
     }
     
     
     func testDelete() {
         let key1 = "testDeleteKey1"
         let key2 = "testDeleteKey2"
-        let saveData = "testDeleteData".dataValue
         
-        XCTAssertTrue(Keychain.save(key1, data: saveData))
-        XCTAssertTrue(Keychain.save(key2, data: saveData))
+        let dictionary: [String: AnyObject] = [
+            "string": "string",
+            "bool": true
+        ]
+        
+        XCTAssertTrue(Keychain.save(key1, dictionary: dictionary))
+        XCTAssertTrue(Keychain.save(key2, dictionary: dictionary))
         
         XCTAssertTrue(Keychain.load(key1) != nil)
         XCTAssertTrue(Keychain.load(key2) != nil)
@@ -75,25 +84,17 @@ class KeychainTests: XCTestCase {
     
     func testClear() {
         let key = "testClearKey"
-        let data = "testClearData".dataValue
         
-        Keychain.save(key, data: data)
+        let dictionary: [String: AnyObject] = [
+            "string": "string",
+            "bool": true
+        ]
+        
+        Keychain.save(key, dictionary: dictionary)
         XCTAssertTrue(Keychain.load(key) != nil)
         
         Keychain.clear()
         XCTAssertTrue(Keychain.load(key) == nil)
     }
     
-}
-
-extension String {
-    public var dataValue: NSData {
-        return dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
-    }
-}
-
-extension NSData {
-    public var stringValue: String {
-        return NSString(data: self, encoding: NSUTF8StringEncoding)! as String
-    }
 }
