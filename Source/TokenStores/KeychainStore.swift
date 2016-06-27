@@ -36,8 +36,8 @@ class KeychainStore: TokenStore {
         let result = Keychain.save(key, data: data)
     }
     
-    func keyForProvider(provider: Provider) -> String {
-        return "io.delba.SwiftyOAuth.\(provider.clientID)"
-    }
+    // func keyForProvider(provider: Provider) -> String {
+    //     return "io.delba.SwiftyOAuth.\(provider.clientID)"
+    // }
     
 }
