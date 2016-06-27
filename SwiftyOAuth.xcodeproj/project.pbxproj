@@ -211,12 +211,12 @@
 			isa = PBXGroup;
 			children = (
 				6D444D451CF487DE00709148 /* Supporting Files */,
+				37A5498A1D1D8AEF0056786D /* KeychainStoreTests.swift */,
+				37A549871D1D8A630056786D /* KeychainTests.swift */,
 				6DF7DF7C1CD5393F0099C320 /* SwiftyOAuthTests.swift */,
 				E5BE04551D0A1174004C5969 /* TokenStoreTests.swift */,
 				6D444D461CF48D5100709148 /* TokenTests.swift */,
 				6D444D431CF487A300709148 /* UtilitiesTests.swift */,
-				37A549871D1D8A630056786D /* KeychainTests.swift */,
-				37A5498A1D1D8AEF0056786D /* KeychainStoreTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -226,6 +226,7 @@
 			children = (
 				6DE48D191CE21FB500FB2DC9 /* HTTP.swift */,
 				6DF7DF721CD5393F0099C320 /* Info.plist */,
+				37A549851D1D8A560056786D /* Keychain.swift */,
 				6DF7DF8E1CD53F300099C320 /* Result.swift */,
 				6DF7DF701CD5393E0099C320 /* SwiftyOAuth.h */,
 				6DF7DF951CD547C30099C320 /* Utilities.swift */,
@@ -237,11 +238,10 @@
 		E5BE04501D0A0386004C5969 /* TokenStores */ = {
 			isa = PBXGroup;
 			children = (
+				37A5498C1D1D8AFA0056786D /* KeychainStore.swift */,
 				E5BE044E1D0A01E1004C5969 /* TokenStore.swift */,
 				E5BE04531D0A0659004C5969 /* UbiquitousKeyValueStore.swift */,
 				E5BE04511D0A0397004C5969 /* UserDefaults.swift */,
-				37A549851D1D8A560056786D /* Keychain.swift */,
-				37A5498C1D1D8AFA0056786D /* KeychainStore.swift */,
 			);
 			path = TokenStores;
 			sourceTree = "<group>";
