@@ -38,7 +38,7 @@ class KeychainStoreTests: XCTestCase {
     }
 
     func testSaveLoadTokenFromKeychainStore() {
-        let keychainStore = KeychainStore()
+        let keychainStore = Keychain()
         
         let initialToken = keychainStore.getTokenForProvider(provider)
         XCTAssertNil(initialToken, "Initial loaded Token should be nil.")
@@ -54,7 +54,7 @@ class KeychainStoreTests: XCTestCase {
     }
     
     func testDeleteTokenFromKeychainStore() {
-        let keychainStore = KeychainStore()
+        let keychainStore = Keychain()
         
         keychainStore.setToken(token, forProvider: provider)
         var loadedToken = keychainStore.getTokenForProvider(provider)

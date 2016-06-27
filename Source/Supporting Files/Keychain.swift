@@ -25,11 +25,11 @@
 
 import Security
 
-internal struct Keychain {
-    static func save(key: String, dictionary: [String: AnyObject]) -> Bool {
+public struct Keychain {
+    public static func save(key: String, dictionary: [String: AnyObject]) -> Bool {
         let data = NSKeyedArchiver.archivedDataWithRootObject(dictionary)
         
-        let query: CFDictionaryRef = [
+        let query = [
             kSecClass as String       : kSecClassGenericPassword as String,
             kSecAttrAccount as String : key,
             kSecValueData as String   : data
@@ -42,7 +42,7 @@ internal struct Keychain {
         return status == noErr
     }
     
-    static func load(key: String) -> [String: AnyObject]? {
+    public static func load(key: String) -> [String: AnyObject]? {
         let query = [
             kSecClass as String       : kSecClassGenericPassword,
             kSecAttrAccount as String : key,
@@ -61,7 +61,7 @@ internal struct Keychain {
         return NSKeyedUnarchiver.unarchiveObjectWithData(data) as? [String: AnyObject]
     }
     
-    static func delete(key: String) -> Bool {
+    public static func delete(key: String) -> Bool {
         let query = [
             kSecClass as String       : kSecClassGenericPassword,
             kSecAttrAccount as String : key
@@ -72,7 +72,7 @@ internal struct Keychain {
         return status == noErr
     }
     
-    static func clear() -> Bool {
+    internal static func clear() -> Bool {
         let query = [
             kSecClass as String : kSecClassGenericPassword
         ]

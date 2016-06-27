@@ -22,8 +22,8 @@
 // SOFTWARE.
 //
 
-class KeychainStore: TokenStore {
-    func getTokenForProvider(provider: Provider) -> Token? {
+extension Keychain: TokenStore {
+    public func getTokenForProvider(provider: Provider) -> Token? {
         let key = keyForProvider(provider)
         
         guard let dictionary = Keychain.load(key) else { return nil }
@@ -31,7 +31,7 @@ class KeychainStore: TokenStore {
         return Token(dictionary: dictionary)
     }
     
-    func setToken(token: Token?, forProvider provider: Provider) {
+    public func setToken(token: Token?, forProvider provider: Provider) {
         let key = keyForProvider(provider)
         
         if let token = token {
