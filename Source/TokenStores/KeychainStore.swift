@@ -31,16 +31,7 @@ class KeychainStore: TokenStore {
 
         let key = keyForProvider(provider)
 
-        // convert to a dictionary to be able to use NSKeyedArchiver
-        let tokenDictionary = [
-            "access_token" : token.accessToken,
-            "refresh_token" : token.refreshToken ?? "",
-            "expires_in" : String(token.expiresIn) ?? "",
-            "token_type" : "Bearer" ?? "", // TokenType is always .Bearer or nil
-            "scope" : String(token.scopes) ?? ""
-        ]
-
-        let data = NSKeyedArchiver.archivedDataWithRootObject(tokenDictionary)
+        let data = NSKeyedArchiver.archivedDataWithRootObject(token.dictionary)
    
         let result = Keychain.save(key, data: data)
     }
