@@ -35,5 +35,17 @@ class KeychainStoreTests: XCTestCase {
         XCTAssertTrue(token?.tokenType == loadedToken?.tokenType, "Token type should match the initial value.")
     }
     
+    func testDeleteTokenFromKeychainStore() {
+        let keychainStore = KeychainStore()
+        
+        keychainStore.setToken(token, forProvider: provider)
+        var loadedToken = keychainStore.getTokenForProvider(provider)
+        XCTAssertNotNil(loadedToken, "Loaded Token should not be nil.")
+        
+        keychainStore.setToken(nil, forProvider: provider)
+        loadedToken = keychainStore.getTokenForProvider(provider)
+        XCTAssertNil(loadedToken, "Loaded Token should not be nil.")
+    }
+    
     
 }

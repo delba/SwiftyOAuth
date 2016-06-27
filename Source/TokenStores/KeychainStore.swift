@@ -18,14 +18,13 @@ class KeychainStore: TokenStore {
     }
     
     func setToken(token: Token?, forProvider provider: Provider) {
-        guard let token = token else {
-            return
-        }
-
         let key = keyForProvider(provider)
-
-        let data = NSKeyedArchiver.archivedDataWithRootObject(token.dictionary)
-   
-        let result = Keychain.save(key, data: data)
+        
+        if let token = token {
+            let data = NSKeyedArchiver.archivedDataWithRootObject(token.dictionary)
+            Keychain.save(key, data: data)
+        } else {
+            Keychain.delete(key)
+        }
     }
 }
