@@ -74,7 +74,7 @@ public class Provider: NSObject {
     private var safariVC: UIViewController?
     
     /// The Token Store used to store the token.
-    public var tokenStore: TokenStore = NSUserDefaults.standardUserDefaults()
+    public var tokenStore: TokenStore = KeychainStore()
     
     /**
      Creates a provider that uses the client-side (implicit) flow.
