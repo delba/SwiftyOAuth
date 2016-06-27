@@ -9,19 +9,12 @@ class KeychainStore: TokenStore {
     
     func getTokenForProvider(provider: Provider) -> Token? {
         let key = keyForProvider(provider)
+        
+        guard let data = Keychain.load(key),
+            dictionary = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? [String: AnyObject]
+            else { return nil }
 
-        let data = Keychain.load(key)
-        guard let loadedData = data else {
-            return nil
-        }
-        
-        let tokenData = NSKeyedUnarchiver.unarchiveObjectWithData(loadedData) as? [String : AnyObject]
-        guard let tokenDictionary = tokenData else {
-            return nil
-        }
-        
-        let token = Token(dictionary: tokenDictionary)
-        return token
+        return Token(dictionary: dictionary)
     }
     
     func setToken(token: Token?, forProvider provider: Provider) {
@@ -35,9 +28,4 @@ class KeychainStore: TokenStore {
    
         let result = Keychain.save(key, data: data)
     }
-    
-    // func keyForProvider(provider: Provider) -> String {
-    //     return "io.delba.SwiftyOAuth.\(provider.clientID)"
-    // }
-    
 }
