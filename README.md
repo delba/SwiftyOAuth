@@ -50,6 +50,13 @@ let provider = Provider(
     authorizeURL: "https://example.com/authorize",
     redirectURL:  "foo://callback"
 )
+
+// Provider using the client-credentials flow
+
+let provider = Provider(
+    clientID:     "***",
+    clientSecret: "***"
+)
 ```
 
 Alternatively, you can use one of the [built-in providers](https://github.com/delba/SwiftyOAuth#providers):
@@ -67,6 +74,20 @@ Optionally set the `state` and `scopes` properties:
 ```swift
 github.state  = "asdfjkl;" // An random string used to protect against CSRF attacks.
 github.scopes = ["user", "repo"]
+```
+
+Use a `WKWebView` if the provider doesn't support custom URL schemes as redirect URLs.
+
+```swift
+let provider = Provider(
+    clientID:     "***",
+    clientSecret: "***",
+    authorizeURL: "https://example.com/authorize",
+    tokenURL:     "https://example.com/authorize/token",
+    redirectURL:  "https://an-arbitrary-redirect-url/redirect"
+)
+
+provider.useWebView = true
 ```
 
 Define additional parameters for the authorization request or the token request with `additionalAuthRequestParams` and `additionalTokenRequestParams` respectively:
