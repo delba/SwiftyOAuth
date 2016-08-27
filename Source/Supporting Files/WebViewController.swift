@@ -30,23 +30,23 @@ extension WKWebView {
         self.navigationDelegate = navigationDelegate
     }
     
-    func loadURL(URL: NSURL) {
-        loadRequest(NSURLRequest(URL: URL))
+    func loadURL(_ URL: Foundation.URL) {
+        load(URLRequest(url: URL))
     }
 }
 
 protocol WebViewControllerDelegate: class {
-    func shouldHandleURL(URL: NSURL) -> Bool
-    func handleURL(URL: NSURL)
-    func webViewControllerDidFinish(controller: WebViewController)
+    func shouldHandleURL(_ URL: URL) -> Bool
+    func handleURL(_ URL: URL)
+    func webViewControllerDidFinish(_ controller: WebViewController)
 }
 
 internal class WebViewController: UINavigationController {
-    init(URL: NSURL, delegate: WebViewControllerDelegate) {
+    init(URL: Foundation.URL, delegate: WebViewControllerDelegate) {
         super.init(rootViewController: ViewController(URL: URL, delegate: delegate))
     }
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
@@ -56,10 +56,10 @@ internal class WebViewController: UINavigationController {
 }
 
 private class ViewController: UIViewController {
-    let URL: NSURL
+    let URL: Foundation.URL
     unowned let delegate: WebViewControllerDelegate
     
-    init(URL: NSURL, delegate: WebViewControllerDelegate) {
+    init(URL: Foundation.URL, delegate: WebViewControllerDelegate) {
         self.URL = URL
         self.delegate = delegate
         
@@ -77,14 +77,14 @@ private class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: #selector(ViewController.cancel))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(ViewController.cancel))
         
         if let view = view as? WKWebView {
             view.loadURL(URL)
         }
     }
     
-    @objc func cancel(item: UIBarButtonItem) {
+    @objc func cancel(_ item: UIBarButtonItem) {
         if let controller = navigationController as? WebViewController {
             delegate.webViewControllerDidFinish(controller)
         }
@@ -92,13 +92,13 @@ private class ViewController: UIViewController {
 }
 
 extension ViewController: WKNavigationDelegate {
-    @objc func webView(webView: WKWebView, decidePolicyForNavigationAction navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
-        guard let URL = navigationAction.request.URL where delegate.shouldHandleURL(URL) else {
-            decisionHandler(.Allow)
+    public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        guard let URL = navigationAction.request.url , delegate.shouldHandleURL(URL) else {
+            decisionHandler(.allow)
             return
         }
         
-        decisionHandler(.Cancel)
+        decisionHandler(.cancel)
         delegate.handleURL(URL)
     }
 }

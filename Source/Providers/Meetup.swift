@@ -23,7 +23,7 @@
 //
 
 extension Provider {
-    public static func Meetup(clientID clientID: String, redirectURL: String) -> Provider {
+    public static func Meetup(clientID: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,
             authorizeURL: "https://secure.meetup.com/oauth2/authorize",
@@ -31,7 +31,7 @@ extension Provider {
         )
     }
     
-    public static func Meetup(clientID clientID: String, clientSecret: String, redirectURL: String) -> Provider {
+    public static func Meetup(clientID: String, clientSecret: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,
             clientSecret: clientSecret,

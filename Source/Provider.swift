@@ -22,59 +22,61 @@
 // SOFTWARE.
 //
 
-public class Provider: NSObject {
+public typealias Completion = (Result<Token, Error>) -> Void
+
+open class Provider: NSObject {
     /// The client ID.
-    public let clientID: String
+    open let clientID: String
     
     /// The client secret.
-    public let clientSecret: String?
+    open let clientSecret: String?
     
     /// The authorize URL.
-    public let authorizeURL: NSURL?
+    open let authorizeURL: URL?
     
     /// The token URL.
-    public let tokenURL: NSURL?
+    open let tokenURL: URL?
     
     /// The redirect URL.
-    public let redirectURL: NSURL?
+    open let redirectURL: URL?
     
     /// Whether the in-app browser is a WKWebView
-    public var useWebView = false
+    open var useWebView = false
     
     /// The response type.
-    private let responseType: ResponseType
+    fileprivate let responseType: ResponseType
     
     /// The token.
-    public internal(set) var token: Token? {
+    open internal(set) var token: Token? {
         get { return tokenStore.getTokenForProvider(self) }
         set { tokenStore.setToken(newValue, forProvider: self) }
     }
     
     /// The scopes.
-    public var scopes: [String]?
+    open var scopes: [String]?
     
     /// The scope.
-    private var scope: String? {
-        return scopes?.joinWithSeparator(" ")
+    fileprivate var scope: String? {
+        return scopes?.joined(separator: " ")
     }
     
     /// The state.
-    public var state: String?
+    open var state: String?
     
     /// The additional parameters for the authorization request.
-    public var additionalAuthRequestParams: [String: String] = [:]
+    open var additionalAuthRequestParams: [String: String] = [:]
     
     /// The additional parameters for the token request.
-    public var additionalTokenRequestParams: [String: String] = [:]
+    open var additionalTokenRequestParams: [String: String] = [:]
     
     /// The block to be executed when the authorization process ends.
-    private var completion: (Result<Token, Error> -> Void)?
+    fileprivate var completion: Completion?
     
     /// The in-app browser.
-    private var safariVC: UIViewController?
+    fileprivate var safariVC: UIViewController?
     
     /// The Token Store used to store the token.
-    public var tokenStore: TokenStore = NSUserDefaults.standardUserDefaults()
+    open var tokenStore: TokenStore = UserDefaults.standard
     
     /**
      Creates a provider that uses the client-side (implicit) flow.
@@ -88,10 +90,10 @@ public class Provider: NSObject {
     public init(clientID: String, authorizeURL: URLStringConvertible, redirectURL: URLStringConvertible) {
         self.clientID = clientID
         self.clientSecret = nil
-        self.authorizeURL = NSURL(string: authorizeURL.URLString)!
+        self.authorizeURL = URL(string: authorizeURL.URLString)!
         self.tokenURL = nil
-        self.redirectURL = NSURL(string: redirectURL.URLString)!
-        self.responseType = .Token
+        self.redirectURL = URL(string: redirectURL.URLString)!
+        self.responseType = .token
     }
     
     /**
@@ -108,10 +110,10 @@ public class Provider: NSObject {
     public init(clientID: String, clientSecret: String, authorizeURL: URLStringConvertible, tokenURL: URLStringConvertible, redirectURL: URLStringConvertible) {
         self.clientID = clientID
         self.clientSecret = clientSecret
-        self.authorizeURL = NSURL(string: authorizeURL.URLString)!
-        self.tokenURL = NSURL(string: tokenURL.URLString)!
-        self.redirectURL = NSURL(string: redirectURL.URLString)!
-        self.responseType = .Code
+        self.authorizeURL = URL(string: authorizeURL.URLString)!
+        self.tokenURL = URL(string: tokenURL.URLString)!
+        self.redirectURL = URL(string: redirectURL.URLString)!
+        self.responseType = .code
     }
 
     /**
@@ -127,9 +129,9 @@ public class Provider: NSObject {
         self.clientID = clientID
         self.clientSecret = clientSecret
         self.authorizeURL = nil
-        self.tokenURL = NSURL(string: tokenURL.URLString)!
+        self.tokenURL = URL(string: tokenURL.URLString)!
         self.redirectURL = nil
-        self.responseType = .Client
+        self.responseType = .client
     }
     
     /**
@@ -137,14 +139,14 @@ public class Provider: NSObject {
      
      - parameter completion: The block to be executed when the authorization process ends.
      */
-    public func authorize(completion: Result<Token, Error> -> Void) {
-        self.completion = completion
+    open func authorize(_ completion: Completion) {
+        self.completion = completion as Completion?
         
         switch responseType {
-        case .Token, .Code:
+        case .token, .code:
             visit(URL: authorizeURL!.queries(authRequestParams))
-        case .Client:
-            requestToken(.ClientCredentials, completion: completion)
+        case .client:
+            requestToken(.clientCredentials, completion: completion)
         }
     }
     
@@ -153,14 +155,14 @@ public class Provider: NSObject {
      
      - parameter completion: The block to be executed when the refresh token process ends.
      */
-    public func refreshToken(completion: Result<Token, Error> -> Void) {
+    open func refreshToken(_ completion: Completion) {
         guard let refreshToken = token?.refreshToken else {
-            let error = Error.Other("", "")
-            completion(Result.Failure(error))
+            let error = Error.other("", "")
+            completion(Result.failure(error))
             return
         }
         
-        requestToken(.RefreshToken(refreshToken), completion: completion)
+        requestToken(.refreshToken(refreshToken), completion: completion)
     }
     
     /**
@@ -170,8 +172,8 @@ public class Provider: NSObject {
      - parameter options: A dictionary of launch options.
      */
     @available(iOS 9.0, *)
-    public func handleURL(URL: NSURL, options: [String: AnyObject]) {
-        let sourceApplication = options[UIApplicationOpenURLOptionsSourceApplicationKey] as? String
+    open func handleURL(_ URL: Foundation.URL, options: [String: Any]) {
+        let sourceApplication = options[String(describing: UIApplicationOpenURLOptionsKey.sourceApplication)] as? String
         
         handleURL(URL, sourceApplication: sourceApplication)
     }
@@ -182,22 +184,22 @@ public class Provider: NSObject {
      - parameter URL:               The incoming URL to handle.
      - parameter sourceApplication: The source application.
      */
-    @available(*, deprecated=9.0, message="Use handleURL:options: in application:openURL:options: instead.")
-    public func handleURL(URL: NSURL, sourceApplication: String?) {
+    @available(*, deprecated: 9.0, message: "Use handleURL:options: in application:openURL:options: instead.")
+    open func handleURL(_ URL: Foundation.URL, sourceApplication: String?) {
         guard shouldHandleURL(URL, sourceApplication: sourceApplication) else { return }
         
         handleURL(URL)
     }
     
-    internal func handleURL(URL: NSURL) {
-        safariVC?.dismissViewControllerAnimated(true, completion: nil)
-        NotificationCenter.removeObserver(self, name: UIApplicationDidBecomeActiveNotification)
+    internal func handleURL(_ URL: Foundation.URL) {
+        safariVC?.dismiss(animated: true, completion: nil)
+        NotificationCenter.removeObserver(self, name: .UIApplicationDidBecomeActive)
         
         guard let completion = completion else { return }
         
         switch responseType {
-        case .Token, .Client: handleURLForTokenResponseType(URL, completion: completion)
-        case .Code: handleURLForCodeResponseType(URL, completion: completion)
+        case .token, .client: handleURLForTokenResponseType(URL, completion: completion)
+        case .code: handleURLForCodeResponseType(URL, completion: completion)
         }
     }
 }
@@ -220,7 +222,7 @@ private extension Provider {
         return params
     }
     
-    func tokenRequestParams(grantType: GrantType) -> [String: String] {
+    func tokenRequestParams(_ grantType: GrantType) -> [String: String] {
         var params = [
             "client_id": clientID,
             "client_secret": clientSecret!
@@ -239,7 +241,7 @@ private extension Provider {
 // MARK: - Visit URL
 
 private extension Provider {
-    func visit(URL URL: NSURL) {
+    func visit(URL: Foundation.URL) {
         if useWebView {
             safariVC = WebViewController(URL: URL, delegate: self)
             Application.presentViewController(safariVC!)
@@ -250,7 +252,7 @@ private extension Provider {
             safariVC = SFSafariViewController(URL: URL, delegate: self)
             Application.presentViewController(safariVC!)
         } else {
-            NotificationCenter.addObserver(self, selector: #selector(Provider.didBecomeActive(_:)), name: UIApplicationDidBecomeActiveNotification)
+            NotificationCenter.addObserver(self, selector: #selector(Provider.didBecomeActive(_:)), name: .UIApplicationDidBecomeActive)
             Application.openURL(URL)
         }
     }
@@ -259,50 +261,50 @@ private extension Provider {
 // MARK: - Handle Incoming URL
 
 private extension Provider {
-    func handleURLForTokenResponseType(URL: NSURL, completion: Result<Token, Error> -> Void) {
+    func handleURLForTokenResponseType(_ URL: Foundation.URL, completion: @escaping (Result<Token, Error>) -> Void) {
         let result: Result<Token, Error>
         
         if let token = Token(dictionary: URL.fragments) {
             self.token = token
-            result = .Success(token)
+            result = .success(token)
         } else {
-            result = .Failure(Error(URL.fragments))
+            result = .failure(Error(URL.fragments))
         }
         
         Queue.main { completion(result) }
     }
     
-    func handleURLForCodeResponseType(URL: NSURL, completion: Result<Token, Error> -> Void) {
+    func handleURLForCodeResponseType(_ URL: Foundation.URL, completion: @escaping (Result<Token, Error>) -> Void) {
         guard let code = URL.queries["code"] else {
             let error = Error(URL.queries)
             
-            Queue.main { completion(.Failure(error)) }
+            Queue.main { completion(.failure(error)) }
             
             return
         }
         
-        requestToken(.AuthorizationCode(code), completion: completion)
+        requestToken(.authorizationCode(code), completion: completion)
     }
     
-    func shouldHandleURL(URL: NSURL, sourceApplication: String?) -> Bool {
+    func shouldHandleURL(_ URL: Foundation.URL, sourceApplication: String?) -> Bool {
         guard isLegitSourceApplication(sourceApplication) else { return false }
         
         return shouldHandleURL(URL)
     }
     
-    func isLegitSourceApplication(sourceApplication: String?) -> Bool {
+    func isLegitSourceApplication(_ sourceApplication: String?) -> Bool {
         guard let sourceApplication = sourceApplication else { return false }
         
         return ["com.apple.mobilesafari", "com.apple.SafariViewService"].contains(sourceApplication)
     }
     
-    func matchingURLs(a: NSURL, _ b: NSURL) -> Bool {
+    func matchingURLs(_ a: URL, _ b: URL) -> Bool {
         return (a.scheme, a.host, a.path) == (b.scheme, b.host, b.path)
     }
 }
 
 internal extension Provider {
-    func shouldHandleURL(URL: NSURL) -> Bool {
+    func shouldHandleURL(_ URL: Foundation.URL) -> Bool {
         guard state == URL.queries["state"] else { return false }
         
         return matchingURLs(URL, redirectURL!)
@@ -312,22 +314,22 @@ internal extension Provider {
 // MARK: - Request Token
 
 private extension Provider {
-    func requestToken(grantType: GrantType, completion: Result<Token, Error> -> Void) {
+    func requestToken(_ grantType: GrantType, completion: Completion) {
         let params = tokenRequestParams(grantType)
         
         HTTP.POST(tokenURL!, parameters: params) { resultJSON in
             let result: Result<Token, Error>
             
             switch resultJSON {
-            case .Success(let json):
+            case .success(let json):
                 if let token = Token(dictionary: json) {
                     self.token = token
-                    result = .Success(token)
+                    result = .success(token)
                 } else {
-                    result = .Failure(Error(json))
+                    result = .failure(Error(json))
                 }
-            case .Failure(let error):
-                result = .Failure(Error(error))
+            case .failure(let error):
+                result = .failure(Error(error as NSError))
             }
             
             Queue.main { completion(result) }
@@ -339,31 +341,31 @@ private extension Provider {
 
 @available(iOS 9.0, *)
 extension Provider: SFSafariViewControllerDelegate {
-    public func safariViewControllerDidFinish(controller: SFSafariViewController) {
-        safariVC?.dismissViewControllerAnimated(true, completion: nil)
+    public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        safariVC?.dismiss(animated: true, completion: nil)
         
         if let completion = completion {
-            Queue.main { completion(.Failure(.Cancel)) }
+            Queue.main { completion(.failure(.cancel)) }
         }
     }
 }
 
 extension Provider: WebViewControllerDelegate {
-    func webViewControllerDidFinish(controller: WebViewController) {
-        safariVC?.dismissViewControllerAnimated(true, completion: nil)
+    func webViewControllerDidFinish(_ controller: WebViewController) {
+        safariVC?.dismiss(animated: true, completion: nil)
         
         if let completion = completion {
-            Queue.main { completion(.Failure(.Cancel)) }
+            Queue.main { completion(.failure(.cancel)) }
         }
     }
 }
 
 extension Provider {
-    @objc func didBecomeActive(notification: NSNotification) {
-        NotificationCenter.removeObserver(self, name: UIApplicationDidBecomeActiveNotification)
+    @objc func didBecomeActive(_ notification: Notification) {
+        NotificationCenter.removeObserver(self, name: .UIApplicationDidBecomeActive)
         
         if let completion = completion {
-            Queue.main { completion(.Failure(.Cancel)) }
+            Queue.main { completion(.failure(.cancel)) }
         }
     }
 }

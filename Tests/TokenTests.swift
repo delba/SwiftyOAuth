@@ -27,7 +27,7 @@ import XCTest
 
 class TokenTests: XCTestCase {
     func testInit() {
-        let dictionary: [String: AnyObject] = [
+        let dictionary: [String: Any] = [
             "access_token": "accessToken",
             "scope": "first second"
         ]
@@ -41,7 +41,7 @@ class TokenTests: XCTestCase {
     }
     
     func testFailableInit() {
-        let dictionary: [String: AnyObject] = [
+        let dictionary: [String: Any] = [
             "token_type": "tokenType",
             "scope": "scope"
         ]
@@ -52,19 +52,19 @@ class TokenTests: XCTestCase {
     }
     
     func testTokenType() {
-        var dictionary: [String: AnyObject]
+        var dictionary: [String: Any]
         
         dictionary = [
             "token_type": "bearer"
         ]
         
-        XCTAssert(TokenType(dictionary["token_type"]) == .Bearer)
+        XCTAssert(TokenType(dictionary["token_type"]) == .bearer)
         
         dictionary = [
             "token_type": "Bearer"
         ]
         
-        XCTAssert(TokenType(dictionary["token_type"]) == .Bearer)
+        XCTAssert(TokenType(dictionary["token_type"]) == .bearer)
         
         dictionary = [
             "token_type": "other"

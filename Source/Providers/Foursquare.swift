@@ -23,7 +23,7 @@
 //
 
 extension Provider {
-    public static func Foursquare(clientID clientID: String, redirectURL: String) -> Provider {
+    public static func Foursquare(clientID: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,
             authorizeURL: "https://foursquare.com/oauth2/authenticate",
@@ -31,7 +31,7 @@ extension Provider {
         )
     }
     
-    public static func Foursquare(clientID clientID: String, clientSecret: String, redirectURL: String) -> Provider {
+    public static func Foursquare(clientID: String, clientSecret: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,
             clientSecret: clientSecret,

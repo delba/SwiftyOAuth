@@ -23,21 +23,21 @@
 //
 
 internal enum ResponseType {
-    case Token
-    case Code
-    case Client
+    case token
+    case code
+    case client
     
     var params: [String: String] {
         switch self {
-        case .Token:
+        case .token:
             return [
                 "response_type": "token"
             ]
-        case .Code:
+        case .code:
             return [
                 "response_type": "code"
             ]
-        case .Client:
+        case .client:
             return [
                 "grant_type": "client_credentials"
             ]

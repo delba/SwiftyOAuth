@@ -22,45 +22,45 @@
 // SOFTWARE.
 //
 
-typealias JSON = [String: AnyObject]
+typealias JSON = [String: Any]
 
 struct HTTP {
-    static func POST(URL: NSURL, parameters: [String: String], completion: Result<JSON, NSError> -> Void) {
-        let request = NSMutableURLRequest(URL: URL)
+    static func POST(_ URL: Foundation.URL, parameters: [String: String], completion: @escaping (Result<JSON, NSError>) -> Void) {
+        var request = URLRequest(url: URL)
         
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         
-        request.HTTPMethod = "POST"
+        request.httpMethod = "POST"
         
-        request.HTTPBody = parameters.map { "\($0)=\($1)" }
-            .joinWithSeparator("&")
-            .dataUsingEncoding(NSUTF8StringEncoding)
+        request.httpBody = parameters.map { "\($0)=\($1)" }
+            .joined(separator: "&")
+            .data(using: String.Encoding.utf8)
         
-        let session = NSURLSession.sharedSession()
+        let session = URLSession.shared
         
-        let task = session.dataTaskWithRequest(request) { data, response, error in
+        let task = session.dataTask(with: request) { data, response, error in
             if let error = error {
-                completion(.Failure(error))
+                completion(.failure(error as NSError))
                 return
             }
             
             guard let data = data else {
                 // TODO better error than that...
                 let error = NSError(domain: "No data received", code: 42, userInfo: nil)
-                completion(.Failure(error))
+                completion(.failure(error))
                 return
             }
             
             do {
-                let object = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+                let object = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
                 if let dictionary = object as? JSON {
-                    completion(.Success(dictionary))
+                    completion(.success(dictionary))
                 } else {
                     let error = NSError(domain: "Cannot initialize token", code: 42, userInfo: nil)
-                    completion(.Failure(error))
+                    completion(.failure(error))
                 }
             } catch {
-                completion(.Failure(error as NSError))
+                completion(.failure(error as NSError))
             }
         }
         

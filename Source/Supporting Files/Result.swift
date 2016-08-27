@@ -22,24 +22,24 @@
 // SOFTWARE.
 //
 
-public enum Result<Value, Error: ErrorType> {
-    case Success(Value)
-    case Failure(Error)
+public enum Result<Value, Error: Swift.Error> {
+    case success(Value)
+    case failure(Error)
     
     public var value: Value? {
         switch self {
-        case .Success(let value):
+        case .success(let value):
             return value
-        case .Failure:
+        case .failure:
             return nil
         }
     }
     
     public var error: Error? {
         switch self {
-        case .Success:
+        case .success:
             return nil
-        case .Failure(let error):
+        case .failure(let error):
             return error
         }
     }

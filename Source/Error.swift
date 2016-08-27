@@ -22,77 +22,77 @@
 // SOFTWARE.
 //
 
-public enum Error: ErrorType {
+public enum Error: Swift.Error {
     /// The user cancelled the authorization process by closing the web browser window.
-    case Cancel
+    case cancel
     
     /// The OAuth application has been suspended.
-    case ApplicationSuspended(String)
+    case applicationSuspended(String)
     
     /// The provided redirectURL that doesn't match the one registered with the OAuth application.
-    case RedirectURIMismatch(String)
+    case redirectURIMismatch(String)
     
     /// The user denied access.
-    case AccessDenied(String)
+    case accessDenied(String)
     
     /// Some required parameters were not provided.
-    case InvalidRequest(String)
+    case invalidRequest(String)
     
     /// The scope parameter provided is not a valid subset of scopes.
-    case InvalidScope(String)
+    case invalidScope(String)
     
     /// The passed `clientID` and/or `clientSecret` are incorrect.
-    case InvalidClient(String)
+    case invalidClient(String)
     
     /// The verification code is incorrect or expired.
-    case InvalidGrant(String)
+    case invalidGrant(String)
     
     /// The server returned an unknown error.
-    case ServerError(String)
+    case serverError(String)
     
     /// The endpoint is temporarily unable to respond.
-    case TemporarilyUnavailable(String)
+    case temporarilyUnavailable(String)
     
     /// The application responded with an error that doesn't match any enum cases.
-    case Other(String, String)
+    case other(String, String)
     
     /// The application emitted a response which format doesn't match a success one nor an error one.
-    case Unknown([String: AnyObject])
+    case unknown([String: Any])
     
     /// An error trigger when making network requests or parsing JSON.
-    case NSError(Foundation.NSError)
+    case nsError(Foundation.NSError)
     
-    init(_ dictionary: [String: AnyObject]) {
-        guard let error = dictionary["error"] as? String, description = dictionary["error_description"] as? String else {
-            self = .Unknown(dictionary)
+    init(_ dictionary: [String: Any]) {
+        guard let error = dictionary["error"] as? String, let description = dictionary["error_description"] as? String else {
+            self = .unknown(dictionary)
             return
         }
         
         switch error {
         case "application_suspended":
-            self = .ApplicationSuspended(description)
+            self = .applicationSuspended(description)
         case "redirect_uri_mismatch":
-            self = .RedirectURIMismatch(description)
+            self = .redirectURIMismatch(description)
         case "access_denied":
-            self = .AccessDenied(description)
+            self = .accessDenied(description)
         case "invalid_request":
-            self = .InvalidRequest(description)
+            self = .invalidRequest(description)
         case "invalid_scope":
-            self = .InvalidScope(description)
+            self = .invalidScope(description)
         case "invalid_client", "incorrect_client_credentials":
-            self = .InvalidClient(description)
+            self = .invalidClient(description)
         case "invalid_grant", "bad_verification_code":
-            self = .InvalidGrant(description)
+            self = .invalidGrant(description)
         case "server_error":
-            self = .ServerError(description)
+            self = .serverError(description)
         case "temporarily_unavailable":
-            self = .TemporarilyUnavailable(description)
+            self = .temporarilyUnavailable(description)
         default:
-            self = .Other(error, description)
+            self = .other(error, description)
         }
     }
     
     init(_ error: Foundation.NSError) {
-        self = .NSError(error)
+        self = .nsError(error)
     }
 }

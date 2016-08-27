@@ -23,7 +23,7 @@
 //
 
 extension Provider {
-    public static func Google(clientID clientID: String, redirectURL: String) -> Provider {
+    public static func Google(clientID: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,
             authorizeURL: "https://accounts.google.com/o/oauth2/v2/auth",
@@ -31,7 +31,7 @@ extension Provider {
         )
     }
     
-    public static func Google(clientID clientID: String, clientSecret: String, redirectURL: String) -> Provider {
+    public static func Google(clientID: String, clientSecret: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,
             clientSecret: clientSecret,

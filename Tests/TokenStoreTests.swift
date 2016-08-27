@@ -30,7 +30,7 @@ let token: Token? = {
     let dictionary = [
         "access_token": "A_TEST_ACCESS_TOKEN",
         "refresh_token": "A_TEST_REFRESH_TOKEN",
-        "expires_in": String(NSDate().timeIntervalSinceNow),
+        "expires_in": String(Date().timeIntervalSinceNow),
         "token_type": "Bearer"
     ]
     
@@ -40,35 +40,35 @@ let token: Token? = {
 let provider = Provider(clientID: "testing_client_id", authorizeURL: "testing_authorize_url", redirectURL: "redirect_url")
 
 class UserDefaultTokenStoreTests: XCTestCase {
-    let store = NSUserDefaults.standardUserDefaults()
+    let store = UserDefaults.standard
     
     func testStoreTokenForProvider(){
         provider.tokenStore = store
         provider.token = token
         
-        let savedInformation = store.dictionaryForKey(store.keyForProvider(provider))
+        let savedInformation = store.dictionary(forKey: store.keyForProvider(provider))
         
         XCTAssertNotNil(savedInformation)
         XCTAssertEqual(savedInformation!["access_token"] as? String, provider.token?.accessToken)
         XCTAssertEqual(savedInformation!["refresh_token"] as? String, provider.token?.refreshToken)
-        XCTAssertEqual(savedInformation!["expires_in"] as? NSTimeInterval, provider.token?.expiresIn)
+        XCTAssertEqual(savedInformation!["expires_in"] as? TimeInterval, provider.token?.expiresIn)
         XCTAssertEqual(TokenType(savedInformation!["token_type"]), provider.token?.tokenType)
     }
 }
 
 class UbiquitousKeyValueStoreTests: XCTestCase {
-    let store = NSUbiquitousKeyValueStore.defaultStore()
+    let store = NSUbiquitousKeyValueStore.default()
     
     func testStoreTokenForProvider(){
         provider.tokenStore = store
         provider.token = token
         
-        let savedInformation = store.dictionaryForKey(store.keyForProvider(provider))
+        let savedInformation = store.dictionary(forKey: store.keyForProvider(provider))
         
         XCTAssertNotNil(savedInformation)
         XCTAssertEqual(savedInformation!["access_token"] as? String, provider.token?.accessToken)
         XCTAssertEqual(savedInformation!["refresh_token"] as? String, provider.token?.refreshToken)
-        XCTAssertEqual(savedInformation!["expires_in"] as? NSTimeInterval, provider.token?.expiresIn)
+        XCTAssertEqual(savedInformation!["expires_in"] as? TimeInterval, provider.token?.expiresIn)
         XCTAssertEqual(TokenType(savedInformation!["token_type"]), provider.token?.tokenType)
     }
 }

@@ -23,7 +23,7 @@
 //
 
 extension Provider {
-    public static func Instagram(clientID clientID: String, redirectURL: String) -> Provider {
+    public static func Instagram(clientID: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,
             authorizeURL: "https://api.instagram.com/oauth/authorize",
@@ -31,7 +31,7 @@ extension Provider {
         )
     }
     
-    public static func Instagram(clientID clientID: String, clientSecret: String, redirectURL: String) -> Provider {
+    public static func Instagram(clientID: String, clientSecret: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,
             clientSecret: clientSecret,

@@ -28,36 +28,36 @@ import XCTest
 class Utilities: XCTestCase {
     
     func testFragments() {
-        var url: NSURL
+        var url: URL
         
-        url = NSURL(string: "https://www.example.com")!
+        url = URL(string: "https://www.example.com")!
         XCTAssertEqual([:], url.fragments)
         
-        url = NSURL(string: "https://www.example.com/path#foo=bar&baz=value")!
+        url = URL(string: "https://www.example.com/path#foo=bar&baz=value")!
         XCTAssertEqual(["foo": "bar", "baz": "value"], url.fragments)
         
-        url = NSURL(string: "https://www.example.com/path#foo=bar&baz")!
+        url = URL(string: "https://www.example.com/path#foo=bar&baz")!
         XCTAssertEqual(["foo":"bar"], url.fragments)
     }
     
     func testQueriesProperties() {
-        var url: NSURL
+        var url: URL
         
-        url = NSURL(string: "https://www.example.com")!
+        url = URL(string: "https://www.example.com")!
         XCTAssertEqual([:], url.queries)
         
-        url = NSURL(string: "https://www.example.com/path?foo=bar&baz=value")!
+        url = URL(string: "https://www.example.com/path?foo=bar&baz=value")!
         XCTAssertEqual(["foo": "bar", "baz": "value"], url.queries)
         
-        url = NSURL(string: "https://www.example.com/path?foo=bar&baz")!
+        url = URL(string: "https://www.example.com/path?foo=bar&baz")!
         XCTAssertEqual(["foo":"bar"], url.queries)
     }
     
     func testQueriesFunction() {
-        var base: NSURL
-        var url: NSURL
+        var base: URL
+        var url: URL
         
-        base = NSURL(string: "https://www.example.com")!
+        base = URL(string: "https://www.example.com")!
         
         url = base.queries([
             "foo": "bar",

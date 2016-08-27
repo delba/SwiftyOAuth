@@ -23,13 +23,13 @@
 //
 
 public enum TokenType {
-    case Bearer
+    case bearer
     
-    init?(_ object: AnyObject?) {
-        guard let s = object as? String where s.caseInsensitiveCompare("bearer") == .OrderedSame else {
+    init?(_ object: Any?) {
+        guard let s = object as? String , s.caseInsensitiveCompare("bearer") == .orderedSame else {
             return nil
         }
         
-        self = .Bearer
+        self = .bearer
     }
 }

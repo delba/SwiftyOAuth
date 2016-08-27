@@ -22,8 +22,8 @@
 // SOFTWARE.
 //
 
-internal let Application = UIApplication.sharedApplication()
-internal let NotificationCenter = NSNotificationCenter.defaultCenter()
+internal let Application = UIApplication.shared
+internal let NotificationCenter = Foundation.NotificationCenter.default
 
 // MARK: - Equatable
 
@@ -43,7 +43,7 @@ extension String: URLStringConvertible {
     }
 }
 
-extension NSURL: URLStringConvertible {
+extension URL: URLStringConvertible {
     public var URLString: String {
         return absoluteString
     }
@@ -52,7 +52,7 @@ extension NSURL: URLStringConvertible {
 // MARK: - UIApplication
 
 extension UIApplication {
-    private var topViewController: UIViewController? {
+    fileprivate var topViewController: UIViewController? {
         var vc = delegate?.window??.rootViewController
         
         while let presentedVC = vc?.presentedViewController {
@@ -62,33 +62,33 @@ extension UIApplication {
         return vc
     }
     
-    internal func presentViewController(viewController: UIViewController, animated: Bool = true, completion: (() -> Void)? = nil) {
-        topViewController?.presentViewController(viewController, animated: animated, completion: completion)
+    internal func presentViewController(_ viewController: UIViewController, animated: Bool = true, completion: (() -> Void)? = nil) {
+        topViewController?.present(viewController, animated: animated, completion: completion)
     }
 }
 
 // MARK: - NSNotificationCenter
 
-internal extension NSNotificationCenter {
-    func addObserver(observer: AnyObject, selector: Selector, name: String) {
+internal extension Foundation.NotificationCenter {
+    func addObserver(_ observer: Any, selector: Selector, name: NSNotification.Name) {
         addObserver(observer, selector: selector, name: name, object: nil)
     }
     
-    func removeObserver(observer: AnyObject, name: String) {
+    func removeObserver(_ observer: Any, name: NSNotification.Name) {
         removeObserver(observer, name: name, object: nil)
     }
 }
 
 // MARK: - NSURL
 
-internal extension NSURL {
+internal extension URL {
     var fragments: [String: String] {
         var result: [String: String] = [:]
         
         guard let fragment = self.fragment else { return result }
         
-        for pair in fragment.componentsSeparatedByString("&") {
-            let pair = pair.componentsSeparatedByString("=")
+        for pair in fragment.components(separatedBy: "&") {
+            let pair = pair.components(separatedBy: "=")
             if pair.count == 2 { result[pair[0]] = pair[1] }
         }
         
@@ -105,19 +105,18 @@ internal extension NSURL {
         return result
     }
     
-    @warn_unused_result
-    func queries(items: [String: String]) -> NSURL {
-        let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: false)
+    func queries(_ items: [String: String]) -> URL {
+        var components = URLComponents(url: self, resolvingAgainstBaseURL: false)
         
         components?.queryItems = items.map { (name, value) in
-            return NSURLQueryItem(name: name, value: value)
+            return URLQueryItem(name: name, value: value)
         }
         
-        return components?.URL ?? self
+        return components?.url ?? self
     }
     
-    private var queryItems: [NSURLQueryItem] {
-        return NSURLComponents(URL: self, resolvingAgainstBaseURL: false)?.queryItems ?? []
+    fileprivate var queryItems: [URLQueryItem] {
+        return URLComponents(url: self, resolvingAgainstBaseURL: false)?.queryItems ?? []
     }
     
 }
@@ -125,7 +124,7 @@ internal extension NSURL {
 // MARK: - Dictionary
 
 internal extension Dictionary {
-    mutating func merge(other: Dictionary) {
+    mutating func merge(_ other: Dictionary) {
         other.forEach { self[$0] = $1 }
     }
 }
@@ -134,8 +133,8 @@ internal extension Dictionary {
 
 @available(iOS 9.0, *)
 internal extension SFSafariViewController {
-    convenience init(URL: NSURL, delegate: SFSafariViewControllerDelegate) {
-        self.init(URL: URL)
+    convenience init(URL: Foundation.URL, delegate: SFSafariViewControllerDelegate) {
+        self.init(url: URL)
         self.delegate = delegate
     }
 }
@@ -143,7 +142,7 @@ internal extension SFSafariViewController {
 // MARK: - Queue
 
 internal struct Queue {
-    static func main(block: dispatch_block_t) {
-        dispatch_async(dispatch_get_main_queue(), block)
+    static func main(_ block: @escaping ()->()) {
+        DispatchQueue.main.async(execute: block)
     }
 }

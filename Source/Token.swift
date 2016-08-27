@@ -34,8 +34,8 @@ public struct Token {
     }
     
     /// The remaining lifetime on the access token.
-    public var expiresIn: NSTimeInterval? {
-        return dictionary["expires_in"] as? NSTimeInterval
+    public var expiresIn: TimeInterval? {
+        return dictionary["expires_in"] as? TimeInterval
     }
     
     /// A boolean value indicating whether the token is expired.
@@ -44,7 +44,7 @@ public struct Token {
             return false
         }
         
-        return NSDate.timeIntervalSinceReferenceDate() > createdAt + expiresIn
+        return Date.timeIntervalSinceReferenceDate > createdAt + expiresIn
     }
     
     /// A boolean value indicating whether the token is valid.
@@ -52,8 +52,8 @@ public struct Token {
         return !isExpired
     }
     
-    private var createdAt: NSTimeInterval {
-        return dictionary["created_at"] as! NSTimeInterval
+    fileprivate var createdAt: TimeInterval {
+        return dictionary["created_at"] as! TimeInterval
     }
     
     /// The token type.
@@ -63,24 +63,24 @@ public struct Token {
     
     /// The scopes.
     public var scopes: [String]? {
-        return scope?.componentsSeparatedByString(" ")
+        return scope?.components(separatedBy: " ")
     }
     
     /// The scope.
-    private var scope: String? {
+    fileprivate var scope: String? {
         return dictionary["scope"] as? String
     }
     
     /// The full response dictionary.
-    public let dictionary: [String: AnyObject]
+    public let dictionary: [String: Any]
     
-    internal init?(dictionary: [String: AnyObject]) {
+    internal init?(dictionary: [String: Any]) {
         guard dictionary["access_token"] as? String != nil else {
             return nil
         }
         
         var dictionary = dictionary
-        dictionary["created_at"] = NSDate.timeIntervalSinceReferenceDate()
+        dictionary["created_at"] = Date.timeIntervalSinceReferenceDate
         
         self.dictionary = dictionary
     }

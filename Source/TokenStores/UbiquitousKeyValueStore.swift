@@ -23,22 +23,22 @@
 //
 
 extension NSUbiquitousKeyValueStore: TokenStore {
-    public func getTokenForProvider(provider: Provider) -> Token? {
+    public func getTokenForProvider(_ provider: Provider) -> Token? {
         synchronize()
         
         let key = keyForProvider(provider)
         
-        guard let dictionary = dictionaryForKey(key) else {
+        guard let dictionary = dictionary(forKey: key) else {
             return nil
         }
         
         return Token(dictionary: dictionary)
     }
     
-    public func setToken(token: Token?, forProvider provider: Provider) {
+    public func setToken(_ token: Token?, forProvider provider: Provider) {
         let key = keyForProvider(provider)
         
-        setObject(token?.dictionary, forKey: key)
+        set(token?.dictionary, forKey: key)
         
         synchronize()
     }
