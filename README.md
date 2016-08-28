@@ -11,10 +11,10 @@
 **SwiftyOAuth** is a *small* OAuth library with a built-in set of providers and a nice API to add your owns.
 
 ```swift
-let instagram: Provider = .Instagram(clientID: "***", redirectURL: "foo://callback")
+let instagram: Provider = .instagram(clientID: "***", redirectURL: "foo://callback")
 
 instagram.authorize { result in
-    print(result) // Success(Token(accessToken: "abc123"))
+    print(result) // success(Token(accessToken: "abc123"))
 }
 ```
 
@@ -62,7 +62,7 @@ let provider = Provider(
 Alternatively, you can use one of the [built-in providers](https://github.com/delba/SwiftyOAuth#providers):
 
 ```swift
-let github = .GitHub(
+let github = .gitHub(
     clientID:     "***",
     clientSecret: "***",
     redirectURL:  "foo://callback"
@@ -115,8 +115,8 @@ Finally, ask for authorization. SwiftyOAuth will either present a `SFSafariViewC
 ```swift
 github.authorize { (result: Result<Token, Error>) -> Void in
     switch result {
-    case .Success(let token): print(token)
-    case .Failure(let error): print(error)
+    case .success(let token): print(token)
+    case .failure(let error): print(error)
     }
 }
 ```
@@ -134,8 +134,8 @@ let uber: Provider = .Uber(
 
 uber.refreshToken { result in
     switch result {
-    case .Success(let token): print(token)
-    case .Failure(let error): print(error)
+    case .success(let token): print(token)
+    case .failure(let error): print(error)
     }
 }
 ```
@@ -177,23 +177,23 @@ The library currently supports following `TokenStore`s:
 
 **Error** is a enum that conforms to the `ErrorType` protocol.
 
-- `Cancel` The user cancelled the authorization process by closing the web browser window.
+- `cancel` The user cancelled the authorization process by closing the web browser window.
 
-- `ApplicationSuspended` The OAuth application you set up has been suspended.
+- `applicationSuspended` The OAuth application you set up has been suspended.
 
-- `RedirectURIMismatch` The provided `redirectURL` that doesn't match what you've registered with your application.
+- `redirectURIMismatch` The provided `redirectURL` that doesn't match what you've registered with your application.
 
-- `AccessDenied` The user rejects access to your application.
+- `accessDenied` The user rejects access to your application.
 
-- `InvalidClient` The `clientID` and or `clientSecret` you passed are incorrect.
+- `invalidClient` The `clientID` and or `clientSecret` you passed are incorrect.
 
-- `InvalidGrant` The verification code you passed is incorrect, expired, or doesn't match what you received in the first request for authorization.
+- `invalidGrant` The verification code you passed is incorrect, expired, or doesn't match what you received in the first request for authorization.
 
-- `Other` The application emitted a response in the form of `{"error": "xxx", "error_description": "yyy"}` but SwiftyOAuth doesn't have a enum for it. The data is available in the associated values.
+- `other` The application emitted a response in the form of `{"error": "xxx", "error_description": "yyy"}` but SwiftyOAuth doesn't have a enum for it. The data is available in the associated values.
 
-- `Unknown` The application emitted a response that is neither in the form of a success one (`{"access_token": "xxx"...}`) nor in the form of a failure one (`{"error": "xxx"...}`). The data is available in the associated value.
+- `unknown` The application emitted a response that is neither in the form of a success one (`{"access_token": "xxx"...}`) nor in the form of a failure one (`{"error": "xxx"...}`). The data is available in the associated value.
 
-- `NSError` An error triggered when making network requests or parsing JSON. The data is available in the associated value.
+- `nsError` An error triggered when making network requests or parsing JSON. The data is available in the associated value.
 
 #### Providers
 
