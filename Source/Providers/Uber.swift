@@ -23,7 +23,7 @@
 //
 
 extension Provider {
-    public static func Uber(clientID: String, clientSecret: String, redirectURL: String) -> Provider {
+    public static func uber(clientID: String, clientSecret: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,
             clientSecret: clientSecret,

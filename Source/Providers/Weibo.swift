@@ -23,7 +23,7 @@
 //
 
 extension Provider {
-    public static func Weibo(clientID: String, clientSecret: String, redirectURL: String) -> Provider {
+    public static func weibo(clientID: String, clientSecret: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,
             clientSecret: clientSecret,

@@ -23,7 +23,7 @@
 //
 
 extension Provider {
-    public static func Basecamp(clientID: String, clientSecret: String, redirectURL: String) -> Provider {
+    public static func basecamp(clientID: String, clientSecret: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,
             clientSecret: clientSecret,

@@ -23,7 +23,7 @@
 //
 
 extension Provider {
-    public static func SoundCloud(clientID: String, clientSecret: String, redirectURL: String) -> Provider {
+    public static func soundCloud(clientID: String, clientSecret: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,
             clientSecret: clientSecret,

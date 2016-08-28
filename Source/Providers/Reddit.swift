@@ -23,7 +23,7 @@
 //
 
 extension Provider {
-    public static func Reddit(clientID: String, redirectURL: String) -> Provider {
+    public static func reddit(clientID: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,
             authorizeURL: "https://www.reddit.com/api/v1/authorize.compact",
@@ -31,7 +31,7 @@ extension Provider {
         )
     }
     
-    public static func Reddit(clientID: String, clientSecret: String, redirectURL: String) -> Provider {
+    public static func reddit(clientID: String, clientSecret: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,
             clientSecret: clientSecret,

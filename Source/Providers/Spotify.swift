@@ -23,7 +23,7 @@
 //
 
 extension Provider {
-    public static func Spotify(clientID: String, clientSecret: String, redirectURL: String) -> Provider {
+    public static func spotify(clientID: String, clientSecret: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,
             clientSecret: clientSecret,
@@ -33,7 +33,7 @@ extension Provider {
         )
     }
     
-    public static func Spotify(clientID: String, redirectURL: String) -> Provider {
+    public static func spotify(clientID: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,
             authorizeURL: "https://accounts.spotify.com/authorize",
@@ -41,7 +41,7 @@ extension Provider {
         )
     }
     
-    public static func Spotify(clientID: String, clientSecret: String) -> Provider {
+    public static func spotify(clientID: String, clientSecret: String) -> Provider {
         return Provider(
             clientID: clientID,
             clientSecret: clientSecret,

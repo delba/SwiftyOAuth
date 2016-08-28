@@ -23,7 +23,7 @@
 //
 
 extension Provider {
-    public static func Dropbox(clientID: String, clientSecret: String, redirectURL: String) -> Provider {
+    public static func dropbox(clientID: String, clientSecret: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,
             clientSecret: clientSecret,

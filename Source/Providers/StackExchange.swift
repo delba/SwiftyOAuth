@@ -23,7 +23,7 @@
 //
 
 extension Provider {
-    public static func StackExchange(clientID: String, redirectURL: String) -> Provider {
+    public static func stackExchange(clientID: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,
             authorizeURL: "https://stackexchange.com/oauth/dialog",
@@ -31,7 +31,7 @@ extension Provider {
         )
     }
     
-    public static func StackExchange(clientID: String, clientSecret: String, redirectURL: String) -> Provider {
+    public static func stackExchange(clientID: String, clientSecret: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,
             clientSecret: clientSecret,
