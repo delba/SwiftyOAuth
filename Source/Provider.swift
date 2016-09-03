@@ -202,6 +202,17 @@ open class Provider: NSObject {
         case .code: handleURLForCodeResponseType(URL, completion: completion)
         }
     }
+    
+    /**
+     Requests access to the OAuth application via device code.
+     
+     - parameter deviceCode: The device code to use for requesting the access to the OAuth application.
+     - parameter completion: The block to be executed when the authorization process ends.
+     */
+    public func authorizeDeviceCode(deviceCode: String, completion: @escaping (Result<Token, Error>) -> Void) {
+        requestToken(GrantType.device(deviceCode), completion: completion)
+    }
+
 }
 
 // MARK: - Requests Params
@@ -232,6 +243,19 @@ private extension Provider {
         if let state = state { params["state"] = state }
         
         params.merge(grantType.params)
+        params.merge(additionalTokenRequestParams)
+        
+        return params
+    }
+    
+    
+    func tokenRequestParams(_ deviceCode: String) -> [String: String] {
+        var params = [
+            "client_id": clientID,
+            "client_secret": clientSecret!,
+            ]
+        
+        params.merge(GrantType.device(deviceCode).params)
         params.merge(additionalTokenRequestParams)
         
         return params
@@ -315,7 +339,15 @@ internal extension Provider {
 
 private extension Provider {
     func requestToken(_ grantType: GrantType, completion: Completion) {
-        let params = tokenRequestParams(grantType)
+        var params: [String : String]
+        
+        switch grantType {
+        case .device(let deviceCode):
+            params = tokenRequestParams(deviceCode)
+        default:
+            params = tokenRequestParams(grantType)
+        }
+
         
         HTTP.POST(tokenURL!, parameters: params) { resultJSON in
             let result: Result<Token, Error>
