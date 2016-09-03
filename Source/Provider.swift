@@ -151,6 +151,16 @@ open class Provider: NSObject {
     }
     
     /**
+     Requests access to the OAuth application via device code.
+     
+     - parameter deviceCode: The device code to use for requesting the access to the OAuth application.
+     - parameter completion: The block to be executed when the authorization process ends.
+     */
+    open func authorize(deviceCode: String, completion: @escaping (Result<Token, Error>) -> Void) {
+        requestToken(GrantType.device(deviceCode), completion: completion)
+    }
+    
+    /**
      Refreshes the token.
      
      - parameter completion: The block to be executed when the refresh token process ends.
@@ -202,17 +212,6 @@ open class Provider: NSObject {
         case .code: handleURLForCodeResponseType(URL, completion: completion)
         }
     }
-    
-    /**
-     Requests access to the OAuth application via device code.
-     
-     - parameter deviceCode: The device code to use for requesting the access to the OAuth application.
-     - parameter completion: The block to be executed when the authorization process ends.
-     */
-    public func authorizeDeviceCode(deviceCode: String, completion: @escaping (Result<Token, Error>) -> Void) {
-        requestToken(GrantType.device(deviceCode), completion: completion)
-    }
-
 }
 
 // MARK: - Requests Params
