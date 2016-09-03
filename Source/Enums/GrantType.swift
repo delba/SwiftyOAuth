@@ -26,6 +26,7 @@ internal enum GrantType {
     case authorizationCode(String)
     case refreshToken(String)
     case clientCredentials
+    case device(String)
     
     var params: [String: String] {
         switch self {
@@ -42,6 +43,11 @@ internal enum GrantType {
         case .clientCredentials:
             return [
                 "grant_type": "client_credentials"
+            ]
+        case .device(let code):
+            return [
+                "grant_type": "http://oauth.net/grant_type/device/1.0",
+                "code": code
             ]
         }
     }

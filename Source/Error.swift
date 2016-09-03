@@ -53,6 +53,15 @@ public enum Error: Swift.Error {
     /// The endpoint is temporarily unable to respond.
     case temporarilyUnavailable(String)
     
+    /// The authorization process is pending user input.
+    case authorizationPending(String)
+    
+    /// The polling of the server to fetch authorization credentials is going too fast.
+    case authorizationRetryIntervalTooFast(String)
+    
+    /// The code used for the device authorization flow is expired.
+    case codeExpired(String)
+    
     /// The application responded with an error that doesn't match any enum cases.
     case other(String, String)
     
@@ -87,6 +96,12 @@ public enum Error: Swift.Error {
             self = .serverError(description)
         case "temporarily_unavailable":
             self = .temporarilyUnavailable(description)
+        case "authorization_pending":
+            self = .authorizationPending(description)
+        case "slow_down":
+            self = .authorizationRetryIntervalTooFast(description)
+        case "code_expired":
+            self = .codeExpired(description)
         default:
             self = .other(error, description)
         }
