@@ -139,7 +139,7 @@ open class Provider: NSObject {
      
      - parameter completion: The block to be executed when the authorization process ends.
      */
-    open func authorize(_ completion: Completion) {
+    open func authorize(_ completion: @escaping Completion) {
         self.completion = completion as Completion?
         
         switch responseType {
@@ -155,7 +155,7 @@ open class Provider: NSObject {
      
      - parameter completion: The block to be executed when the refresh token process ends.
      */
-    open func refreshToken(_ completion: Completion) {
+    open func refreshToken(_ completion: @escaping Completion) {
         guard let refreshToken = token?.refreshToken else {
             let error = Error.other("", "")
             completion(Result.failure(error))
@@ -314,7 +314,7 @@ internal extension Provider {
 // MARK: - Request Token
 
 private extension Provider {
-    func requestToken(_ grantType: GrantType, completion: Completion) {
+    func requestToken(_ grantType: GrantType, completion: @escaping Completion) {
         let params = tokenRequestParams(grantType)
         
         HTTP.POST(tokenURL!, parameters: params) { resultJSON in
