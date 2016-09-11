@@ -193,7 +193,7 @@ open class Provider: NSObject {
     
     internal func handleURL(_ URL: Foundation.URL) {
         safariVC?.dismiss(animated: true, completion: nil)
-        NotificationCenter.removeObserver(self, name: .UIApplicationDidBecomeActive)
+        NotificationCenter.default.removeObserver(self, name: .UIApplicationDidBecomeActive)
         
         guard let completion = completion else { return }
         
@@ -244,16 +244,16 @@ private extension Provider {
     func visit(URL: Foundation.URL) {
         if useWebView {
             safariVC = WebViewController(URL: URL, delegate: self)
-            Application.presentViewController(safariVC!)
+            UIApplication.shared.presentViewController(safariVC!)
             return
         }
         
         if #available(iOS 9.0, *) {
             safariVC = SFSafariViewController(URL: URL, delegate: self)
-            Application.presentViewController(safariVC!)
+            UIApplication.shared.presentViewController(safariVC!)
         } else {
-            NotificationCenter.addObserver(self, selector: #selector(Provider.didBecomeActive(_:)), name: .UIApplicationDidBecomeActive)
-            Application.openURL(URL)
+            NotificationCenter.default.addObserver(self, selector: #selector(Provider.didBecomeActive(_:)), name: .UIApplicationDidBecomeActive)
+            UIApplication.shared.openURL(URL)
         }
     }
 }
@@ -362,7 +362,7 @@ extension Provider: WebViewControllerDelegate {
 
 extension Provider {
     @objc func didBecomeActive(_ notification: Notification) {
-        NotificationCenter.removeObserver(self, name: .UIApplicationDidBecomeActive)
+        NotificationCenter.default.removeObserver(self, name: .UIApplicationDidBecomeActive)
         
         if let completion = completion {
             Queue.main { completion(.failure(.cancel)) }
