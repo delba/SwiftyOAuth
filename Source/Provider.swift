@@ -208,7 +208,7 @@ private extension Provider {
     var authRequestParams: [String: String] {
         var params = [
             "client_id": clientID,
-            "redirect_uri": redirectURL!.absoluteString
+            "redirect_uri": redirectURL!.absoluteString!
         ]
         
         if let scope = scope { params["scope"] = scope }
