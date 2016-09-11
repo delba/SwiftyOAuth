@@ -22,9 +22,9 @@
 // SOFTWARE.
 //
 
-public typealias Completion = (Result<Token, Error>) -> Void
-
 open class Provider: NSObject {
+    public typealias Completion = (Result<Token, Error>) -> Void
+    
     /// The client ID.
     open let clientID: String
     
