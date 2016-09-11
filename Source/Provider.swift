@@ -172,8 +172,8 @@ open class Provider: NSObject {
      - parameter options: A dictionary of launch options.
      */
     @available(iOS 9.0, *)
-    open func handleURL(_ URL: Foundation.URL, options: [String: Any]) {
-        let sourceApplication = options[String(describing: UIApplicationOpenURLOptionsKey.sourceApplication)] as? String
+    open func handleURL(_ URL: Foundation.URL, options: [UIApplicationOpenURLOptionsKey: Any]) {
+        let sourceApplication = options[.sourceApplication] as? String
         
         handleURL(URL, sourceApplication: sourceApplication)
     }
