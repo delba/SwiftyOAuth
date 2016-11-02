@@ -74,7 +74,7 @@ public struct Token {
     /// The full response dictionary.
     public let dictionary: [String: Any]
     
-    internal init?(dictionary: [String: Any]) {
+    public init?(dictionary: [String: Any]) {
         guard dictionary["access_token"] as? String != nil else {
             return nil
         }
