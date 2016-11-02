@@ -45,15 +45,16 @@ class URLSessionDelegateHandler : NSObject, URLSessionDelegate {
 	}
 }
 
-public struct HTTPConfig {
-
-	static var serverTrustPolicy = ServerTrustPolicy.performDefaultEvaluation(validateHost: true)
+public extension Provider {
+	public struct HTTPConfig {
+		public static var serverTrustPolicy = ServerTrustPolicy.performDefaultEvaluation(validateHost: true)
+	}
 }
 
 extension URLSession {
 
 	var serverTrustPolicy : ServerTrustPolicy {
-		return HTTPConfig.serverTrustPolicy
+		return Provider.HTTPConfig.serverTrustPolicy
 	}
 }
 
