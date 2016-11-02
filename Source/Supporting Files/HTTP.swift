@@ -24,6 +24,39 @@
 
 typealias JSON = [String: Any]
 
+class URLSessionDelegateHandler : NSObject, URLSessionDelegate {
+
+	func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+
+		if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
+			let trust = challenge.protectionSpace.serverTrust!
+			let host = challenge.protectionSpace.host
+			guard session.serverTrustPolicy.evaluate(trust, forHost: host) else {
+				completionHandler(URLSession.AuthChallengeDisposition.rejectProtectionSpace, nil)
+				return
+			}
+
+			let credential = URLCredential(trust: trust)
+			challenge.sender?.use(credential, for: challenge)
+			completionHandler(URLSession.AuthChallengeDisposition.useCredential, credential)
+		}
+
+		completionHandler(URLSession.AuthChallengeDisposition.performDefaultHandling, nil)
+	}
+}
+
+public struct HTTPConfig {
+
+	static var serverTrustPolicy = ServerTrustPolicy.performDefaultEvaluation(validateHost: true)
+}
+
+extension URLSession {
+
+	var serverTrustPolicy : ServerTrustPolicy {
+		return HTTPConfig.serverTrustPolicy
+	}
+}
+
 struct HTTP {
     static func POST(_ URL: Foundation.URL, parameters: [String: String], completion: @escaping (Result<JSON, NSError>) -> Void) {
         var request = URLRequest(url: URL)
@@ -35,8 +68,10 @@ struct HTTP {
         request.httpBody = parameters.map { "\($0)=\($1)" }
             .joined(separator: "&")
             .data(using: String.Encoding.utf8)
-        
-        let session = URLSession.shared
+
+        let session = URLSession(configuration: URLSessionConfiguration.default,
+                                 delegate: URLSessionDelegateHandler(),
+                                 delegateQueue: nil)
         
         let task = session.dataTask(with: request) { data, response, error in
             if let error = error {
