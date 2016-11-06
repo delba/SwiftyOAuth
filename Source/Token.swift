@@ -74,14 +74,16 @@ public struct Token {
     /// The full response dictionary.
     public let dictionary: [String: Any]
     
-    internal init?(dictionary: [String: Any]) {
+    public init?(dictionary: [String: Any]) {
         guard dictionary["access_token"] as? String != nil else {
             return nil
         }
         
-        var dictionary = dictionary
-        dictionary["created_at"] = Date.timeIntervalSinceReferenceDate
-        
+		var dictionary = dictionary
+		if dictionary["created_at"] == nil {
+			dictionary["created_at"] = Date.timeIntervalSinceReferenceDate
+		}
+
         self.dictionary = dictionary
     }
 }
