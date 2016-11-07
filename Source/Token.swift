@@ -78,11 +78,11 @@ public struct Token {
         guard dictionary["access_token"] as? String != nil else {
             return nil
         }
-        
+
 		var dictionary = dictionary
-		if dictionary["created_at"] == nil {
-			dictionary["created_at"] = Date.timeIntervalSinceReferenceDate
-		}
+        if dictionary["created_at"] == nil {
+            dictionary["created_at"] = Date.timeIntervalSinceReferenceDate
+        }
 
         self.dictionary = dictionary
     }
