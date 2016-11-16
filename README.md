@@ -220,6 +220,7 @@ The library currently supports following `TokenStore`s:
 - [`Strava`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Strava.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Strava)
 - [`Google`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Google.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Google)
 - [`Stuart`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/Stuart.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/Stuart)
+- [`UberRUSH`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Providers/UberRUSH.swift) - [**doc**](https://github.com/delba/SwiftyOAuth/wiki/UberRUSH)
 - *More to come...*
 
 Check the [**wiki**](https://github.com/delba/SwiftyOAuth/wiki) for more informations!
