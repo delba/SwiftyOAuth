@@ -23,7 +23,7 @@
 //
 
 open class Provider: NSObject {
-    public typealias Completion = (Result<Token, Error>) -> Void
+    public typealias Completion = (Result<Token>) -> Void
     
     /// The client ID.
     open let clientID: String
@@ -261,8 +261,8 @@ private extension Provider {
 // MARK: - Handle Incoming URL
 
 private extension Provider {
-    func handleURLForTokenResponseType(_ URL: Foundation.URL, completion: @escaping (Result<Token, Error>) -> Void) {
-        let result: Result<Token, Error>
+    func handleURLForTokenResponseType(_ URL: Foundation.URL, completion: @escaping (Result<Token>) -> Void) {
+        let result: Result<Token>
         
         if let token = Token(dictionary: URL.fragments) {
             self.token = token
@@ -274,7 +274,7 @@ private extension Provider {
         Queue.main { completion(result) }
     }
     
-    func handleURLForCodeResponseType(_ URL: Foundation.URL, completion: @escaping (Result<Token, Error>) -> Void) {
+    func handleURLForCodeResponseType(_ URL: Foundation.URL, completion: @escaping (Result<Token>) -> Void) {
         guard let code = URL.queries["code"] else {
             let error = Error(URL.queries)
             
@@ -318,7 +318,7 @@ private extension Provider {
         let params = tokenRequestParams(grantType)
         
         HTTP.POST(tokenURL!, parameters: params) { resultJSON in
-            let result: Result<Token, Error>
+            let result: Result<Token>
             
             switch resultJSON {
             case .success(let json):
@@ -345,7 +345,7 @@ extension Provider: SFSafariViewControllerDelegate {
         safariVC?.dismiss(animated: true, completion: nil)
         
         if let completion = completion {
-            Queue.main { completion(.failure(.cancel)) }
+            Queue.main { completion(.failure(Error.cancel)) }
         }
     }
 }
@@ -355,7 +355,7 @@ extension Provider: WebViewControllerDelegate {
         safariVC?.dismiss(animated: true, completion: nil)
         
         if let completion = completion {
-            Queue.main { completion(.failure(.cancel)) }
+            Queue.main { completion(.failure(Error.cancel)) }
         }
     }
 }
@@ -365,7 +365,7 @@ extension Provider {
         NotificationCenter.default.removeObserver(self, name: .UIApplicationDidBecomeActive)
         
         if let completion = completion {
-            Queue.main { completion(.failure(.cancel)) }
+            Queue.main { completion(.failure(Error.cancel)) }
         }
     }
 }

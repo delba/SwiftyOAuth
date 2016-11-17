@@ -25,7 +25,7 @@
 typealias JSON = [String: Any]
 
 struct HTTP {
-    static func POST(_ URL: Foundation.URL, parameters: [String: String], completion: @escaping (Result<JSON, NSError>) -> Void) {
+    static func POST(_ URL: Foundation.URL, parameters: [String: String], completion: @escaping (Result<JSON>) -> Void) {
         var request = URLRequest(url: URL)
         
         request.setValue("application/json", forHTTPHeaderField: "Accept")

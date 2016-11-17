@@ -22,9 +22,9 @@
 // SOFTWARE.
 //
 
-public enum Result<Value, Error: Swift.Error> {
+public enum Result<Value> {
     case success(Value)
-    case failure(Error)
+    case failure(Swift.Error)
     
     public var value: Value? {
         switch self {
@@ -35,7 +35,7 @@ public enum Result<Value, Error: Swift.Error> {
         }
     }
     
-    public var error: Error? {
+    public var error: Swift.Error? {
         switch self {
         case .success:
             return nil
