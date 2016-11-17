@@ -27,40 +27,22 @@ typealias JSON = [String: Any]
 struct HTTP {
     static func POST(_ URL: Foundation.URL, parameters: [String: String], completion: @escaping (Result<JSON>) -> Void) {
         var request = URLRequest(url: URL)
-        
         request.setValue("application/json", forHTTPHeaderField: "Accept")
-        
         request.httpMethod = "POST"
-        
         request.httpBody = parameters.map { "\($0)=\($1)" }
             .joined(separator: "&")
             .data(using: String.Encoding.utf8)
         
-        let session = URLSession.shared
-        
-        let task = session.dataTask(with: request) { data, response, error in
-            if let error = error {
-                completion(.failure(error as NSError))
-                return
-            }
+        let task = URLSession.shared.dataTask(with: request) { data, _, error in
+            if let error = error { completion(.failure(error)); return }
             
-            guard let data = data else {
-                // TODO better error than that...
-                let error = NSError(domain: "No data received", code: 42, userInfo: nil)
-                completion(.failure(error))
-                return
-            }
+            let data = data ?? Data()
             
             do {
-                let object = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                if let dictionary = object as? JSON {
-                    completion(.success(dictionary))
-                } else {
-                    let error = NSError(domain: "Cannot initialize token", code: 42, userInfo: nil)
-                    completion(.failure(error))
-                }
+                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? JSON ?? [:]
+                completion(.success(json))
             } catch {
-                completion(.failure(error as NSError))
+                completion(.failure(error))
             }
         }
         
