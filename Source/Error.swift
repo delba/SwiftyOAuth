@@ -63,10 +63,9 @@ public enum Error: Swift.Error {
     case nsError(Foundation.NSError)
     
     init(_ dictionary: [String: Any]) {
-        guard let error = dictionary["error"] as? String, let description = dictionary["error_description"] as? String else {
-            self = .unknown(dictionary)
-            return
-        }
+        guard let error = dictionary["error"] as? String,
+            let description = dictionary["error_description"] as? String
+            else { self = .unknown(dictionary); return }
         
         switch error {
         case "application_suspended":
