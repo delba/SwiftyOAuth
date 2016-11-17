@@ -135,11 +135,3 @@ internal extension SFSafariViewController {
         self.delegate = delegate
     }
 }
-
-// MARK: - Queue
-
-internal struct Queue {
-    static func main(_ block: @escaping ()->()) {
-        DispatchQueue.main.async(execute: block)
-    }
-}

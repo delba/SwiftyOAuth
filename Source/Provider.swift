@@ -271,14 +271,14 @@ private extension Provider {
             result = .failure(Error(URL.fragments))
         }
         
-        Queue.main { completion(result) }
+        DispatchQueue.main.async { completion(result) }
     }
     
     func handleURLForCodeResponseType(_ URL: Foundation.URL, completion: @escaping (Result<Token>) -> Void) {
         guard let code = URL.queries["code"] else {
             let error = Error(URL.queries)
             
-            Queue.main { completion(.failure(error)) }
+            DispatchQueue.main.async { completion(.failure(error)) }
             
             return
         }
@@ -332,7 +332,7 @@ private extension Provider {
                 result = .failure(Error(error as NSError))
             }
             
-            Queue.main { completion(result) }
+            DispatchQueue.main.async { completion(result) }
         }
     }
 }
@@ -345,7 +345,7 @@ extension Provider: SFSafariViewControllerDelegate {
         safariVC?.dismiss(animated: true, completion: nil)
         
         if let completion = completion {
-            Queue.main { completion(.failure(Error.cancel)) }
+            DispatchQueue.main.async { completion(.failure(Error.cancel)) }
         }
     }
 }
@@ -355,7 +355,7 @@ extension Provider: WebViewControllerDelegate {
         safariVC?.dismiss(animated: true, completion: nil)
         
         if let completion = completion {
-            Queue.main { completion(.failure(Error.cancel)) }
+            DispatchQueue.main.async { completion(.failure(Error.cancel)) }
         }
     }
 }
@@ -365,7 +365,7 @@ extension Provider {
         NotificationCenter.default.removeObserver(self, name: .UIApplicationDidBecomeActive)
         
         if let completion = completion {
-            Queue.main { completion(.failure(Error.cancel)) }
+            DispatchQueue.main.async { completion(.failure(Error.cancel)) }
         }
     }
 }
