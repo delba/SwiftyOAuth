@@ -79,7 +79,7 @@ public struct Token {
             return nil
         }
 	
-	var dictionary = dictionary
+        var dictionary = dictionary
 	
         if dictionary["created_at"] == nil {
             dictionary["created_at"] = Date.timeIntervalSinceReferenceDate
