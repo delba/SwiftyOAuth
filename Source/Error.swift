@@ -91,7 +91,7 @@ public enum Error: Swift.Error {
         }
     }
     
-    init(_ error: Foundation.NSError) {
+    init(_ error: NSError) {
         self = .nsError(error)
     }
 }
