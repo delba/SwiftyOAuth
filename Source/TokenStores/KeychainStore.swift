@@ -26,7 +26,7 @@ extension Keychain: TokenStore {
     public func token(forProvider provider: Provider) -> Token? {
         let key = self.key(forProvider: provider)
         
-        guard let dictionary = Keychain.dictionary(forKey: key) else { return nil }
+        guard let dictionary = dictionary(forKey: key) else { return nil }
         
         return Token(dictionary: dictionary)
     }
@@ -35,9 +35,9 @@ extension Keychain: TokenStore {
         let key = self.key(forProvider: provider)
         
         if let token = token {
-            Keychain.set(token.dictionary, forKey: key)
+            set(token.dictionary, forKey: key)
         } else {
-            Keychain.removeObject(forKey: key)
+            removeObject(forKey: key)
         }
     }
 }

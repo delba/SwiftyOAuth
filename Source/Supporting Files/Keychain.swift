@@ -26,8 +26,12 @@ import Security
 
 public struct Keychain {
     
+    public static let shared = Keychain()
+    
+    private init() {}
+    
     @discardableResult
-    public static func set(_ dictionary: [String: Any], forKey key: String) -> Bool {
+    public func set(_ dictionary: [String: Any], forKey key: String) -> Bool {
         let data = NSKeyedArchiver.archivedData(withRootObject: dictionary)
         
         let query = [
@@ -41,7 +45,7 @@ public struct Keychain {
         return SecItemAdd(query, nil) == noErr
     }
     
-    public static func dictionary(forKey key: String) -> [String: Any]? {
+    public func dictionary(forKey key: String) -> [String: Any]? {
         let query = [
             kSecClass       as String : kSecClassGenericPassword,
             kSecAttrAccount as String : key,
@@ -61,7 +65,7 @@ public struct Keychain {
     }
     
     @discardableResult
-    public static func removeObject(forKey key: String) -> Bool {
+    public func removeObject(forKey key: String) -> Bool {
         let query = [
             kSecClass as String       : kSecClassGenericPassword,
             kSecAttrAccount as String : key
@@ -71,7 +75,7 @@ public struct Keychain {
     }
     
     @discardableResult
-    internal static func reset() -> Bool {
+    internal func reset() -> Bool {
         let query = [
             kSecClass as String : kSecClassGenericPassword
         ] as CFDictionary
