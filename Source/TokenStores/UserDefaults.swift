@@ -23,8 +23,8 @@
 //
 
 extension UserDefaults: TokenStore {
-    public func getTokenForProvider(_ provider: Provider) -> Token? {
-        let key = keyForProvider(provider)
+    public func token(forProvider provider: Provider) -> Token? {
+        let key = self.key(forProvider: provider)
         
         guard let dictionary = dictionary(forKey: key) else {
             return nil
@@ -33,8 +33,8 @@ extension UserDefaults: TokenStore {
         return Token(dictionary: dictionary)
     }
     
-    public func setToken(_ token: Token?, forProvider provider: Provider) {
-        let key = keyForProvider(provider)
+    public func set(_ token: Token?, forProvider provider: Provider) {
+        let key = self.key(forProvider: provider)
         set(token?.dictionary, forKey: key)
     }
 }

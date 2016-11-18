@@ -23,16 +23,16 @@
 //
 
 extension Keychain: TokenStore {
-    public func getTokenForProvider(_ provider: Provider) -> Token? {
-        let key = keyForProvider(provider)
+    public func token(forProvider provider: Provider) -> Token? {
+        let key = self.key(forProvider: provider)
         
         guard let dictionary = Keychain.dictionary(forKey: key) else { return nil }
         
         return Token(dictionary: dictionary)
     }
     
-    public func setToken(_ token: Token?, forProvider provider: Provider) {
-        let key = keyForProvider(provider)
+    public func set(_ token: Token?, forProvider provider: Provider) {
+        let key = self.key(forProvider: provider)
         
         if let token = token {
             Keychain.set(token.dictionary, forKey: key)

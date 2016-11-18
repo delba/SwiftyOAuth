@@ -48,8 +48,8 @@ open class Provider: NSObject {
     
     /// The token.
     open internal(set) var token: Token? {
-        get { return tokenStore.getTokenForProvider(self) }
-        set { tokenStore.setToken(newValue, forProvider: self) }
+        get { return tokenStore.token(forProvider: self) }
+        set { tokenStore.set(newValue, forProvider: self) }
     }
     
     /// The scopes.

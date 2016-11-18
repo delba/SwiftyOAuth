@@ -30,7 +30,7 @@ public protocol TokenStore {
      
      - returns: Optional `Token`
      */
-    func getTokenForProvider(_ provider: Provider) -> Token?
+    func token(forProvider provider: Provider) -> Token?
     
     /**
      Store a token for a Provider
@@ -40,11 +40,11 @@ public protocol TokenStore {
      
      - returns: Void
      */
-    func setToken(_ token: Token?, forProvider provider: Provider)
+    func set(_ token: Token?, forProvider provider: Provider)
 }
 
 internal extension TokenStore {
-    func keyForProvider(_ provider: Provider) -> String {
+    func key(forProvider provider: Provider) -> String {
         return "io.delba.SwiftyOAuth.\(provider.clientID)"
     }
 }
