@@ -46,7 +46,7 @@ class UserDefaultTokenStoreTests: XCTestCase {
         provider.tokenStore = store
         provider.token = token
         
-        let savedInformation = store.dictionary(forKey: store.keyForProvider(provider))
+        let savedInformation = store.dictionary(forKey: store.key(forProvider: provider))
         
         XCTAssertNotNil(savedInformation)
         XCTAssertEqual(savedInformation!["access_token"] as? String, provider.token?.accessToken)
@@ -63,7 +63,7 @@ class UbiquitousKeyValueStoreTests: XCTestCase {
         provider.tokenStore = store
         provider.token = token
         
-        let savedInformation = store.dictionary(forKey: store.keyForProvider(provider))
+        let savedInformation = store.dictionary(forKey: store.key(forProvider: provider))
         
         XCTAssertNotNil(savedInformation)
         XCTAssertEqual(savedInformation!["access_token"] as? String, provider.token?.accessToken)
