@@ -27,27 +27,27 @@ import Security
 public struct Keychain {
     
     @discardableResult
-    public static func save(key: String, dictionary: [String: Any]) -> Bool {
+    public static func set(_ dictionary: [String: Any], forKey key: String) -> Bool {
         let data = NSKeyedArchiver.archivedData(withRootObject: dictionary)
         
         let query = [
             kSecClass       as String : kSecClassGenericPassword as String,
             kSecAttrAccount as String : key,
             kSecValueData   as String : data
-            ] as CFDictionary
+        ] as CFDictionary
         
         SecItemDelete(query)
         
         return SecItemAdd(query, nil) == noErr
     }
     
-    public static func load(key: String) -> [String: Any]? {
+    public static func dictionary(forKey key: String) -> [String: Any]? {
         let query = [
             kSecClass       as String : kSecClassGenericPassword,
             kSecAttrAccount as String : key,
             kSecReturnData  as String : kCFBooleanTrue,
             kSecMatchLimit  as String : kSecMatchLimitOne
-            ] as CFDictionary
+        ] as CFDictionary
         
         var dataTypeRef: AnyObject?
         
@@ -61,20 +61,20 @@ public struct Keychain {
     }
     
     @discardableResult
-    public static func delete(key: String) -> Bool {
+    public static func removeObject(forKey key: String) -> Bool {
         let query = [
             kSecClass as String       : kSecClassGenericPassword,
             kSecAttrAccount as String : key
-            ] as CFDictionary
+        ] as CFDictionary
         
         return SecItemDelete(query) == noErr
     }
     
     @discardableResult
-    internal static func clear() -> Bool {
+    internal static func reset() -> Bool {
         let query = [
             kSecClass as String : kSecClassGenericPassword
-            ] as CFDictionary
+        ] as CFDictionary
         
         return SecItemDelete(query) == noErr
     }
