@@ -164,12 +164,27 @@ token.dictionary // ["access_token": "abc123", "token_type": "bearer", "scope": 
 
 #### Token Store
 
-Every `Token` is stored and retrieved through an object that conforms to the `TokenStore` protocol. 
+Every `Token` is stored and retrieved through an object that conforms to the `TokenStore` protocol.
 
 The library currently supports following `TokenStore`s:
 
-* `NSUserDefaults`: the default *Token Store*. Information are saved locally and, if properly initialized, to your *App Group*.
-* `NSUbiquitousKeyValueStore`: the information are saved in the *iCloud Key Value Store*. Before you use this *Token Store* make sure your project has been properly configured as described [here](https://developer.apple.com/library/mac/documentation/General/Conceptual/iCloudDesignGuide/Chapters/iCloudFundametals.html#//apple_ref/doc/uid/TP40012094-CH6-SW26).
+```swift
+provider.tokenStore = Keychain.shared
+```
+
+**`Keychain`**: Before you use this`TokenStore`, make sure you turn on the *Keychain Sharing* capability.
+
+```swift
+provider.tokenStore = UserDefault.standard
+```
+
+**`UserDefaults`**: the default `TokenStore`. Information are saved locally and, if properly initialized, to your *App Group*.
+
+```swift
+provider.tokenStore = NSUbiquitousKeyValueStore.default()
+```
+
+**`NSUbiquitousKeyValueStore`**: the information are saved in the *iCloud Key Value Store*. Before you use this `TokenStore` make sure your project has been properly configured as described [here](https://developer.apple.com/library/mac/documentation/General/Conceptual/iCloudDesignGuide/Chapters/iCloudFundametals.html#//apple_ref/doc/uid/TP40012094-CH6-SW26).
 
 #### Error
 
