@@ -32,6 +32,7 @@
 		6D5351341CF89660001BEF41 /* StackExchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5351331CF89660001BEF41 /* StackExchange.swift */; };
 		6D5351361CFB7097001BEF41 /* Medium.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5351351CFB7097001BEF41 /* Medium.swift */; };
 		6D5B3BB91DDF6934005977A8 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5B3BB81DDF6934005977A8 /* Keychain.swift */; };
+		6D5B3BBB1DDF69B5005977A8 /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5B3BBA1DDF69B5005977A8 /* KeychainStore.swift */; };
 		6D67A8781D01790600492D83 /* Foursquare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D67A8771D01790600492D83 /* Foursquare.swift */; };
 		6DACDED31D04CA9400E58C0B /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DACDED21D04CA9400E58C0B /* WebViewController.swift */; };
 		6DE48CF11CE1350C00FB2DC9 /* GitHub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE48CF01CE1350C00FB2DC9 /* GitHub.swift */; };
@@ -87,6 +88,7 @@
 		6D5351331CF89660001BEF41 /* StackExchange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackExchange.swift; sourceTree = "<group>"; };
 		6D5351351CFB7097001BEF41 /* Medium.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Medium.swift; sourceTree = "<group>"; };
 		6D5B3BB81DDF6934005977A8 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
+		6D5B3BBA1DDF69B5005977A8 /* KeychainStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
 		6D67A8771D01790600492D83 /* Foursquare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Foursquare.swift; sourceTree = "<group>"; };
 		6DACDED21D04CA9400E58C0B /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		6DE48CF01CE1350C00FB2DC9 /* GitHub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitHub.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 		E5BE04501D0A0386004C5969 /* TokenStores */ = {
 			isa = PBXGroup;
 			children = (
+				6D5B3BBA1DDF69B5005977A8 /* KeychainStore.swift */,
 				E5BE044E1D0A01E1004C5969 /* TokenStore.swift */,
 				E5BE04531D0A0659004C5969 /* UbiquitousKeyValueStore.swift */,
 				E5BE04511D0A0397004C5969 /* UserDefaults.swift */,
@@ -362,6 +365,7 @@
 				6D5B3BB91DDF6934005977A8 /* Keychain.swift in Sources */,
 				E5BE044F1D0A01E1004C5969 /* TokenStore.swift in Sources */,
 				6D4AD87D1DDB6732001A4A87 /* Stuart.swift in Sources */,
+				6D5B3BBB1DDF69B5005977A8 /* KeychainStore.swift in Sources */,
 				6DE48D1A1CE21FB500FB2DC9 /* HTTP.swift in Sources */,
 				6D53512D1CF73890001BEF41 /* GrantType.swift in Sources */,
 				6D1C3C4A1D0469230096C7C9 /* Stripe.swift in Sources */,
