@@ -26,7 +26,8 @@ internal enum GrantType {
     case authorizationCode(String)
     case refreshToken(String)
     case clientCredentials
-    
+    case password(user: String, pass: String)
+
     var params: [String: String] {
         switch self {
         case .authorizationCode(let code):
@@ -42,6 +43,12 @@ internal enum GrantType {
         case .clientCredentials:
             return [
                 "grant_type": "client_credentials"
+            ]
+        case .password(let user, let pass):
+            return [
+                "grant_type": "password",
+                "username": user,
+                "password": pass
             ]
         }
     }
