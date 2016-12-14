@@ -117,7 +117,7 @@ open class Provider: NSObject {
     }
 
     /**
-     Creates a provider that uses the client credentials flow.
+     Creates a provider that uses the client credentials or password flow.
      
      - parameter clientID:     The client ID.
      - parameter clientSecret: The client secret.
@@ -139,13 +139,19 @@ open class Provider: NSObject {
      
      - parameter completion: The block to be executed when the authorization process ends.
      */
-    open func authorize(_ completion: @escaping Completion) {
+    open func authorize(user: String? = nil, pass: String? = nil, _ completion: @escaping Completion) {
         self.completion = completion as Completion?
         
         switch responseType {
         case .token, .code:
             visit(URL: authorizeURL!.queries(authRequestParams))
-        case .client:
+        case .client, .ownertoken:
+            //  if user and pass are supplied, use resource owner password flow
+            if let user = user, let pass = pass {
+                requestToken(.password(user: user, pass: pass), completion: completion)
+                return
+            }
+            //  otherwise use client-credentials flow
             requestToken(.clientCredentials, completion: completion)
         }
     }
@@ -198,7 +204,7 @@ open class Provider: NSObject {
         guard let completion = completion else { return }
         
         switch responseType {
-        case .token, .client: handleURLForTokenResponseType(URL, completion: completion)
+        case .token, .client, .ownertoken: handleURLForTokenResponseType(URL, completion: completion)
         case .code: handleURLForCodeResponseType(URL, completion: completion)
         }
     }
@@ -229,6 +235,7 @@ private extension Provider {
         ]
         
         if let redirectURL = redirectURL { params["redirect_uri"] = redirectURL.absoluteString }
+        if let scope = scope { params["scope"] = scope }
         if let state = state { params["state"] = state }
         
         params.merge(grantType.params)
