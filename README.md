@@ -101,7 +101,7 @@ github.additionalAuthRequestParams["allow_signup"] = "false"
 Handle the incoming requests in your `AppDelegate`:
 
 ```swift
-func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
+func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
     github.handleURL(url, options: options)
 
     return true

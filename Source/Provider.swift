@@ -192,8 +192,10 @@ open class Provider: NSObject {
     }
     
     internal func handleURL(_ URL: Foundation.URL) {
-        safariVC?.dismiss(animated: true, completion: nil)
-        NotificationCenter.default.removeObserver(self, name: .UIApplicationDidBecomeActive)
+        defer {
+            safariVC?.dismiss(animated: true, completion: nil)
+            NotificationCenter.default.removeObserver(self, name: .UIApplicationDidBecomeActive)
+        }
         
         guard let completion = completion else { return }
         
@@ -342,20 +344,20 @@ private extension Provider {
 @available(iOS 9.0, *)
 extension Provider: SFSafariViewControllerDelegate {
     public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        safariVC?.dismiss(animated: true, completion: nil)
+        defer { safariVC?.dismiss(animated: true, completion: nil) }
         
         if let completion = completion {
-            DispatchQueue.main.async { completion(.failure(Error.cancel)) }
+            completion(.failure(Error.cancel))
         }
     }
 }
 
 extension Provider: WebViewControllerDelegate {
     func webViewControllerDidFinish(_ controller: WebViewController) {
-        safariVC?.dismiss(animated: true, completion: nil)
+        defer { safariVC?.dismiss(animated: true, completion: nil) }
         
         if let completion = completion {
-            DispatchQueue.main.async { completion(.failure(Error.cancel)) }
+            completion(.failure(Error.cancel))
         }
     }
 }
