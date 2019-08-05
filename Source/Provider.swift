@@ -26,19 +26,19 @@ open class Provider: NSObject {
     public typealias Completion = (Result<Token>) -> Void
     
     /// The client ID.
-    open let clientID: String
+    public let clientID: String
     
     /// The client secret.
-    open let clientSecret: String?
+    public let clientSecret: String?
     
     /// The authorize URL.
-    open let authorizeURL: URL?
+    public let authorizeURL: URL?
     
     /// The token URL.
-    open let tokenURL: URL?
+    public let tokenURL: URL?
     
     /// The redirect URL.
-    open let redirectURL: URL?
+    public let redirectURL: URL?
     
     /// Whether the in-app browser is a WKWebView
     open var useWebView = false
