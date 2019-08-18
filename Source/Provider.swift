@@ -172,7 +172,7 @@ open class Provider: NSObject {
      - parameter options: A dictionary of launch options.
      */
     @available(iOS 9.0, *)
-    open func handleURL(_ URL: Foundation.URL, options: [UIApplicationOpenURLOptionsKey: Any]) {
+    open func handleURL(_ URL: Foundation.URL, options: [UIApplication.OpenURLOptionsKey: Any]) {
         let sourceApplication = options[.sourceApplication] as? String
         
         handleURL(URL, sourceApplication: sourceApplication)
@@ -184,7 +184,7 @@ open class Provider: NSObject {
      - parameter URL:               The incoming URL to handle.
      - parameter sourceApplication: The source application.
      */
-    @available(*, deprecated: 9.0, message: "Use handleURL:options: in application:openURL:options: instead.")
+    @available(iOS, deprecated: 9.0, message: "Use handleURL:options: in application:openURL:options: instead.")
     open func handleURL(_ URL: Foundation.URL, sourceApplication: String?) {
         guard shouldHandleURL(URL, sourceApplication: sourceApplication) else { return }
         
@@ -193,7 +193,7 @@ open class Provider: NSObject {
     
     internal func handleURL(_ URL: Foundation.URL) {
         safariVC?.dismiss(animated: true, completion: nil)
-        NotificationCenter.default.removeObserver(self, name: .UIApplicationDidBecomeActive)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification)
         
         guard let completion = completion else { return }
         
@@ -252,7 +252,7 @@ private extension Provider {
             safariVC = SFSafariViewController(URL: URL, delegate: self)
             UIApplication.shared.presentViewController(safariVC!)
         } else {
-            NotificationCenter.default.addObserver(self, selector: #selector(Provider.didBecomeActive(_:)), name: .UIApplicationDidBecomeActive)
+            NotificationCenter.default.addObserver(self, selector: #selector(Provider.didBecomeActive(_:)), name: UIApplication.didBecomeActiveNotification)
             UIApplication.shared.openURL(URL)
         }
     }
@@ -362,7 +362,7 @@ extension Provider: WebViewControllerDelegate {
 
 extension Provider {
     @objc func didBecomeActive(_ notification: Notification) {
-        NotificationCenter.default.removeObserver(self, name: .UIApplicationDidBecomeActive)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification)
         
         if let completion = completion {
             DispatchQueue.main.async { completion(.failure(Error.cancel)) }
