@@ -28,7 +28,7 @@ instagram.authorize { result in
 
 [`Provider.swift`](https://github.com/delba/SwiftyOAuth/blob/master/Source/Provider.swift)
 
-##### Step 1: Create a provider 
+##### Step 1: Create a provider
 
 Initialize a provider with the custom URL scheme that you defined:
 
@@ -124,7 +124,7 @@ github.authorize { (result: Result<Token, Error>) -> Void in
 If the provider provides an expirable token, you may want to refresh it.
 
 ```swift
-let uber: Provider = .Uber(
+let uber: Provider = .uber(
     clientID: "***",
     clientSecret: "***",
     redirectURL: "foo://callback/uber"
@@ -181,7 +181,7 @@ provider.tokenStore = UserDefault.standard
 **`UserDefaults`**: the default `TokenStore`. Information are saved locally and, if properly initialized, to your *App Group*.
 
 ```swift
-provider.tokenStore = NSUbiquitousKeyValueStore.default()
+provider.tokenStore = NSUbiquitousKeyValueStore.default
 ```
 
 **`NSUbiquitousKeyValueStore`**: the information are saved in the *iCloud Key Value Store*. Before you use this `TokenStore` make sure your project has been properly configured as described [here](https://developer.apple.com/library/mac/documentation/General/Conceptual/iCloudDesignGuide/Chapters/iCloudFundametals.html#//apple_ref/doc/uid/TP40012094-CH6-SW26).
@@ -279,7 +279,7 @@ pod 'SwiftyOAuth', '~> 1.1'
 
 ## License
 
-Copyright (c) 2016 Damien (http://delba.io)
+Copyright (c) 2016-2019 Damien (http://delba.io)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
