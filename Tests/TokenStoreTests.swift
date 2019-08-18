@@ -57,7 +57,7 @@ class UserDefaultTokenStoreTests: XCTestCase {
 }
 
 class UbiquitousKeyValueStoreTests: XCTestCase {
-    let store = NSUbiquitousKeyValueStore.default()
+    let store = NSUbiquitousKeyValueStore.default
     
     func testStoreTokenForProvider(){
         provider.tokenStore = store
