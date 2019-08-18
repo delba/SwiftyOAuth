@@ -27,64 +27,64 @@ public struct Token {
     public var accessToken: String {
         return dictionary["access_token"] as! String
     }
-    
+
     /// The refresh token.
     public var refreshToken: String? {
         return dictionary["refresh_token"] as? String
     }
-    
+
     /// The remaining lifetime on the access token.
     public var expiresIn: TimeInterval? {
         return dictionary["expires_in"] as? TimeInterval
     }
-    
+
     /// A boolean value indicating whether the token is expired.
     public var isExpired: Bool {
         guard let expiresIn = expiresIn else {
             return false
         }
-        
+
         return Date.timeIntervalSinceReferenceDate > createdAt + expiresIn
     }
-    
+
     /// A boolean value indicating whether the token is valid.
     public var isValid: Bool {
         return !isExpired
     }
-    
+
     fileprivate var createdAt: TimeInterval {
         return dictionary["created_at"] as! TimeInterval
     }
-    
+
     /// The token type.
     public var tokenType: TokenType? {
         return TokenType(dictionary["token_type"])
     }
-    
+
     /// The scopes.
     public var scopes: [String]? {
         return scope?.components(separatedBy: " ")
     }
-    
+
     /// The scope.
     fileprivate var scope: String? {
         return dictionary["scope"] as? String
     }
-    
+
     /// The full response dictionary.
     public let dictionary: [String: Any]
-    
+
     public init?(dictionary: [String: Any]) {
         guard dictionary["access_token"] as? String != nil else {
             return nil
         }
-	
+
         var dictionary = dictionary
-	
+
         if dictionary["created_at"] == nil {
             dictionary["created_at"] = Date.timeIntervalSinceReferenceDate
         }
-	
+
         self.dictionary = dictionary
     }
 }

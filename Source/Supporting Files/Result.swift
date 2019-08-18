@@ -25,7 +25,7 @@
 public enum Result<Value> {
     case success(Value)
     case failure(Swift.Error)
-    
+
     public var value: Value? {
         switch self {
         case .success(let value):
@@ -34,7 +34,7 @@ public enum Result<Value> {
             return nil
         }
     }
-    
+
     public var error: Swift.Error? {
         switch self {
         case .success:

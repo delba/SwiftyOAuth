@@ -24,12 +24,12 @@
 
 public enum TokenType {
     case bearer
-    
+
     init?(_ object: Any?) {
-        guard let s = object as? String , s.caseInsensitiveCompare("bearer") == .orderedSame else {
+        guard let s = object as? String, s.caseInsensitiveCompare("bearer") == .orderedSame else {
             return nil
         }
-        
+
         self = .bearer
     }
 }

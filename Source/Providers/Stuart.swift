@@ -22,7 +22,6 @@
 // SOFTWARE.
 //
 
-
 extension Provider {
     public static func stuart(clientID: String, clientSecret: String) -> Provider {
         let provider = Provider(
@@ -30,9 +29,9 @@ extension Provider {
             clientSecret: clientSecret,
             tokenURL: "https://sandbox-api.stuart.com/oauth/token"
         )
-        
+
         provider.scopes = ["api"]
-        
+
         return provider
     }
 }

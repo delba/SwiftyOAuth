@@ -25,61 +25,61 @@
 import Security
 
 public struct Keychain {
-    
+
     public static let shared = Keychain()
-    
+
     private init() {}
-    
+
     @discardableResult
     public func set(_ dictionary: [String: Any], forKey key: String) -> Bool {
         let data = NSKeyedArchiver.archivedData(withRootObject: dictionary)
-        
+
         let query = [
-            kSecClass       as String : kSecClassGenericPassword as String,
-            kSecAttrAccount as String : key,
-            kSecValueData   as String : data
+            kSecClass       as String: kSecClassGenericPassword as String,
+            kSecAttrAccount as String: key,
+            kSecValueData   as String: data
         ] as CFDictionary
-        
+
         SecItemDelete(query)
-        
+
         return SecItemAdd(query, nil) == noErr
     }
-    
+
     public func dictionary(forKey key: String) -> [String: Any]? {
         let query = [
-            kSecClass       as String : kSecClassGenericPassword,
-            kSecAttrAccount as String : key,
-            kSecReturnData  as String : kCFBooleanTrue!,
-            kSecMatchLimit  as String : kSecMatchLimitOne
+            kSecClass       as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: key,
+            kSecReturnData  as String: kCFBooleanTrue!,
+            kSecMatchLimit  as String: kSecMatchLimitOne
         ] as CFDictionary
-        
+
         var dataTypeRef: AnyObject?
-        
+
         let status = withUnsafeMutablePointer(to: &dataTypeRef) {
             SecItemCopyMatching(query, UnsafeMutablePointer($0))
         }
-        
+
         guard status == errSecSuccess, let data = dataTypeRef as? Data else { return nil }
-        
+
         return NSKeyedUnarchiver.unarchiveObject(with: data) as? [String: AnyObject]
     }
-    
+
     @discardableResult
     public func removeObject(forKey key: String) -> Bool {
         let query = [
-            kSecClass as String       : kSecClassGenericPassword,
-            kSecAttrAccount as String : key
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: key
         ] as CFDictionary
-        
+
         return SecItemDelete(query) == noErr
     }
-    
+
     @discardableResult
     internal func reset() -> Bool {
         let query = [
-            kSecClass as String : kSecClassGenericPassword
+            kSecClass as String: kSecClassGenericPassword
         ] as CFDictionary
-        
+
         return SecItemDelete(query) == noErr
     }
 }

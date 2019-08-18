@@ -29,7 +29,7 @@ extension WKWebView {
         self.init()
         self.navigationDelegate = navigationDelegate
     }
-    
+
     func loadURL(_ URL: Foundation.URL) {
         load(URLRequest(url: URL))
     }
@@ -45,11 +45,11 @@ internal class WebViewController: UINavigationController {
     init(URL: Foundation.URL, delegate: WebViewControllerDelegate) {
         super.init(rootViewController: ViewController(URL: URL, delegate: delegate))
     }
-    
+
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -58,32 +58,32 @@ internal class WebViewController: UINavigationController {
 private class ViewController: UIViewController {
     let URL: Foundation.URL
     unowned let delegate: WebViewControllerDelegate
-    
+
     init(URL: Foundation.URL, delegate: WebViewControllerDelegate) {
         self.URL = URL
         self.delegate = delegate
-        
+
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func loadView() {
         view = WKWebView(navigationDelegate: self)
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(ViewController.cancel))
-        
+
         if let view = view as? WKWebView {
             view.loadURL(URL)
         }
     }
-    
+
     @objc func cancel(_ item: UIBarButtonItem) {
         if let controller = navigationController as? WebViewController {
             delegate.webViewControllerDidFinish(controller)
@@ -93,11 +93,11 @@ private class ViewController: UIViewController {
 
 extension ViewController: WKNavigationDelegate {
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        guard let URL = navigationAction.request.url , delegate.shouldHandleURL(URL) else {
+        guard let URL = navigationAction.request.url, delegate.shouldHandleURL(URL) else {
             decisionHandler(.allow)
             return
         }
-        
+
         decisionHandler(.cancel)
         delegate.handleURL(URL)
     }

@@ -32,12 +32,12 @@ struct HTTP {
         request.httpBody = parameters.map { "\($0)=\($1)" }
             .joined(separator: "&")
             .data(using: String.Encoding.utf8)
-        
+
         let task = URLSession.shared.dataTask(with: request) { data, _, error in
             if let error = error { completion(.failure(error)); return }
-            
+
             let data = data ?? Data()
-            
+
             do {
                 let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? JSON ?? [:]
                 completion(.success(json))
@@ -45,7 +45,7 @@ struct HTTP {
                 completion(.failure(error))
             }
         }
-        
+
         task.resume()
     }
 }

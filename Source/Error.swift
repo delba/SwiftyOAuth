@@ -25,48 +25,48 @@
 public enum Error: Swift.Error {
     /// The user cancelled the authorization process by closing the web browser window.
     case cancel
-    
+
     /// The OAuth application has been suspended.
     case applicationSuspended(String)
-    
+
     /// The provided redirectURL that doesn't match the one registered with the OAuth application.
     case redirectURIMismatch(String)
-    
+
     /// The user denied access.
     case accessDenied(String)
-    
+
     /// Some required parameters were not provided.
     case invalidRequest(String)
-    
+
     /// The scope parameter provided is not a valid subset of scopes.
     case invalidScope(String)
-    
+
     /// The passed `clientID` and/or `clientSecret` are incorrect.
     case invalidClient(String)
-    
+
     /// The verification code is incorrect or expired.
     case invalidGrant(String)
-    
+
     /// The server returned an unknown error.
     case serverError(String)
-    
+
     /// The endpoint is temporarily unable to respond.
     case temporarilyUnavailable(String)
-    
+
     /// The application responded with an error that doesn't match any enum cases.
     case other(String, String)
-    
+
     /// The application emitted a response which format doesn't match a success one nor an error one.
     case unknown([String: Any])
-    
+
     /// An error trigger when making network requests or parsing JSON.
     case nsError(Foundation.NSError)
-    
+
     init(_ dictionary: [String: Any]) {
         guard let error = dictionary["error"] as? String,
             let description = dictionary["error_description"] as? String
             else { self = .unknown(dictionary); return }
-        
+
         switch error {
         case "application_suspended":
             self = .applicationSuspended(description)
@@ -90,7 +90,7 @@ public enum Error: Swift.Error {
             self = .other(error, description)
         }
     }
-    
+
     init(_ error: NSError) {
         self = .nsError(error)
     }

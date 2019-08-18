@@ -30,7 +30,7 @@ extension Provider {
             redirectURL: redirectURL
         )
     }
-    
+
     public static func meetup(clientID: String, clientSecret: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,

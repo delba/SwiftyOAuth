@@ -30,7 +30,7 @@ extension Provider {
             redirectURL: redirectURL
         )
     }
-    
+
     public static func stackExchange(clientID: String, clientSecret: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,

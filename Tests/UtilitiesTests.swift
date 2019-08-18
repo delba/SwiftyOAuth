@@ -26,62 +26,62 @@ import XCTest
 @testable import SwiftyOAuth
 
 class Utilities: XCTestCase {
-    
+
     func testFragments() {
         var url: URL
-        
+
         url = URL(string: "https://www.example.com")!
         XCTAssertEqual([:], url.fragments)
-        
+
         url = URL(string: "https://www.example.com/path#foo=bar&baz=value")!
         XCTAssertEqual(["foo": "bar", "baz": "value"], url.fragments)
-        
+
         url = URL(string: "https://www.example.com/path#foo=bar&baz")!
-        XCTAssertEqual(["foo":"bar"], url.fragments)
+        XCTAssertEqual(["foo": "bar"], url.fragments)
     }
-    
+
     func testQueriesProperties() {
         var url: URL
-        
+
         url = URL(string: "https://www.example.com")!
         XCTAssertEqual([:], url.queries)
-        
+
         url = URL(string: "https://www.example.com/path?foo=bar&baz=value")!
         XCTAssertEqual(["foo": "bar", "baz": "value"], url.queries)
-        
+
         url = URL(string: "https://www.example.com/path?foo=bar&baz")!
-        XCTAssertEqual(["foo":"bar"], url.queries)
+        XCTAssertEqual(["foo": "bar"], url.queries)
     }
-    
+
     func testQueriesFunction() {
         var base: URL
         var url: URL
-        
+
         base = URL(string: "https://www.example.com")!
-        
+
         url = base.queries([
             "foo": "bar",
             "baz": "value"
         ])
-        
+
         XCTAssertEqual(["foo": "bar", "baz": "value"], url.queries)
-        
+
         url = base.queries([
             "foo": "bar"
         ])
-        
-        XCTAssertEqual(["foo":"bar"], url.queries)
+
+        XCTAssertEqual(["foo": "bar"], url.queries)
     }
-    
+
     func testMergeDictionaries() {
         var params = [
             "client_id": "clientID",
             "client_secret": "clientSecret",
             "redirect_uri": "redirectURL"
         ]
-        
+
         params.merge(["bool": "false"])
-        
+
         XCTAssertEqual([
             "client_id": "clientID",
             "client_secret": "clientSecret",
@@ -89,5 +89,5 @@ class Utilities: XCTestCase {
             "bool": "false"
         ], params)
     }
-    
+
 }

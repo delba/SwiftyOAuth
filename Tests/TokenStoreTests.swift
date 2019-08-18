@@ -22,7 +22,6 @@
 // SOFTWARE.
 //
 
-
 import XCTest
 @testable import SwiftyOAuth
 
@@ -33,7 +32,7 @@ let token: Token? = {
         "expires_in": String(Date().timeIntervalSinceNow),
         "token_type": "Bearer"
     ]
-    
+
     return Token(dictionary: dictionary)
 }()
 
@@ -41,13 +40,13 @@ let provider = Provider(clientID: "testing_client_id", authorizeURL: "testing_au
 
 class UserDefaultTokenStoreTests: XCTestCase {
     let store = UserDefaults.standard
-    
-    func testStoreTokenForProvider(){
+
+    func testStoreTokenForProvider() {
         provider.tokenStore = store
         provider.token = token
-        
+
         let savedInformation = store.dictionary(forKey: store.key(forProvider: provider))
-        
+
         XCTAssertNotNil(savedInformation)
         XCTAssertEqual(savedInformation!["access_token"] as? String, provider.token?.accessToken)
         XCTAssertEqual(savedInformation!["refresh_token"] as? String, provider.token?.refreshToken)
@@ -58,13 +57,13 @@ class UserDefaultTokenStoreTests: XCTestCase {
 
 class UbiquitousKeyValueStoreTests: XCTestCase {
     let store = NSUbiquitousKeyValueStore.default
-    
-    func testStoreTokenForProvider(){
+
+    func testStoreTokenForProvider() {
         provider.tokenStore = store
         provider.token = token
-        
+
         let savedInformation = store.dictionary(forKey: store.key(forProvider: provider))
-        
+
         XCTAssertNotNil(savedInformation)
         XCTAssertEqual(savedInformation!["access_token"] as? String, provider.token?.accessToken)
         XCTAssertEqual(savedInformation!["refresh_token"] as? String, provider.token?.refreshToken)
@@ -72,5 +71,3 @@ class UbiquitousKeyValueStoreTests: XCTestCase {
         XCTAssertEqual(TokenType(savedInformation!["token_type"]), provider.token?.tokenType)
     }
 }
-
-

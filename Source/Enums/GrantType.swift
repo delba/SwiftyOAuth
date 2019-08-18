@@ -26,7 +26,7 @@ internal enum GrantType {
     case authorizationCode(String)
     case refreshToken(String)
     case clientCredentials
-    
+
     var params: [String: String] {
         switch self {
         case .authorizationCode(let code):

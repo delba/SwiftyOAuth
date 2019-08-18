@@ -26,7 +26,7 @@ internal enum ResponseType {
     case token
     case code
     case client
-    
+
     var params: [String: String] {
         switch self {
         case .token:

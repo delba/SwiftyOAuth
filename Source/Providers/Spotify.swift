@@ -32,7 +32,7 @@ extension Provider {
             redirectURL: redirectURL
         )
     }
-    
+
     public static func spotify(clientID: String, redirectURL: String) -> Provider {
         return Provider(
             clientID: clientID,
@@ -40,7 +40,7 @@ extension Provider {
             redirectURL: redirectURL
         )
     }
-    
+
     public static func spotify(clientID: String, clientSecret: String) -> Provider {
         return Provider(
             clientID: clientID,

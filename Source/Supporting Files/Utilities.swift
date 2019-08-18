@@ -51,14 +51,14 @@ extension URL: URLStringConvertible {
 extension UIApplication {
     fileprivate var topViewController: UIViewController? {
         var vc = delegate?.window??.rootViewController
-        
+
         while let presentedVC = vc?.presentedViewController {
             vc = presentedVC
         }
-        
+
         return vc
     }
-    
+
     internal func presentViewController(_ viewController: UIViewController, animated: Bool = true, completion: (() -> Void)? = nil) {
         topViewController?.present(viewController, animated: animated, completion: completion)
     }
@@ -70,7 +70,7 @@ internal extension Foundation.NotificationCenter {
     func addObserver(_ observer: Any, selector: Selector, name: NSNotification.Name) {
         addObserver(observer, selector: selector, name: name, object: nil)
     }
-    
+
     func removeObserver(_ observer: Any, name: NSNotification.Name) {
         removeObserver(observer, name: name, object: nil)
     }
@@ -81,41 +81,41 @@ internal extension Foundation.NotificationCenter {
 internal extension URL {
     var fragments: [String: String] {
         var result: [String: String] = [:]
-        
+
         guard let fragment = self.fragment else { return result }
-        
+
         for pair in fragment.components(separatedBy: "&") {
             let pair = pair.components(separatedBy: "=")
             if pair.count == 2 { result[pair[0]] = pair[1] }
         }
-        
+
         return result
     }
-    
+
     var queries: [String: String] {
         var result: [String: String] = [:]
-        
+
         for item in queryItems {
             result[item.name] = item.value
         }
-        
+
         return result
     }
-    
+
     func queries(_ items: [String: String]) -> URL {
         var components = URLComponents(url: self, resolvingAgainstBaseURL: false)
-        
+
         components?.queryItems = items.map { (name, value) in
             return URLQueryItem(name: name, value: value)
         }
-        
+
         return components?.url ?? self
     }
-    
+
     fileprivate var queryItems: [URLQueryItem] {
         return URLComponents(url: self, resolvingAgainstBaseURL: false)?.queryItems ?? []
     }
-    
+
 }
 
 // MARK: - Dictionary

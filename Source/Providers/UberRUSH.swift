@@ -29,9 +29,9 @@ extension Provider {
             clientSecret: clientSecret,
             tokenURL: "https://login.uber.com/oauth/v2/token"
         )
-        
+
         provider.scopes = ["delivery"]
-        
+
         return provider
     }
 }

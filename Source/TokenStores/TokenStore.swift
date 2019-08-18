@@ -31,7 +31,7 @@ public protocol TokenStore {
      - returns: Optional `Token`
      */
     func token(forProvider provider: Provider) -> Token?
-    
+
     /**
      Store a token for a Provider
     
