@@ -49,7 +49,7 @@ public struct Keychain {
         let query = [
             kSecClass       as String : kSecClassGenericPassword,
             kSecAttrAccount as String : key,
-            kSecReturnData  as String : kCFBooleanTrue,
+            kSecReturnData  as String : kCFBooleanTrue!,
             kSecMatchLimit  as String : kSecMatchLimitOne
         ] as CFDictionary
         
