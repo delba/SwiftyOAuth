@@ -1,8 +1,8 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.0
 //
 // Package.swift
 //
-// Copyright (c) 2016 Damien (http://delba.io)
+// Copyright (c) 2016-2019 Damien (http://delba.io)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
