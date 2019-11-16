@@ -22,6 +22,7 @@
 // SOFTWARE.
 //
 
+import Foundation
 import Security
 
 public struct Keychain {

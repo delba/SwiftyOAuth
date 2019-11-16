@@ -1,5 +1,6 @@
+// swift-tools-version:5.1
 //
-// UbiquitousKeyValueStore.swift
+// Package.swift
 //
 // Copyright (c) 2016 Damien (http://delba.io)
 //
@@ -22,26 +23,19 @@
 // SOFTWARE.
 //
 
-import Foundation
 
-extension NSUbiquitousKeyValueStore: TokenStore {
-    public func token(forProvider provider: Provider) -> Token? {
-        synchronize()
+import PackageDescription
 
-        let key = self.key(forProvider: provider)
-
-        guard let dictionary = dictionary(forKey: key) else {
-            return nil
-        }
-
-        return Token(dictionary: dictionary)
-    }
-
-    public func set(_ token: Token?, forProvider provider: Provider) {
-        let key = self.key(forProvider: provider)
-
-        set(token?.dictionary, forKey: key)
-
-        synchronize()
-    }
-}
+let package = Package(
+    name: "SwiftyOAuth",
+    products: [
+        .library(
+            name: "SwiftyOAuth",
+            targets: ["SwiftyOAuth"]),
+    ],
+    targets: [
+        .target(
+            name: "SwiftyOAuth",
+            path: "Source")
+    ]
+)

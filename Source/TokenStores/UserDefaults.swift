@@ -22,6 +22,8 @@
 // SOFTWARE.
 //
 
+import Foundation
+
 extension UserDefaults: TokenStore {
     public func token(forProvider provider: Provider) -> Token? {
         let key = self.key(forProvider: provider)

@@ -22,6 +22,8 @@
 // SOFTWARE.
 //
 
+import SafariServices
+
 // MARK: - Equatable
 
 internal func == <T: Equatable>(tuple1: (T?, T?, T?), tuple2: (T?, T?, T?)) -> Bool {

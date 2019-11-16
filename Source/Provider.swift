@@ -22,6 +22,8 @@
 // SOFTWARE.
 //
 
+import SafariServices
+
 open class Provider: NSObject {
     public typealias Completion = (Result<Token>) -> Void
 

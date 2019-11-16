@@ -22,6 +22,8 @@
 // SOFTWARE.
 //
 
+import Foundation
+
 public struct Token {
     /// The access token.
     public var accessToken: String {

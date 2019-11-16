@@ -22,6 +22,8 @@
 // SOFTWARE.
 //
 
+import Foundation
+
 typealias JSON = [String: Any]
 
 struct HTTP {

@@ -22,6 +22,8 @@
 // SOFTWARE.
 //
 
+import Foundation
+
 public enum Error: Swift.Error {
     /// The user cancelled the authorization process by closing the web browser window.
     case cancel
